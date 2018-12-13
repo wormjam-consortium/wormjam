@@ -3,7 +3,6 @@
 """FullModelNetGraph.py - Generates an unoptimised network graph of all reactions in an SBtab reactions file for use with Gephi Network Editor
 
 Requires (use pip to install):
-matplotlib
 networkx
 openpyxl
 """
@@ -14,15 +13,14 @@ import sys
 import traceback
 
 try:
-    import matplotlib.pyplot as plt
     import networkx as nx
     import openpyxl
 except (ImportError,ModuleNotFoundError) as e:
-    print("This script relies on matplotlib, networkx and openpyxl. Please make sure that all 3 are installed")
+    print("This script relies on networkx and openpyxl. Please make sure that both are installed")
     input("Press enter to exit...")
     quit()
 
-
+from resources.SBTabReader import dataset
 
 __author__ = "Jake Hattwell"
 __copyright__ = "None"
@@ -31,32 +29,9 @@ __license__ = "CCO"
 __version__ = "1"
 __maintainer__ = "Jake Hattwell"
 __email__ = "j.hattwell@uq.edu.au"
-__status__ = "Prototype"
+__status__ = "Live"
 
-class dataset:
-    
-    def __init__(self,xlsx,headerRow=2):
-        """[Create a dataset]
-        
-        Arguments:
-            xlsx {[str]} -- [name of the excel formatted sbtab]
-        
-        Keyword Arguments:
-            headerRow {int} -- [The row the header is in a=1,b=2...] (default: {2})
-        """
-        self.wb = openpyxl.load_workbook(xlsx)
-        self.sheet = self.wb.active
-        self.cols = self.sheet.max_column
-        self.rows = self.sheet.max_row
-        self.sbString = self.sheet.cell(row=1,column=1).value
-        self.headerRow = headerRow
-        self.headers = [self.sheet.cell(row=2,column = i).value for i in range(1,self.cols+1) if self.sheet.cell(row=self.headerRow,column = i)!= None]
-        self.data = {str(self.sheet.cell(row=i,column = 1).value):{self.headers[j-1]:self.sheet.cell(row=i,column=j).value for j in range(1,self.cols+1)}for i in range(self.headerRow+1,self.rows+1)}
-        self.freeze_panes = self.sheet.freeze_panes
-
-
-
-class sparseReaction():
+class networkReaction():
     def __init__(self,rxnname,rxn,reversibility,G):
         """A class that parses the reactions and adds them to the netowrk graph
         It is a class rather than a function because it was adapted from another script
@@ -131,14 +106,10 @@ if os.path.isfile(location):
     for key,val in d.data.items():
         try:
             r,n = val["!ReactionFormula"],key
-            test = sparseReaction(n,r,val["!IsReversible"],G)
+            test = networkReaction(n,r,val["!IsReversible"],G)
         except:
             print("Error opening",key)
 
-
-    fig1 = plt.figure(1,figsize=(25,25))
-    pos = nx.spring_layout(G, k=0.25, iterations=50)
-    nx.draw(G, pos,font_size=8,with_labels=True,node_size=500, linewidths=0.25, font_weight='bold',  dpi=1000)
     location2 = input("File name to save graph as (don't include the extension): ")
     nx.write_gexf(G, location2+".gexf")
     print("Saved as",location2+".gexf")
