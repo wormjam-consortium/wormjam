@@ -1,2 +1,2 @@
-# wormjam
-Repo of useful scripts for curation/modelling
+# WormJam
+Website/Repository containing the WormJam genome scale model
