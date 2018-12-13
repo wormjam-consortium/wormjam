@@ -193,7 +193,7 @@ public class SBtab2SBML {
     // curators
     //
     for (File file : files) {
-      if (file.getName().contains("curator")) {
+      if (file.getName().contains("Curator")) {
         processCurators(file, m);
       }
     }
@@ -202,7 +202,7 @@ public class SBtab2SBML {
     // pathways
     //
     for (File file : files) {
-      if (file.getName().contains("pathway")) {
+      if (file.getName().contains("Pathway")) {
         processPathways(file, m);
       }
     }
@@ -211,7 +211,7 @@ public class SBtab2SBML {
     // compartments
     //
     for (File file : files) {
-      if (file.getName().contains("compartment")) {
+      if (file.getName().contains("Compartment")) {
         processCompartments(file, m);
       }
     }
@@ -223,7 +223,7 @@ public class SBtab2SBML {
     // species
     //
     for (File file : files) {
-      if (file.getName().contains("compound")) {
+      if (file.getName().contains("Compound")) {
         processSpecies(file, m);
       }
     }
@@ -247,7 +247,7 @@ public class SBtab2SBML {
     // genes
     //
     for (File file : files) {
-      if (file.getName().contains("gene")) {
+      if (file.getName().contains("Gene")) {
         processGenes(file, m);
       }
     }
@@ -256,7 +256,7 @@ public class SBtab2SBML {
     // reactions
     //
     for (File file : files) {
-      if (file.getName().contains("reaction")) {
+      if (file.getName().contains("Reaction")) {
         processReactions(file, m);
       }
     }
@@ -703,7 +703,7 @@ public class SBtab2SBML {
       //Read File Line By Line
       while ((strLine = br.readLine()) != null)   {
         // Print the content on the console
-        // System.out.println (strLine);
+        System.out.println (strLine);
         
         // removing the header line
         if (strLine.startsWith("#") || strLine.startsWith("!") || strLine.trim().length() == 0) {
