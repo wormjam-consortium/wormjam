@@ -21,16 +21,9 @@ We are seeking contributors from all aspects of C. elegans biology. Please join 
 
 ## People
 WormJam was born from the hard work of many people.
-<style>
-table#thanks, th#thanks, td#thanks {
-  border: 0px solid black;
-}
 
-</style>
-<table id="thanks" width=100%>
- <tr>
-    <td>
-    <li>Marta Artal-Sanz</li>
+Special thanks to (in alphabetical order):
+<li>Marta Artal-Sanz</li>
 <li>Sven Bergmann</li>
 <li>Bart Braeckman</li>
 <li>Jake Bundy</li>
@@ -51,9 +44,6 @@ table#thanks, th#thanks, td#thanks {
 <li>Nathan Lewis</li>
 <li>Artur Bastos Lourenço</li>
 <li>Abraham Mains</li>
-
-</td>
-<td>
 <li>Yu Nie</li>
 <li>Povilas Norvaisas</li>
 <li>Juliette Pearce</li>
@@ -75,7 +65,5 @@ table#thanks, th#thanks, td#thanks {
 <li>Michael Witting</li>
 <li>Aleksandra Zečić</li>
 <li>Johannes Zimmermann</li>
-</td>
- </tr>
-</table>
+
 ... as well as many others
