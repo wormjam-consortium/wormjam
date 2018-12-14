@@ -21,7 +21,13 @@ We are seeking contributors from all aspects of C. elegans biology. Please join 
 
 ## People
 WormJam was born from the hard work of many people.
-<table border="0">
+<style>
+table#thanks, th#thanks, td#thanks {
+  border: 0px solid black;
+}
+
+</style>
+<table id="thanks" width=100%>
  <tr>
     <td>
     <li>Marta Artal-Sanz</li>
