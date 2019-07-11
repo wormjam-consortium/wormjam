@@ -6,7 +6,7 @@ library(tidyverse)
 source("R/wormjam_functions.R")
 
 # load the current metabolomics BridgeDB
-mapper <- BridgeDbR::loadDatabase("E:/metabolites_20190207.bridge")
+mapper <- BridgeDbR::loadDatabase("D:/bridgedb/2019-07-11/metabolites_20190207.bridge")
 
 # load complete model
 read_sbtab("model_versions/2019-07-09_draft/SBtab/tsv")
