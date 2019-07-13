@@ -1,0 +1,21 @@
+!!SBtab SbtabVersion='1.0' TableType='Compound' TableName='C elegans metabolites'
+!ID	!Name	!Location	!Charge	!Formula	!Identifiers:chebi	!Identifiers:pubmed	!Identifiers:doi	!Identifiers:eco	!Comment	!Curator	!Notes:InChI	!Notes:InChIKey	!Notes:SMILES	!Notes:Name_neutral	!Notes:Formula_Neutral	!Notes:InChI_neutral	!Notes:InChIKey_neutral	!Notes:SMILES_neutral	!Notes:ChEBI_neutral	!Notes:KEGG_neutral	!Notes:MetaCyc_neutral	!Notes:HMDB_neutral	!Notes:LipidMaps_neutral	!Notes:SwissLipids_neutral	!Notes:Wikidata_neutral	!Notes:Pubchem_neutral	!Notes:Metabolights_neutral	!Notes:Chemspider_neutral
+M_moa_m																												
+M_btcrn_c																												
+M_tdcacoa_c																												
+M_tdcacarn_c																												
+M_btcrn_m																												
+M_ddcacrn_c																												
+M_ddcacrn_m																												
+M_tdcacoa_m																												
+M_napd_c																												
+M_3ood11coa_c																												
+M_3hod11coa_c																												
+M_od211coa_c																												
+M_3o81114eico_c																												
+M_3oh81114eico_c																												
+M_281114eico_c																												
+M_lgncoa_c																												
+M_3ohxcoa_c																												
+M_hoxhcoa_c																												
+M_3otriaccoac_c																												
