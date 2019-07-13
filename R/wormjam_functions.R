@@ -153,6 +153,44 @@ write_sbtab <- function(folderPath) {
   
 }
 
+# write all SBTab tables to files ==============================================
+write_compound_qc_sbtab <- function(folderPath) {
+  
+  # check if qc folder exists
+  if(!dir.exists(paste0(folderPath, "/qc/"))) {
+    dir.create(paste0(folderPath, "/qc/"))
+  }
+  
+  # Compound table compounds not used ------------------------------------------
+  cat("!!SBtab SbtabVersion='1.0' TableType='Compound' TableName='C elegans metabolites'\n",
+      file=paste0(folderPath, "/qc/Compound-SBtab_not_used.tsv"))
+  
+  # write content
+  write.table(`Compound-SBtab.tsv_table_not_used`,
+              file=paste0(folderPath, "/qc/Compound-SBtab_not_used.tsv"),
+              sep = "\t",
+              quote = FALSE,
+              row.names = FALSE,
+              na = "",
+              append=TRUE)
+  
+  # Compound table compounds missing
+  cat("!!SBtab SbtabVersion='1.0' TableType='Compound' TableName='C elegans metabolites'\n",
+      file=paste0(folderPath, "/qc/Compound-SBtab_missing.tsv"))
+  
+  # write content
+  write.table(`Compound-SBtab.tsv_table_missing`,
+              file=paste0(folderPath, "/qc/Compound-SBtab_missing.tsv"),
+              sep = "\t",
+              quote = FALSE,
+              row.names = FALSE,
+              na = "",
+              append=TRUE)
+  
+  
+}
+
+
 # function to map WormJam InChI key to external DB id ==========================
 wormJam_mapper <- function(inchikey, mapper) {
   
