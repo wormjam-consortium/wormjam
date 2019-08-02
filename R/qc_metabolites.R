@@ -5,7 +5,7 @@ library(tidyverse)
 source("R/wormjam_functions.R")
 
 # load complete model
-read_sbtab("model_versions/2019-07-09_draft/SBtab/tsv")
+read_sbtab("model_versions/2019-08-01_draft/SBtab/tsv")
 
 
 # get all metabolites used in reactions ----------------------------------------
