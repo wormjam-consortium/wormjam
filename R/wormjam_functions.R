@@ -154,7 +154,7 @@ write_sbtab <- function(folderPath) {
 }
 
 # write all SBTab tables to files ==============================================
-write_compound_qc_sbtab <- function(folderPath) {
+write_metabolite_qc_sbtab <- function(folderPath) {
   
   # check if qc folder exists
   if(!dir.exists(paste0(folderPath, "/qc/"))) {
@@ -181,6 +181,30 @@ write_compound_qc_sbtab <- function(folderPath) {
   # write content
   write.table(`Compound-SBtab.tsv_table_missing`,
               file=paste0(folderPath, "/qc/Compound-SBtab_missing.tsv"),
+              sep = "\t",
+              quote = FALSE,
+              row.names = FALSE,
+              na = "",
+              append=TRUE)
+  
+  
+}
+
+# write all SBTab tables to files ==============================================
+write_reaction_charge_qc_sbtab <- function(folderPath) {
+  
+  # check if qc folder exists
+  if(!dir.exists(paste0(folderPath, "/qc/"))) {
+    dir.create(paste0(folderPath, "/qc/"))
+  }
+  
+  # Compound table compounds not used ------------------------------------------
+  cat("!!SBtab SBtabVersion='1.0' TableType='Reaction' TableName='Reaction'\n",
+      file=paste0(folderPath, "/qc/Reaction-SBtab_charge_unbalanced.tsv"))
+  
+  # write content
+  write.table(`Reaction-SBtab.tsv_charge_unbalanced`,
+              file=paste0(folderPath, "/qc/Reaction-SBtab_charge_unbalanced.tsv"),
               sep = "\t",
               quote = FALSE,
               row.names = FALSE,

@@ -34,4 +34,4 @@ metabolites_missing <- metabolite_reaction[!metabolite_reaction %in% metabolite_
 `Compound-SBtab.tsv_table_missing` <- add_row(`Compound-SBtab.tsv_table_missing`, `!ID` = metabolites_missing)
 
 # write qc results
-write_compound_qc_sbtab("model_versions/2019-08-01_draft/SBtab/tsv")
+write_metabolite_qc_sbtab("model_versions/2019-08-01_draft/SBtab/tsv")
