@@ -1,15 +1,8 @@
-# load required library
-library(BridgeDbR)
-library(tidyverse)
-
-# load required functions
-source("R/wormjam_functions.R")
-
 # load the current metabolomics BridgeDB
 mapper <- BridgeDbR::loadDatabase("D:/bridgedb/2019-07-11/metabolites_20190207.bridge")
 
 # load complete model
-read_sbtab("model_versions/2019-08-15_draft/SBtab/tsv")
+read_sbtab(model_folder)
 
 # iterate through all compounds in table
 for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
@@ -55,4 +48,4 @@ for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
 }
 
 # save changes to the files
-write_sbtab("model_versions/2019-08-15_draft/SBtab/tsv")
+write_sbtab(model_folder)

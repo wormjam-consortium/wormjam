@@ -1,11 +1,5 @@
-# load required library
-library(tidyverse)
-
-# load required functions
-source("R/wormjam_functions.R")
-
 # load complete model
-read_sbtab("model_versions/2019-08-15_draft/SBtab/tsv")
+read_sbtab(model_folder)
 
 # read current bigg table
 bigg <- read_tsv("additional_dbs/bigg/2019-08-12/bigg_models_metabolites.txt")
@@ -22,4 +16,4 @@ not_in_bigg <- wormjam_meta_ids %>% filter(!universal_id %in% bigg$bigg_id)
   filter(`!ID` %in% not_in_bigg$`!ID`)
 
 # write qc results
-write_metabolite_bigg_qc_sbtab("model_versions/2019-08-15_draft/SBtab/tsv")
+write_metabolite_bigg_qc_sbtab(model_folder)
