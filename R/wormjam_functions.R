@@ -191,6 +191,31 @@ write_metabolite_qc_sbtab <- function(folderPath) {
 }
 
 # write all SBTab tables to files ==============================================
+write_metabolite_bigg_qc_sbtab <- function(folderPath) {
+  
+  # check if qc folder exists
+  if(!dir.exists(paste0(folderPath, "/qc/"))) {
+    dir.create(paste0(folderPath, "/qc/"))
+  }
+  
+  # Compound table compounds not used ------------------------------------------
+  cat("!!SBtab SbtabVersion='1.0' TableType='Compound' TableName='C elegans metabolites'\n",
+      file=paste0(folderPath, "/qc/Compound-SBtab_not_in_bigg.tsv"))
+  
+  # write content
+  write.table(`Compound-SBtab.tsv_table_not_in_bigg`,
+              file=paste0(folderPath, "/qc/Compound-SBtab_not_in_bigg.tsv"),
+              sep = "\t",
+              quote = FALSE,
+              row.names = FALSE,
+              na = "",
+              append=TRUE)
+  
+  
+}
+
+
+# write all SBTab tables to files ==============================================
 write_reaction_charge_qc_sbtab <- function(folderPath) {
   
   # check if qc folder exists

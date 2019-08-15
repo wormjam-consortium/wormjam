@@ -9,11 +9,27 @@ source("R/wormjam_functions.R")
 mapper <- BridgeDbR::loadDatabase("D:/bridgedb/2019-07-11/metabolites_20190207.bridge")
 
 # load complete model
-read_sbtab("model_versions/2019-07-09_draft/SBtab/tsv")
+read_sbtab("model_versions/2019-08-15_draft/SBtab/tsv")
 
 # iterate through all compounds in table
 for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
   
+  # # charged metabolite versions
+  # inchikey <- `Compound-SBtab.tsv_table`$`!Notes:InChIKey`[i]
+  # 
+  # if(!is.na(inchikey)) {
+  #   
+  #   # perform mapping
+  #   ids <- wormJam_mapper(inchikey, mapper)
+  #   
+  #   print(ids)
+  #   
+  #   # add ids to compound table
+  #   `Compound-SBtab.tsv_table`$`!Identifiers:chebi`[i] <- ids[["ChEBI"]]
+  # 
+  # }
+  
+  # neutral metabolites
   # get inchikey
   inchikey <- `Compound-SBtab.tsv_table`$`!Notes:InChIKey_neutral`[i]
   
@@ -39,4 +55,4 @@ for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
 }
 
 # save changes to the files
-write_sbtab("model_versions/2019-07-09_draft/SBtab/tsv")
+write_sbtab("model_versions/2019-08-15_draft/SBtab/tsv")
