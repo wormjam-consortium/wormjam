@@ -5,7 +5,7 @@ library(tidyverse)
 source("R/wormjam_functions.R")
 
 # load complete model
-read_sbtab("model_versions/2019-07-09_draft/SBtab/tsv")
+read_sbtab("model_versions/2019-08-15_draft/SBtab/tsv")
 
 # read current Uniprot table
 uniprot <- read_tsv("additional_dbs/uniprot/2019-06-26/20190626_uniprot.tab")
@@ -50,4 +50,4 @@ for(i in 1:nrow(`Reaction-SBtab.tsv_table`)) {
 }
 
 # save changes to the files
-write_sbtab("model_versions/2019-07-09_draft/SBtab/tsv")
+write_sbtab("model_versions/2019-08-15_draft/SBtab/tsv")
