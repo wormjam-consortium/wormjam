@@ -1,5 +1,5 @@
 !!SBtab SbtabVersion='1.0' TableType='Curator' TableName='Example of Curator list'
-!ID	given-name	family-name	organization-name	email
+!ID	!given-name	!family-name	!organization-name	!email
 lenov	Nicolas	Le Nov<e8>re	The Babraham Institute	n.lenovere@gmail.com
 rodrigue	Nicolas	Rodriguez	The Babraham Institute	niko.rodrigue@gmail.com
 janna	Janna	Hastings	The Babraham Institute	janna.hastings@gmail.com
