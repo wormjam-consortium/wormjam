@@ -1,5 +1,5 @@
 # load the current metabolomics BridgeDB
-mapper <- BridgeDbR::loadDatabase("D:/bridgedb/2019-07-11/metabolites_20190207.bridge")
+mapper <- BridgeDbR::loadDatabase("D:/bridgedb/2019-09-04/metabolites_20190829.bridge")
 
 # load complete model
 read_sbtab(model_folder)
