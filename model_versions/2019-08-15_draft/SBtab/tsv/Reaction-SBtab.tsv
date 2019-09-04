@@ -1642,7 +1642,7 @@ R_2_7_1_68_RXN_c	1-phosphatidylinositol-4-phosphate kinase	M_atp_c +  M_pail4p_c
 R_2_7_1_68_RXN_n	1-phosphatidylinositol-4-phosphate kinase	M_atp_n +  M_pail4p_n <=> M_adp_n + M_pail45p_n	FALSE	(WBGene00004087)	inositol phosphate metabolism											
 R_2_7_4_24_RXN_c	diphosphoinositol-pentakisphosphate kinase	M_atp_c +  M_ppmi12346p_c <=> M_adp_c + M_6bppoldm_c	FALSE	(WBGene00018508)	inositol phosphate metabolism											
 R_2_7_4_24_RXN_n	diphosphoinositol-pentakisphosphate kinase	M_atp_n +  M_ppmi12346p_n <=> M_adp_n + M_6bppoldm_n	FALSE	(WBGene00018508)	inositol phosphate metabolism											
-R_2_7_8_11_RXN_c	CDP-diacylglycerol&mdash;inositol 3-phosphatidyltransferase	M_inost_c +  M_cdpdag_c <=> M_cmp_c + M_pail_c	TRUE	(WBGene00012897)	inositol phosphate metabolism			RHEA:11580					Set to reversible	jpnh		
+R_2_7_8_11_RXN_c	CDP-diacylglycerol&mdash;inositol 3-phosphatidyltransferase	M_inost_c +  M_cdpdag_c <=> M_cmp_c + M_pail_c	TRUE	(WBGene00012897)	inositol phosphate metabolism			RHEA:11580					[DELETION] replaced by R_PIBIOSYNTH0001	wimi		
 R_3_1_3_62_RXN_c	Inositol-1,3,4,5-tetrakisphosphate 3-phosphatase	M_h2o_c +  M_mi1345p_c <=> M_pi_c + M_h_c + M_mi145p_c	FALSE		inositol phosphate metabolism											
 R_DMN0054	1-Phosphatidyl-1D-myo-inositol 3-phosphate demand	M_pail3p_c <=>	FALSE		inositol phosphate metabolism											
 R_DMN0055	1-Phosphatidyl-1D-myo-inositol 3,4-bisphosphate demand	M_pail34p_c <=>	FALSE		inositol phosphate metabolism											
@@ -3798,3 +3798,4 @@ R_CLBIOSYNTH0004	Phosphatidylglycerophosphatase	M_h2o_m + M_pgp_m <=> M_pi_m + M
 R_CLBIOSYNTH0005	CDP-diacylglycerol:phosphatidylglycerol 3-phosphatidyltransferase (mitochondrial)	M_cdpdag_m + M_pg_m <=> M_h_c + M_cmp_m + M_clpn_m	FALSE	WBGene00017763	CL biosynthesis								[CHECKME] replaces R_RXN_8141_m	wimi		
 R_CLBIOSYNTH0006	Phospholipase A2 (CL)	M_h2o_m + M_clpn_m <=> M_h_c + M_fatacid_m + M_mlclpn_m	FALSE		CL biosynthesis								[CHECKME] added for cardiolipin remodeling	wimi		
 R_CLBIOSYNTH0007	monolysocardiolipin acyltransferase	M_mlclpn_m + M_fataccoa_m <=> M_coa_m + M_clpn_m	FALSE	WBGene00006491	CL biosynthesis								[CHECKME] added for cardiolipin remodeling	wimi		
+R_PIBIOSYNTH0001	CDP-diacylglycerol inositol transferase	M_inost_c + M_cdpdag_c <=> M_h_c + M_cmp_c + M_pail_c	FALSE	WBGene00012897	PI biosynthesis								[CHECKME] replaces R_2_7_8_11_RXN_c / R_RC01802	wimi		
