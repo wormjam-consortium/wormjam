@@ -6,22 +6,7 @@ read_sbtab(model_folder)
 
 # iterate through all compounds in table
 for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
-  
-  # # charged metabolite versions
-  # inchikey <- `Compound-SBtab.tsv_table`$`!Notes:InChIKey`[i]
-  # 
-  # if(!is.na(inchikey)) {
-  #   
-  #   # perform mapping
-  #   ids <- wormJam_mapper(inchikey, mapper)
-  #   
-  #   print(ids)
-  #   
-  #   # add ids to compound table
-  #   `Compound-SBtab.tsv_table`$`!Identifiers:chebi`[i] <- ids[["ChEBI"]]
-  # 
-  # }
-  
+
   # neutral metabolites
   # get inchikey
   inchikey <- `Compound-SBtab.tsv_table`$`!Notes:InChIKey_neutral`[i]
@@ -34,7 +19,8 @@ for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
     print(ids)
     
     # add ids to compound table
-    `Compound-SBtab.tsv_table`$`!Notes:ChEBI_neutral`[i] <- ids[["ChEBI"]]
+    # ChEBI are the primary IDs for WormJam and manually curated
+    #`Compound-SBtab.tsv_table`$`!Notes:ChEBI_neutral`[i] <- ids[["ChEBI"]]
     `Compound-SBtab.tsv_table`$`!Notes:KEGG_neutral`[i] <- ids[["KEGG"]]
     `Compound-SBtab.tsv_table`$`!Notes:MetaCyc_neutral`[i] <- ids[["MetaCyc"]]
     `Compound-SBtab.tsv_table`$`!Notes:HMDB_neutral`[i] <- ids[["HMDB"]]
