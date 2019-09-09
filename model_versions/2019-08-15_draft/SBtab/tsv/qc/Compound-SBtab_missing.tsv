@@ -1,20 +1,4 @@
 !!SBtab SbtabVersion='1.0' TableType='Compound' TableName='C elegans metabolites'
 !ID	!Name	!Location	!Charge	!Formula	!Identifiers:chebi	!Identifiers:pubmed	!Identifiers:doi	!Identifiers:eco	!Comment	!Curator	!Notes:Old_ID	!Notes:InChI	!Notes:InChIKey	!Notes:SMILES	!Notes:Name_neutral	!Notes:Formula_Neutral	!Notes:InChI_neutral	!Notes:InChIKey_neutral	!Notes:SMILES_neutral	!Notes:ChEBI_neutral	!Notes:KEGG_neutral	!Notes:MetaCyc_neutral	!Notes:HMDB_neutral	!Notes:LipidMaps_neutral	!Notes:SwissLipids_neutral	!Notes:Wikidata_neutral	!Notes:Pubchem_neutral	!Notes:Metabolights_neutral	!Notes:Chemspider_neutral
-M_malACP_c																													
-M_malACP_m																													
 M_fa11c3coa_m																													
 M_galgluside_c																													
-M_ica_c																													
-M_icas_10coa_c																													
-M_icas10_coa_c																													
-M_icas_3coa_c																													
-M_ibha_10_c																													
-M_ikas_10_c																													
-M_icas_1coa_c																													
-M_icas_7coa_c																													
-M_ibha_1_c																													
-M_ikas_1coa_c																													
-M_ikas1coa_c																													
-M_icas_9coa_c																													
-M_7dhchsterol_c																													
-M_napdh_c																													
