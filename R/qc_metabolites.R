@@ -1,15 +1,17 @@
 # load complete model
 read_sbtab(model_folder)
 
-
 # get all metabolites used in reactions ----------------------------------------
+# metabolite_reaction <- `Reaction-SBtab.tsv_table`$`!ReactionFormula` %>% 
+#   map(.f=~str_extract_all(.x, "M_\\w+_(c|m|e|n)")) %>% 
+#   unlist() %>% unique()
+
 metabolite_reaction <- `Reaction-SBtab.tsv_table`$`!ReactionFormula` %>% 
-  map(.f=~str_extract_all(.x, "M_\\w+_(c|m|e|n)")) %>% 
+  str_extract_all("M_\\w+_(c|m|e|n)") %>% 
   unlist() %>% unique()
 
 # get all metabolites in compound table
 metabolite_compound <- `Compound-SBtab.tsv_table`$`!ID`
-
   
 # perform qc on metabolites ----------------------------------------------------
 # get metabolites not used in reactions
