@@ -29,7 +29,7 @@ def genID():
 
 
 compiler = modelSystem()
-compiler.load_folder("resources","tsv")
+compiler.load_folder("curation","tsv")
 
 active_gene_list = []
 for key,val in compiler.tables.get("Reaction").data.items():
