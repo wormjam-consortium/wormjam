@@ -1,0 +1,31 @@
+language: python
+python:
+   - "3.7"
+branches:
+  only:
+    - devel
+install:
+  - pip install -r requirements.txt
+script:
+    - python python/tsv_to_sbml.py
+    - travis_wait 2 python python/basic_fba.py
+    - python python/restricted_fba.py
+    - if [ $TRAVIS_PULL_REQUEST != "false" ]; then
+        travis_retry memote run --ignore-git --location . test_model.xml >&1 | tee results.txt;
+        python ./comment_script.py $GITHUB_TOKEN $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST;
+      else
+        travis_retry memote report snapshot --filename "docs/memote.html" test_model.xml;
+      fi
+    - python python/manage_reports.py
+
+
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+    keep_history: true
+    on:
+      branch: devel
+      condition: $TRAVIS_PYTHON_VERSION = "3.7"
+    target_branch: gh-pages
+
