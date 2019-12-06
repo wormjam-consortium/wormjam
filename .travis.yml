@@ -23,10 +23,12 @@ jobs:
         - if [ $TRAVIS_PULL_REQUEST != "false" ]; then
             travis_retry memote run --ignore-git --location . test_model.xml >&1 | tee results.txt;
             python python/comment_script.py $GITHUB_TOKEN $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST;
-          else
-            travis_retry memote report snapshot --filename "docs/report.html" test_model.xml;
           fi
         - python python/manage_reports.py
+    
+    - if: type = push
+      script: travis_retry memote report snapshot --filename "docs/report.html" test_model.xml;
+
 
 stages:
   - build_model
