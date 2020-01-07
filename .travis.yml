@@ -9,40 +9,36 @@ install:
 jobs:
   include:
     - stage: build_model
-      script: python python/tsv_to_sbml.py
+      script: python travis/tsv_to_sbml.py
     - stage: basic_tests
       script:
-        - python python/tsv_to_sbml.py
-        - python python/basic_fba.py
-        - python python/restricted_fba.py
+        - python travis/tsv_to_sbml.py
+        - python travis/basic_fba.py
+        - python travis/restricted_fba.py
     - stage: generate_report
       script: 
-        - python python/tsv_to_sbml.py
-        - travis_wait 2 python python/basic_fba.py
-        - python python/restricted_fba.py
+        - python travis/tsv_to_sbml.py
+        - python travis/run_memote.py;
         - if [ $TRAVIS_PULL_REQUEST != "false" ]; then
-            travis_retry memote run --ignore-git --location . test_model.xml >&1 | tee results.txt;
-            python python/comment_script.py $GITHUB_TOKEN $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST;
+            python travis/comment_script.py $GITHUB_TOKEN $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL;
+          else
+            python travis/PR_merge.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL;
           fi
-        - python python/manage_reports.py
-    
-    - if: type = push
-      script: travis_retry memote report snapshot --filename "docs/report.html" test_model.xml;
-
 
 stages:
   - build_model
   - basic_tests
   - generate_report
 
+after_failure:
+  - python travis/failure_reporter.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL
 
-deploy:
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-    keep_history: true
-    on:
-      branch: devel
-      condition: $TRAVIS_PYTHON_VERSION = "3.7"
-    target_branch: gh-pages
-
+# deploy:
+#   - provider: pages
+#     skip_cleanup: true
+#     github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+#     keep_history: true
+#     on:
+#       branch: devel
+#       condition: $TRAVIS_PYTHON_VERSION = "3.7"
+#     target_branch: gh-pages
