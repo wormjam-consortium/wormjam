@@ -1,9 +1,10 @@
-from copy import deepcopy
+import csv
 import os
 import uuid
+from copy import deepcopy
+
 import pyparsing
 from lxml import etree
-import csv
 
 OUTPUT_NAME = "WormJam.xml"
 
@@ -14,9 +15,7 @@ OUTPUT_NAME = "WormJam.xml"
 Requires (use pip to install):
 openpyxl
 """
-import os
 
-import csv
 
 __author__ = "Jake Hattwell"
 __copyright__ = "None"

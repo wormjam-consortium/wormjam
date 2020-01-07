@@ -1,6 +1,6 @@
 import cobra
 
-model = cobra.io.read_sbml_model("test_model.xml")
+model = cobra.io.read_sbml_model("WormJam.xml")
 print("Model:")
 print(len(model.reactions),"reactions")
 print(len(model.metabolites),"metabolites")
