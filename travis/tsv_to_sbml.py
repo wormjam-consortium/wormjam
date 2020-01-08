@@ -26,6 +26,13 @@ __maintainer__ = "Jake Hattwell"
 __email__ = "j.hattwell@uq.edu.au"
 __status__ = "Live"
 
+######################
+######################
+## 
+## Helper Classes
+##
+######################
+######################
 
 class modelSystem():
     """Class for reading SBtab files
@@ -150,6 +157,8 @@ print(len(active_gene_list))
 ######################
 
 output_model = open(OUTPUT_NAME,"wb")
+
+#define xml namespaces
 xmlns = "http://www.sbml.org/sbml/level3/version1/core"
 fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2"
 groups="http://www.sbml.org/sbml/level3/version1/groups/version1"
@@ -170,6 +179,8 @@ NS_MAP = {
     'dcterms':dcterms,
     'bqbiol':bqbiol,
     None: xmlns}
+
+#create sbml structure
 
 sbml = etree.Element("sbml",metaid=genID(),attrib={"{%s}"%fbc+"required":"false","{%s}"%groups+"required":"false"},nsmap=NS_MAP)
 other_attribs = {
@@ -207,7 +218,7 @@ for key,val in compiler.tables.get("Curator").data.items():
 model_listOfGeneProducts = etree.SubElement(model,"{%s}"%fbc+"listOfGeneProducts")
 
 for key,val in compiler.tables.get("Gene").data.items():
-    if key in active_gene_list:
+    if key in active_gene_list: #filter for only used genes
         attribs = {
             "{%s}"%fbc+"id":"G_"+key,
             "{%s}"%fbc+"label":key,
