@@ -21,6 +21,9 @@ payload_json = {
                 "value":"Logs can be found [here]("+TRAVIS_BUILD_WEB_URL+")"
             }
         ],
+        "thumbnail": {
+            "url": "https://travis-ci.com/images/logos/Tessa-1.png"
+        },
         "timestamp": str(datetime.datetime.now().isoformat())
     }]
 }

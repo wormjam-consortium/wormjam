@@ -30,7 +30,7 @@ def post_to_github(data):
 with open("results.json","r") as f:
     data = json.loads(f.read())
 print("Data loaded")
-msg = "## Results"
+msg = "## Quick Results\nFull JSON report will be posted on the WormJam server."
 for key,val in data.get("tests").items():
     if type(val.get("result")) == str:
         msg += "\n### "+key+":\n"+val.get("result")
@@ -59,6 +59,9 @@ payload_json = {
                 "value":"Logs can be found [here]("+TRAVIS_BUILD_WEB_URL+")"
             }
         ],
+        "thumbnail": {
+            "url": "https://travis-ci.com/images/logos/Tessa-1.png"
+        },
         "timestamp": str(datetime.datetime.now().isoformat())
     }]
 }
