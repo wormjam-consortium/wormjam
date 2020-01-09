@@ -8,7 +8,10 @@ DISCORD_ENDPOINT = sys.argv[1]
 TRAVIS_BUILD_NUMBER = sys.argv[2]
 TRAVIS_BUILD_WEB_URL = sys.argv[3]
 
-files = {'results.json': open('results.json', 'rb')}
+timestamp = datetime.datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
+filename = "WormJam"+timestamp+".xml"
+
+files = {'results.json': open('results.json', 'rb'),filename:open("WormJam.xml")}
 payload_json = {
     "embeds": [{
         "title": "WormJam CI Report",
