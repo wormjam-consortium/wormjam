@@ -22,6 +22,7 @@ jobs:
         - if [ $TRAVIS_PULL_REQUEST != "false" ]; then
             python travis/comment_script.py $GITHUB_TOKEN $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL;
           else
+            tar -czvf WormJam.tar.gz WormJam.xml
             python travis/PR_merge.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL $DISCORD_ENDPOINT_2;
           fi
 stages:

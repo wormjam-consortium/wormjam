@@ -10,10 +10,10 @@ TRAVIS_BUILD_WEB_URL = sys.argv[3]
 DISCORD_ENDPOINT_2 = sys.argv[4]
 
 timestamp = datetime.datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
-filename = "WormJam"+timestamp+".xml"
+filename = "WormJam"+timestamp+".tar.gz"
 
 files = {'results.json': open('results.json', 'rb')}
-files2 = {filename:open("WormJam.xml",'rb')}
+files2 = {filename:open("WormJam.tar.gz",'rb')}
 payload_json = {
     "embeds": [{
         "title": "WormJam CI Report",
