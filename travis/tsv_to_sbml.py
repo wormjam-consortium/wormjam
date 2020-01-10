@@ -9,7 +9,7 @@ from copy import deepcopy
 import pyparsing
 import requests
 from lxml import etree
-from travis.helper_classes import ModelSystem
+from helper_classes import ModelSystem
 
 OUTPUT_NAME = "WormJam.xml"
 
