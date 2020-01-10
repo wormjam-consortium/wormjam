@@ -37,12 +37,8 @@ payload_json = {
 }
 
 r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
-<<<<<<< HEAD
-r2 = requests.post(DISCORD_ENDPOINT, files=files)
-=======
 r2 = requests.post(DISCORD_ENDPOINT, files=files)
 print(r,r2)
 r3 =requests.post(DISCORD_ENDPOINT_2,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
 r4 = requests.post(DISCORD_ENDPOINT_2, files=files2)
 print(r3,r4)
->>>>>>> devel
