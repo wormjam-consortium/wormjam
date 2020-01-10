@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-2020-01-09 10:38:22.098 GMT:
- Booting Derby version The Apache Software Foundation - Apache Derby - 10.4.2.0 - (689064): instance a816c00e-016f-89e2-35ed-00000cecdbf8
+2020-01-10 14:36:09.777 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.4.2.0 - (689064): instance a816c00e-016f-8fe2-470f-00000cf10ec8
 on database directory jar:(D:\bridgedb\2019-09-04\metabolites_20190829.bridge)database in READ ONLY mode 
 
 Database Class Loader started - derby.database.classpath=''
