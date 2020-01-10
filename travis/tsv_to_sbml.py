@@ -1,9 +1,6 @@
 import csv
-<<<<<<< HEAD:travis/tsv_to_sbml.py
 import datetime
 import json
-=======
->>>>>>> devel:travis/tsv_to_sbml.py
 import os
 import sys
 import uuid
