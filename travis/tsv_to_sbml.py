@@ -1,12 +1,20 @@
 import csv
+import datetime
+import json
 import os
+import sys
 import uuid
 from copy import deepcopy
 
 import pyparsing
+import requests
 from lxml import etree
+from helper_classes import ModelSystem
 
 OUTPUT_NAME = "WormJam.xml"
+
+DISCORD_ENDPOINT = sys.argv[1]
+TRAVIS_BUILD_NUMBER = sys.argv[2]
 
 #!/usr/bin/env python
 
@@ -25,85 +33,6 @@ __version__ = "1"
 __maintainer__ = "Jake Hattwell"
 __email__ = "j.hattwell@uq.edu.au"
 __status__ = "Live"
-
-
-class modelSystem():
-    """Class for reading SBtab files
-    """
-    def __init__(self):
-        self.tables = {}
-        self.size = {}
-    
-    def loadTable(self,name,location):
-        self.tables[name] = dataset(location)
-        self.size[name] = self.tables[name].rows-2
-
-    def load_folder(self,name,filetype):
-        success = False
-        print("------------------------")
-        if os.path.isdir(name) == False:
-            print("This folder does not exist")
-
-        else:
-            print("Folder loaded")
-            paths = []
-            for f in os.listdir(name):
-                if filetype == "tsv":
-                    if "SBtab.tsv" in f:
-                        filename = f.replace("-SBtab.tsv","")
-                        paths.append(filename)
-
-            assert paths!= [],"There were no SBtab files found in "+name
-            print("SBtab files found! Loading now!")
-            self.count=1
-            for hit in paths:
-                print(" ".join(["Loading file:",hit]))
-                self.loadTable(hit,name+"/"+hit+"-SBtab.tsv")
-
-            print(" ".join([str(len(paths)),"files loaded into the model"]))
-            success = True    
-            
-
-class dataset:
-    """Importable class for loading SBTab files\nConverts SBTab as nested dictionary.\n
-
-    instance.data = Dictionary of entries in SBTab\n
-    Each entry is a dictionary of the data associated with that entry, with column headers as keys.
-        
-        Arguments:
-            xlsx {str} -- Path to SBTab file of interest.
-        
-        Keyword Arguments:
-            headerRow {int} -- Excel row of the header information, (default: {2})
-            mode {str} -- version of dataset to load
-        """
-
-    def __init__(self,filename,headerRow=2,mode="xslx"):
-        """Loads the SBTab file"""
-        self.name = filename
-        with open(filename,encoding="utf-8") as tsvfile:
-            tsv = csv.reader(tsvfile,delimiter="\t")
-            entries = []
-            for row in tsv:
-                if tsv.line_num == 1: #row 1 - SBtab DocString
-                    self.sbString = row[0]
-                elif tsv.line_num == 2: #row 2 - headers of the table
-                    self.headers = row
-                else:
-                    entries.append(row)
-            # define size of data
-            self.cols = len(self.headers)
-            self.rows = len(entries)+2
-            # create the nested dict object
-            try:
-                self.data = {entry[0]:{self.headers[i]:(entry[i] if len(entry) >= len(self.headers) else '') for i in range(1,len(self.headers))} for entry in entries}
-                while '' in self.data:
-                    self.data.pop('')
-            except:
-                print(self.name)
-                print("tsv import failed. Aborting...")
-                exit()
-            #remove blank entries
 
 
 ######################
@@ -126,8 +55,40 @@ def genID():
 ######################
 
 
-compiler = modelSystem()
+compiler = ModelSystem()
 compiler.load_folder("curation","tsv")
+
+metabolite_validation = compiler.validate_rxn_mets()
+
+try:
+    assert len(metabolite_validation) == 0, "Missing metabolites"
+except:
+    text = "Reaction: Missing Metabolites"
+    for key,val in metabolite_validation.items():
+        text += "\n"+key+": " + ", ".join(val)
+    payload_json = {
+        "embeds": [{
+            "title": "WormJam CI Report",
+            "color": 10027008,
+            "description": "Missing Metabolites - Build aborted",
+            "fields":[
+                {
+                    "name": "Build Number",
+                    "value":str(TRAVIS_BUILD_NUMBER)
+                },
+                {
+                    "name":"Notes",
+                    "value":text
+                }
+            ],
+            "thumbnail": {
+                "url": "https://travis-ci.com/images/logos/Tessa-1.png"
+            },
+            "timestamp": str(datetime.datetime.now().isoformat())
+        }]
+    }
+    r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
+    exit(1)
 
 active_gene_list = []
 for key,val in compiler.tables.get("Reaction").data.items():
@@ -150,6 +111,8 @@ print(len(active_gene_list))
 ######################
 
 output_model = open(OUTPUT_NAME,"wb")
+
+#define xml namespaces
 xmlns = "http://www.sbml.org/sbml/level3/version1/core"
 fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2"
 groups="http://www.sbml.org/sbml/level3/version1/groups/version1"
@@ -170,6 +133,8 @@ NS_MAP = {
     'dcterms':dcterms,
     'bqbiol':bqbiol,
     None: xmlns}
+
+#create sbml structure
 
 sbml = etree.Element("sbml",metaid=genID(),attrib={"{%s}"%fbc+"required":"false","{%s}"%groups+"required":"false"},nsmap=NS_MAP)
 other_attribs = {
@@ -207,7 +172,7 @@ for key,val in compiler.tables.get("Curator").data.items():
 model_listOfGeneProducts = etree.SubElement(model,"{%s}"%fbc+"listOfGeneProducts")
 
 for key,val in compiler.tables.get("Gene").data.items():
-    if key in active_gene_list:
+    if key in active_gene_list: #filter for only used genes
         attribs = {
             "{%s}"%fbc+"id":"G_"+key,
             "{%s}"%fbc+"label":key,
