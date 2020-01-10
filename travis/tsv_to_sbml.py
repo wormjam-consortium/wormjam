@@ -13,6 +13,9 @@ from travis.helper_classes import ModelSystem
 
 OUTPUT_NAME = "WormJam.xml"
 
+DISCORD_ENDPOINT = sys.argv[1]
+TRAVIS_BUILD_NUMBER = sys.argv[2]
+
 #!/usr/bin/env python
 
 """SBTabReader.py - converts a csv with WormBase RNAi identifiers in the first column to a list of corresponding target genes

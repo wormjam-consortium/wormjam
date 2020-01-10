@@ -9,15 +9,15 @@ install:
 jobs:
   include:
     - stage: build_model
-      script: python travis/tsv_to_sbml.py
+      script: python travis/tsv_to_sbml.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER
     - stage: basic_tests
       script:
-        - python travis/tsv_to_sbml.py
+        - python travis/tsv_to_sbml.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER
         - python travis/basic_fba.py
         - python travis/restricted_fba.py
     - stage: generate_report
       script: 
-        - python travis/tsv_to_sbml.py
+        - python travis/tsv_to_sbml.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER
         - python travis/run_memote.py;
         - if [ $TRAVIS_PULL_REQUEST != "false" ]; then
             python travis/comment_script.py $GITHUB_TOKEN $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL;
