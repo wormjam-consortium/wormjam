@@ -2,7 +2,7 @@
 read_sbtab(model_folder)
 
 # read current bigg table
-bigg <- read_tsv("additional_dbs/bigg/2019-08-12/bigg_models_metabolites.txt")
+bigg <- read_tsv("additional_dbs/bigg/2020-01-09/bigg_models_metabolites.txt")
 
 # get universal ids from WormJam metabolite IDs and find metabolites not in BiGG
 wormjam_meta_ids <- `Compound-SBtab.tsv_table` %>%
