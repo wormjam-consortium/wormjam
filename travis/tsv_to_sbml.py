@@ -88,6 +88,7 @@ except:
         }]
     }
     r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
+    exit(1)
 
 active_gene_list = []
 for key,val in compiler.tables.get("Reaction").data.items():
