@@ -3800,7 +3800,7 @@ R_CLBIOSYNTH0007	monolysocardiolipin acyltransferase	M_mlclpn_m + M_fataccoa_m <
 R_PIBIOSYNTH0001	CDP-diacylglycerol inositol transferase	M_inost_c + M_cdpdag_c <=> M_h_c + M_cmp_c + M_1ac2acg3pi_c	FALSE	WBGene00012897	PI biosynthesis								[CHECKME] replaces R_2_7_8_11_RXN_c / R_RC01802	wimi		
 R_MARBIOSYNTH0001	Trehalose acyl transferase	M_tre_c + M_fataccoa_c <=> M_lmar_c + M_coa_c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi		
 R_MARBIOSYNTH0002	Lysomarado acyl transferase	M_lmar_c + M_fataccoa_c <=> M_mar_c + M_coa_c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi		
-R_MARBIOSYNTH0003	Marado hydrolase	M_mar_c + M_h2o_c <=> M_lmar_ c + M_fatacid_c + M_h_c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi		
+R_MARBIOSYNTH0003	Marado hydrolase	M_mar_c + M_h2o_c <=> M_lmar_c + M_fatacid_c + M_h_c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi		
 R_MARBIOSYNTH0004	Lysomarado hydrolase	M_lmar + M_h2o_c <=> M_tre_c + M_fatacid_c + M_h_c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi		
 R_ETHERLIPIDBIOSYNTH0001	Fatty acyl-CoA reductase	M_fataccoa_c + 2 M_nadph_c + 2 M_h_c <=> M_alkylR1oh_c + 2 M_nadp_c + M_coa_c	FALSE	WBGene00022200	Biosynthesis of Etherlipids								[CHECKME] replaces nonsense reaction R_RC01998	wimi		
 R_ETHERLIPIDBIOSYNTH0002	Glycerone-phosphate O-acyltransferase	M_dhap_c + M_fataccoa_c <=> M_coa_c + M_1acdhap_c	FALSE	WBGene00012911	Biosynthesis of Etherlipids								[CHECKME] replaces R_2_3_1_42_RXN_c	wimi		
@@ -3822,7 +3822,7 @@ R_ICASBIOSYNTH0008	Enoyl-CoA-hydratase (icas1)	M_h2o_c + M_icas_7coa_c <=> M_ibh
 R_ICASBIOSYNTH0009	(S)-3-hydroxyacyl-CoA-dehydrogenase (icas1)	M_nad_c + M_ibha_1_c <=> M_h_c + M_nadh_c + M_ibka_1coa_c	FALSE	WBGene00000991												
 R_ICASBIOSYNTH0010	3-ketothiolase (icas1)	M_coa_c + M_ibka_1coa_c <=> M_accoa_c + M_icas_9coa_c	FALSE	WBGene00013284												
 R_ICASBIOSYNTH0011	icas10-CoA hydrolase	M_icas_10coa_c + M_h2o_c <=> M_icas_10_c + M_coa_c + M_h_c	FALSE													
-R_ICASBIOSYNTH0012	icas1-CoA hydrolase	M_icas_1coa + M_h2o_c <=> M_icas_1_c + M_coa_c + M_h_c	FALSE													
+R_ICASBIOSYNTH0012	icas1-CoA hydrolase	M_icas_1coa_c + M_h2o_c <=> M_icas_1_c + M_coa_c + M_h_c	FALSE													
 R_ICASBIOSYNTH0013	icas9-CoA hydrolase	M_icas_9coa_c + M_h2o_c <=> M_icas_9_c + M_coa_c + M_h_c	FALSE													
 R_DABIOSYNTH0001	DAF-36 rieske monooxygenase	M_chsterol_c + M_h_c + M_nadph_c + M_o2_c <=> M_7dhchsterol_c + 2 M_h2o_c + M_nadp_c	FALSE	WBGene00007536	Biosnythesis of delta7-DA	Biosynthesis of dafachronic acids										
 R_DABIOSYNTH0002	7-dehydrocholesterol lathosterole conversion	M_7dhchsterol_c <=> M_lthstrl_c	FALSE		Biosnythesis of delta7-DA	Biosynthesis of dafachronic acids										
