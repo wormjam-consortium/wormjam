@@ -6,7 +6,7 @@ library(tidyverse)
 source("R/wormjam_functions.R")
 
 # which model version shall be used
-model_folder <- "model_versions/2019-08-15_draft/SBtab/tsv"
+model_folder <- "curation"
 
 # run all update and QC scripts
 source("R/add_metabolite_ids.R")

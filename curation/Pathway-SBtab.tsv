@@ -1,4 +1,4 @@
-!!SBtab SBtabVersion='1.0' TableType='Pathway' TableName='WormJam pathways'						
+!!SBtab SBtabVersion='1.0' TableType='Pathway' TableName='WormJam pathways'
 !Name	!Identifiers:GO_process	!Identifiers:kegg:pathway	!Identifiers:BioCyc	!Identifiers:pw	!Comment	!Curator
 terpenoid backbone biosynthesis	GO:0016114	map00900		PW:0000184	checked	lenov
 triterpenoid biosynthesis	GO:0010683	map00909			checked	lenov
