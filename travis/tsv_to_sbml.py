@@ -241,7 +241,22 @@ for key,val in compiler.tables.get("Compartment").data.items():
 # Species
 #
 
+identifier_lib = {
+    "!Identifiers:bigg.metabolite":"https://identifiers.org/bigg.metabolite",
+    "!Identifiers:biocyc":"https://identifiers.org/biocyc",
+    "!Identifiers:chebi":"https://identifiers.org/chebi",
+    "!Identifiers:doi":"https://identifiers.org/doi",
+    "!Identifiers:eco":"https://identifiers.org/eco",
+    "!Identifiers:hmbd":"https://identifiers.org/hmdb",
+    "!Identifiers:inchi":"https://identifiers.org/inhci",
+    "!Identifiers:inchikey":"https://identifiers.org/inchikey",
+    "!Identifiers:kegg.compound":"https://identifiers.org/kegg.compound",
+    "!Identifiers:metanetx.compound":"https://identifiers.org/metanetx.compound",
+    "!Identifiers:pubmed.compound":"https://identifiers.org/pubmed.compound",
+    "!Identifiers:reactome":"https://identifiers.org/reactome",
+    "!Identifiers:seed.compound":"https://identifiers.org/seed.compound",
 
+}
 species_tree = etree.SubElement(model,"listOfSpecies")
 
 for key,val in compiler.tables.get("Compound").data.items():
@@ -266,21 +281,12 @@ for key,val in compiler.tables.get("Compound").data.items():
             if key=="!Charge" and val[i]=="":
                 val[i] == "0"
             etree.SubElement(notes_body,"{%s}"%xhtml+"p").text=i.replace("!","").replace("Notes:","").upper() + ": " + val[i]
-    if any([val[i] for i in ["!Identifiers:chebi","!Identifiers:pubmed","!Identifiers:doi","!Identifiers:eco"] if val[i] != ""]):
+    if any([val[i] for i in identifier_lib if val[i] != ""]):
         annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(metabolite,"annotation"),"{%s}"%rdf+"RDF"),"{%s}"%rdf+"Description",attrib={"{%s}"%rdf+"about":"#"+metaid})
         next_level = etree.SubElement(etree.SubElement(annotation_tree,"{%s}"%bqbiol+"is"),"{%s}"%rdf+"Bag")
-        annotation_links={
-            "!Identifiers:chebi":"http://identifiers.org/",
-            "!Identifiers:pubmed":"http://identifiers.org/pubmed/",
-            "!Identifiers:doi":"http://identifiers.org/doi/",
-            "!Identifiers:eco":"http://www.evidenceontology.org/term/"
-        }
-        for i in ["!Identifiers:chebi","!Identifiers:pubmed","!Identifiers:doi","!Identifiers:eco"]:
+        for i in identifier_lib:
             if val[i]!="":
-                if i == "!Identifiers:pubmed":
-                    etree.SubElement(next_level,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":"https://identifiers.org/pubchem.compound/"+val[i]})
-                else:
-                    etree.SubElement(next_level,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":annotation_links[i]+val[i]})
+                etree.SubElement(next_level,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":identifier_lib[i]+":"+val[i]})
 
 #
 # Parameters
