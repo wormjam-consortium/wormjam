@@ -4,3 +4,4 @@
 .Ruserdata
 .Rproj
 .bridge
+*/__pycache__

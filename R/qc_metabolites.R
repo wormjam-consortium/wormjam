@@ -1,21 +1,17 @@
-# load required library
-library(tidyverse)
-
-# load required functions
-source("R/wormjam_functions.R")
-
 # load complete model
-read_sbtab("model_versions/2019-08-01_draft/SBtab/tsv")
-
+read_sbtab(model_folder)
 
 # get all metabolites used in reactions ----------------------------------------
+# metabolite_reaction <- `Reaction-SBtab.tsv_table`$`!ReactionFormula` %>% 
+#   map(.f=~str_extract_all(.x, "M_\\w+_(c|m|e|n)")) %>% 
+#   unlist() %>% unique()
+
 metabolite_reaction <- `Reaction-SBtab.tsv_table`$`!ReactionFormula` %>% 
-  map(.f=~str_extract_all(.x, "M_\\w+_(c|m|e|n)")) %>% 
+  str_extract_all("M_\\w+_(c|m|e|n)") %>% 
   unlist() %>% unique()
 
 # get all metabolites in compound table
 metabolite_compound <- `Compound-SBtab.tsv_table`$`!ID`
-
   
 # perform qc on metabolites ----------------------------------------------------
 # get metabolites not used in reactions
@@ -34,4 +30,4 @@ metabolites_missing <- metabolite_reaction[!metabolite_reaction %in% metabolite_
 `Compound-SBtab.tsv_table_missing` <- add_row(`Compound-SBtab.tsv_table_missing`, `!ID` = metabolites_missing)
 
 # write qc results
-write_metabolite_qc_sbtab("model_versions/2019-08-01_draft/SBtab/tsv")
+write_metabolite_qc_sbtab(model_folder)

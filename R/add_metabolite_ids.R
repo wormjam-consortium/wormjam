@@ -1,19 +1,13 @@
-# load required library
-library(BridgeDbR)
-library(tidyverse)
-
-# load required functions
-source("R/wormjam_functions.R")
-
 # load the current metabolomics BridgeDB
-mapper <- BridgeDbR::loadDatabase("D:/bridgedb/2019-07-11/metabolites_20190207.bridge")
+mapper <- BridgeDbR::loadDatabase("D:/bridgedb/2019-09-04/metabolites_20190829.bridge")
 
 # load complete model
-read_sbtab("model_versions/2019-07-09_draft/SBtab/tsv")
+read_sbtab(model_folder)
 
 # iterate through all compounds in table
 for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
-  
+
+  # neutral metabolites
   # get inchikey
   inchikey <- `Compound-SBtab.tsv_table`$`!Notes:InChIKey_neutral`[i]
   
@@ -25,7 +19,8 @@ for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
     print(ids)
     
     # add ids to compound table
-    `Compound-SBtab.tsv_table`$`!Notes:ChEBI_neutral`[i] <- ids[["ChEBI"]]
+    # ChEBI are the primary IDs for WormJam and manually curated
+    #`Compound-SBtab.tsv_table`$`!Notes:ChEBI_neutral`[i] <- ids[["ChEBI"]]
     `Compound-SBtab.tsv_table`$`!Notes:KEGG_neutral`[i] <- ids[["KEGG"]]
     `Compound-SBtab.tsv_table`$`!Notes:MetaCyc_neutral`[i] <- ids[["MetaCyc"]]
     `Compound-SBtab.tsv_table`$`!Notes:HMDB_neutral`[i] <- ids[["HMDB"]]
@@ -39,4 +34,4 @@ for(i in 1:nrow(`Compound-SBtab.tsv_table`)) {
 }
 
 # save changes to the files
-write_sbtab("model_versions/2019-07-09_draft/SBtab/tsv")
+write_sbtab(model_folder)
