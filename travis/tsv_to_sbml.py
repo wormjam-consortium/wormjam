@@ -266,7 +266,7 @@ identifier_lib = {
     "!Identifiers:doi":"https://identifiers.org/doi",
     "!Identifiers:eco":"https://identifiers.org/eco",
     "!Identifiers:hmbd":"https://identifiers.org/hmdb",
-    "!Identifiers:inchi":"https://identifiers.org/inhci",
+    "!Identifiers:inchi":"https://identifiers.org/inchi",
     "!Identifiers:inchikey":"https://identifiers.org/inchikey",
     "!Identifiers:kegg.compound":"https://identifiers.org/kegg.compound",
     "!Identifiers:metanetx.compound":"https://identifiers.org/metanetx.compound",
