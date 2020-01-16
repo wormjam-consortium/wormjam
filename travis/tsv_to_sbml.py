@@ -169,6 +169,19 @@ for key,val in compiler.tables.get("Curator").data.items():
 # genes
 # I should add a gene filter here probably to prevent export of EVERY gene in the model
 #
+
+identifier_lib = {
+    "!Identifiers:refseq":"https://identifiers.org/refseq",
+    "!Identifiers:uniprot":"https://identifiers.org/uniprot",
+    "!Identifiers:ecogene":"https://identifiers.org/ecogene",
+    "!Identifiers:kegg.genes":"https://identifiers.org/kegg.genes",
+    "!Identifiers:ncbigi":"https://identifiers.org/ncbigi",
+    "!Identifiers:ncbiprotein":"https://identifiers.org/ncbiprotein",
+    "!Identifiers:ccds":"https://identifiers.org/ccds",
+    "!Identifiers:hprd":"https://identifiers.org/hprd",
+    "!Identifiers:asap":"https://identifiers.org/asap",
+    "!Identifiers:ec-code":"https://identifiers.org/ec-code",
+}
 model_listOfGeneProducts = etree.SubElement(model,"{%s}"%fbc+"listOfGeneProducts")
 
 for key,val in compiler.tables.get("Gene").data.items():
@@ -188,6 +201,11 @@ for key,val in compiler.tables.get("Gene").data.items():
             rdf_bqbiol_occurs_in_bag = etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%bqbiol+"occursIn"),"{%s}"%rdf+"Bag")
             for i in val["!GO_process"].split(";"):
                 etree.SubElement(rdf_bqbiol_occurs_in_bag,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":"http://identifiers.org/go/"+i})
+
+        if any([val[i] for i in identifier_lib if val[i] != ""]):
+            for i in identifier_lib:
+                if val[i]!="":
+                    etree.SubElement(rdf_bqbiol_occurs_in_bag,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":identifier_lib[i]+":"+val[i]})
 #
 # Pathways
 #
@@ -241,7 +259,22 @@ for key,val in compiler.tables.get("Compartment").data.items():
 # Species
 #
 
+identifier_lib = {
+    "!Identifiers:bigg.metabolite":"https://identifiers.org/bigg.metabolite",
+    "!Identifiers:biocyc":"https://identifiers.org/biocyc",
+    "!Identifiers:chebi":"https://identifiers.org/chebi",
+    "!Identifiers:doi":"https://identifiers.org/doi",
+    "!Identifiers:eco":"https://identifiers.org/eco",
+    "!Identifiers:hmbd":"https://identifiers.org/hmdb",
+    "!Identifiers:inchi":"https://identifiers.org/inchi",
+    "!Identifiers:inchikey":"https://identifiers.org/inchikey",
+    "!Identifiers:kegg.compound":"https://identifiers.org/kegg.compound",
+    "!Identifiers:metanetx.compound":"https://identifiers.org/metanetx.compound",
+    "!Identifiers:pubmed.compound":"https://identifiers.org/pubmed.compound",
+    "!Identifiers:reactome":"https://identifiers.org/reactome",
+    "!Identifiers:seed.compound":"https://identifiers.org/seed.compound",
 
+}
 species_tree = etree.SubElement(model,"listOfSpecies")
 
 for key,val in compiler.tables.get("Compound").data.items():
@@ -266,21 +299,12 @@ for key,val in compiler.tables.get("Compound").data.items():
             if key=="!Charge" and val[i]=="":
                 val[i] == "0"
             etree.SubElement(notes_body,"{%s}"%xhtml+"p").text=i.replace("!","").replace("Notes:","").upper() + ": " + val[i]
-    if any([val[i] for i in ["!Identifiers:chebi","!Identifiers:pubmed","!Identifiers:doi","!Identifiers:eco"] if val[i] != ""]):
+    if any([val[i] for i in identifier_lib if val[i] != ""]):
         annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(metabolite,"annotation"),"{%s}"%rdf+"RDF"),"{%s}"%rdf+"Description",attrib={"{%s}"%rdf+"about":"#"+metaid})
         next_level = etree.SubElement(etree.SubElement(annotation_tree,"{%s}"%bqbiol+"is"),"{%s}"%rdf+"Bag")
-        annotation_links={
-            "!Identifiers:chebi":"http://identifiers.org/",
-            "!Identifiers:pubmed":"http://identifiers.org/pubmed/",
-            "!Identifiers:doi":"http://identifiers.org/doi/",
-            "!Identifiers:eco":"http://www.evidenceontology.org/term/"
-        }
-        for i in ["!Identifiers:chebi","!Identifiers:pubmed","!Identifiers:doi","!Identifiers:eco"]:
+        for i in identifier_lib:
             if val[i]!="":
-                if i == "!Identifiers:pubmed":
-                    etree.SubElement(next_level,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":"https://identifiers.org/pubchem.compound/"+val[i]})
-                else:
-                    etree.SubElement(next_level,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":annotation_links[i]+val[i]})
+                etree.SubElement(next_level,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":identifier_lib[i]+":"+val[i]})
 
 #
 # Parameters
@@ -294,6 +318,22 @@ etree.SubElement(parameter_tree,"parameter",attrib={"constant":"true","id":"UPPE
 #
 # Reactions
 #
+
+identifier_lib = {
+    "!Identifiers:kegg.reaction":"https://identifiers.org/kegg.reaction",
+    "!Identifiers:rhea":"https://identifiers.org/rhea",
+    "!Identifiers:rheadb_fuzzy":"https://identifiers.org/rheadb_fuzzy",
+    "!Identifiers:pubmed":"https://identifiers.org/pubmed",
+    "!Identifiers:doi":"https://identifiers.org/doi",
+    "!Identifiers:eco":"https://identifiers.org/eco",
+    "!Identifiers:metanetx.reaction":"https://identifiers.org/metanetx.reaction",
+    "!Identifiers:bigg.reaction":"https://identifiers.org/bigg.reaction",
+    "!Identifiers:reactome":"https://identifiers.org/reactome",
+    "!Identifiers:ec-code":"https://identifiers.org/ec-code",
+    "!Identifiers:brenda":"https://identifiers.org/brenda",
+    "!Identifiers:biocyc":"https://identifiers.org/biocyc",
+
+}
 
 # GPR helper functions
 
@@ -424,21 +464,14 @@ for key,val in compiler.tables.get("Reaction").data.items():
         if val[i]!="":
             etree.SubElement(notes_body,"{%s}"%xhtml+"p").text=i.replace("!","").replace("Notes:","").replace("Pathway","Subsystem").upper() + ": " + val[i]
 
-    annotation_links={
-        "!Identifiers:kegg.reaction":"http://identifiers.org/kegg:",
-        "!Identifiers:pubmed":"http://identifiers.org/pubmed/",
-        "!Identifiers:doi":"http://identifiers.org/doi/",
-        "!Identifiers:eco":"http://www.evidenceontology.org/term/",
-        "!Identifiers:rheadb_exact":"http://identifiers.org//reaction?id="
-    }
-    if any([val[i] for i in annotation_links if val[i] != ""]):
+    if any([val[i] for i in identifier_lib if val[i] != ""]):
         annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(reaction_field,"annotation"),"{%s}"%rdf+"RDF"),"{%s}"%rdf+"Description",attrib={"{%s}"%rdf+"about":"#"+metaid})
         next_level = etree.SubElement(etree.SubElement(annotation_tree,"{%s}"%bqbiol+"is"),"{%s}"%rdf+"Bag")
 
-        for i in list(annotation_links.keys()):
+        for i in list(identifier_lib.keys()):
             if val[i]!="":
                 for j in val[i].replace(" ","").split(";"):
-                    etree.SubElement(next_level,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":annotation_links[i]+j})
+                    etree.SubElement(next_level,"{%s}"%rdf+"li",attrib={"{%s}"%rdf+"resource":identifier_lib[i]+":"+j})
 
     
     genes = "("+val["!GeneAssociation"]+")"
