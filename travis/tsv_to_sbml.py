@@ -13,8 +13,8 @@ from helper_classes import ModelSystem
 
 OUTPUT_NAME = "WormJam.xml"
 
-DISCORD_ENDPOINT = sys.argv[1]
-TRAVIS_BUILD_NUMBER = sys.argv[2]
+# DISCORD_ENDPOINT = sys.argv[1]
+# TRAVIS_BUILD_NUMBER = sys.argv[2]
 
 #!/usr/bin/env python
 
@@ -44,7 +44,7 @@ __status__ = "Live"
 ######################
 
 def genID():
-    return str(uuid.uuid4())
+    return str(uuid.uuid4()).replace("-","_")
 
 ######################
 ######################
@@ -60,35 +60,35 @@ compiler.load_folder("curation","tsv")
 
 metabolite_validation = compiler.validate_rxn_mets()
 
-try:
-    assert len(metabolite_validation) == 0, "Missing metabolites"
-except:
-    text = "Reaction: Missing Metabolites"
-    for key,val in metabolite_validation.items():
-        text += "\n"+key+": " + ", ".join(val)
-    payload_json = {
-        "embeds": [{
-            "title": "WormJam CI Report",
-            "color": 10027008,
-            "description": "Missing Metabolites - Build aborted",
-            "fields":[
-                {
-                    "name": "Build Number",
-                    "value":str(TRAVIS_BUILD_NUMBER)
-                },
-                {
-                    "name":"Notes",
-                    "value":text
-                }
-            ],
-            "thumbnail": {
-                "url": "https://travis-ci.com/images/logos/Tessa-1.png"
-            },
-            "timestamp": str(datetime.datetime.now().isoformat())
-        }]
-    }
-    r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
-    exit(1)
+# try:
+#     assert len(metabolite_validation) == 0, "Missing metabolites"
+# except:
+#     text = "Reaction: Missing Metabolites"
+#     for key,val in metabolite_validation.items():
+#         text += "\n"+key+": " + ", ".join(val)
+#     payload_json = {
+#         "embeds": [{
+#             "title": "WormJam CI Report",
+#             "color": 10027008,
+#             "description": "Missing Metabolites - Build aborted",
+#             "fields":[
+#                 {
+#                     "name": "Build Number",
+#                     "value":str(TRAVIS_BUILD_NUMBER)
+#                 },
+#                 {
+#                     "name":"Notes",
+#                     "value":text
+#                 }
+#             ],
+#             "thumbnail": {
+#                 "url": "https://travis-ci.com/images/logos/Tessa-1.png"
+#             },
+#             "timestamp": str(datetime.datetime.now().isoformat())
+#         }]
+#     }
+#     r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
+#     exit(1)
 
 active_gene_list = []
 for key,val in compiler.tables.get("Reaction").data.items():
@@ -190,7 +190,7 @@ for key,val in compiler.tables.get("Gene").data.items():
             "{%s}"%fbc+"id":"G_"+key,
             "{%s}"%fbc+"label":key,
             "{%s}"%fbc+"name":val["!Locus"],
-            "metaid":genID()
+            "metaid":key.replace(" ","_")
         }
         fbc_gene_prod = etree.SubElement(model_listOfGeneProducts,"{%s}"%fbc+"geneProduct",attrib=attribs)
         annotation = etree.SubElement(fbc_gene_prod,"annotation")
@@ -216,7 +216,7 @@ for key,val in compiler.tables.get("Pathway").data.items():
         "{%s}"%groups+"id":"P_"+key.replace(" ","_"),
         "{%s}"%groups+"kind":"partonomy",
         "{%s}"%groups+"name":key,
-        "metaid":genID()
+        "metaid":key.replace(" ","_")
     }
     groups_group = etree.SubElement(group_tree,"{%s}"%groups+"group",attrib=attribs)
     descriptors = [val["!Identifiers:GO_process"],val["!Identifiers:kegg:pathway"],val["!Identifiers:BioCyc"],val["!Identifiers:pw"]]
@@ -245,7 +245,7 @@ for key,val in compiler.tables.get("Pathway").data.items():
 compartment_tree = etree.SubElement(model,"listOfCompartments")
 
 for key,val in compiler.tables.get("Compartment").data.items():
-    metaid = genID()
+    metaid = key.replace(" ","_")
     compartment = etree.SubElement(compartment_tree,"compartment",attrib={"constant":"true","id":key,"metaid":metaid,"name":val["!Name"],"size":"1","spatialDimensions":"3"})
     if val["!Comment"] != "":
         etree.SubElement(etree.SubElement(compartment,"notes"),"{%s}"%xhtml+"p").text = val["!Comment"]
@@ -291,7 +291,7 @@ for key,val in compiler.tables.get("Compound").data.items():
     }
     if attribs["{%s}"%fbc+"charge"] == "":
         attribs["{%s}"%fbc+"charge"] = "0"
-    metaid = genID()
+    metaid = key.replace(" ","_")
     metabolite = etree.SubElement(species_tree,"species",metaid=metaid,attrib=attribs)
     notes_body = etree.SubElement(etree.SubElement(metabolite,"notes"),"{%s}"%xhtml+"body")
     for i in [key for key in list(val.keys()) if "!Identifier" not in key]:
@@ -383,7 +383,7 @@ def parse(parent,my_list):
                 my_list.remove(op_type)
             result = (op_type,my_list)
     #create the xml tree
-    gpr = etree.SubElement(parent,"{%s}"%fbc+"GeneProductAssociation")
+    gpr = etree.SubElement(parent,"{%s}"%fbc+"geneProductAssociation")
     #simple case
     if result[0] == 'single':
         etree.SubElement(gpr,"{%s}"%fbc+"geneProductRef",attrib={"{%s}"%fbc+"geneProduct":"G_"+result[1]})
@@ -445,7 +445,7 @@ ignore = ["!Identifiers:kegg.reaction","!Identifiers:rheadb_exact","!Identifiers
 "!Authors","!ReactionFormula","!SuperPathway","!Name","!IsReversible"]
 
 for key,val in compiler.tables.get("Reaction").data.items():
-    metaid = genID()
+    metaid = key.replace(" ","_")
     attribs = {
         "fast":"false",
         "reversible":val["!IsReversible"].lower(),
