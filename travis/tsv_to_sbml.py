@@ -13,8 +13,8 @@ from helper_classes import ModelSystem
 
 OUTPUT_NAME = "WormJam.xml"
 
-# DISCORD_ENDPOINT = sys.argv[1]
-# TRAVIS_BUILD_NUMBER = sys.argv[2]
+DISCORD_ENDPOINT = sys.argv[1]
+TRAVIS_BUILD_NUMBER = sys.argv[2]
 
 #!/usr/bin/env python
 
@@ -60,35 +60,35 @@ compiler.load_folder("curation","tsv")
 
 metabolite_validation = compiler.validate_rxn_mets()
 
-# try:
-#     assert len(metabolite_validation) == 0, "Missing metabolites"
-# except:
-#     text = "Reaction: Missing Metabolites"
-#     for key,val in metabolite_validation.items():
-#         text += "\n"+key+": " + ", ".join(val)
-#     payload_json = {
-#         "embeds": [{
-#             "title": "WormJam CI Report",
-#             "color": 10027008,
-#             "description": "Missing Metabolites - Build aborted",
-#             "fields":[
-#                 {
-#                     "name": "Build Number",
-#                     "value":str(TRAVIS_BUILD_NUMBER)
-#                 },
-#                 {
-#                     "name":"Notes",
-#                     "value":text
-#                 }
-#             ],
-#             "thumbnail": {
-#                 "url": "https://travis-ci.com/images/logos/Tessa-1.png"
-#             },
-#             "timestamp": str(datetime.datetime.now().isoformat())
-#         }]
-#     }
-#     r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
-#     exit(1)
+try:
+    assert len(metabolite_validation) == 0, "Missing metabolites"
+except:
+    text = "Reaction: Missing Metabolites"
+    for key,val in metabolite_validation.items():
+        text += "\n"+key+": " + ", ".join(val)
+    payload_json = {
+        "embeds": [{
+            "title": "WormJam CI Report",
+            "color": 10027008,
+            "description": "Missing Metabolites - Build aborted",
+            "fields":[
+                {
+                    "name": "Build Number",
+                    "value":str(TRAVIS_BUILD_NUMBER)
+                },
+                {
+                    "name":"Notes",
+                    "value":text
+                }
+            ],
+            "thumbnail": {
+                "url": "https://travis-ci.com/images/logos/Tessa-1.png"
+            },
+            "timestamp": str(datetime.datetime.now().isoformat())
+        }]
+    }
+    r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
+    exit(1)
 
 active_gene_list = []
 for key,val in compiler.tables.get("Reaction").data.items():
