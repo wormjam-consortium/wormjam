@@ -4,39 +4,48 @@ class ModelSystem():
     """Class for reading SBtab files
     """
     def __init__(self):
+        """Initialization function
+        """
         self.tables = {}
-        self.size = {}
+        self.size = {} #potentially worth removing this - It logs number of entries in every table, but no longer needed.
     
-    def loadTable(self,name,location):
-        self.tables[name] = dataset(location)
+    def _load_table(self,name,filename):
+        """Function to import a SBtab file into the ModelSystem, using the SBtable class
+        """
+        self.tables[name] = SBtable(filename)
         self.size[name] = self.tables[name].rows-2
 
-    def load_folder(self,name,filetype):
+    def load_folder(self,name):
+        """Function to bulk import multiple SBtab files using a folder and _load_table
+        """
         success = False
-        print("------------------------")
         if os.path.isdir(name) == False:
-            print("This folder does not exist")
-
+            print("The curation folder cannot be found. Unable to build the model. Aborting.")
+            exit(1)
         else:
             print("Folder loaded")
             paths = []
             for f in os.listdir(name):
-                if filetype == "tsv":
-                    if "SBtab.tsv" in f:
-                        filename = f.replace("-SBtab.tsv","")
-                        paths.append(filename)
+                if "SBtab.tsv" in f:
+                    filename = f.replace("-SBtab.tsv","")
+                    paths.append(filename)
+            try:
+                assert paths!= [],"There were no SBtab files found in "+name
+            except AssertionError as error:
+                print(error)
+                exit(1)
+            else:
+                print("SBtab files found! Loading now!")
+                self.count=1
+                for sbfile in paths:
+                    print(" ".join(["Loading file:",sbfile]))
+                    self._load_table(sbfile,name+"/"+sbfile+"-SBtab.tsv")
 
-            assert paths!= [],"There were no SBtab files found in "+name
-            print("SBtab files found! Loading now!")
-            self.count=1
-            for hit in paths:
-                print(" ".join(["Loading file:",hit]))
-                self.loadTable(hit,name+"/"+hit+"-SBtab.tsv")
-
-            print(" ".join([str(len(paths)),"files loaded into the model"]))
-            success = True
+                print(" ".join([str(len(paths)),"files loaded into the model"]))
+                success = True
     
     def validate_rxn_mets(self):
+        """Function to check that all metabolites included in reactions are in the compounds table"""
         met_list = self.tables.get("Compound").data.keys()
         rxn_met_list = {}
         for key,val in self.tables.get("Reaction").data.items():
@@ -49,11 +58,14 @@ class ModelSystem():
         return missing
 
     def _process_reaction_string(self,rxn):
+        """Helper function to parse reaction strings"""
+
         r,p = rxn.split("<=>")
         def quick(frag):
+            """splitting function"""
             frag = frag.split("+")
-            frag = [i.rstrip().lstrip() for i in frag]
-            frag = [i.split(" ") for i in frag]
+            frag = [i.rstrip().lstrip() for i in frag] #remove leading and trailing whitespace.
+            frag = [i.split(" ") for i in frag] # split into each compound
             return frag
         r = quick(r)
         p = quick(p)
@@ -69,7 +81,7 @@ class ModelSystem():
         return (reactants,products)
             
 
-class dataset:
+class SBtable:
     """Importable class for loading SBTab files\nConverts SBTab as nested dictionary.\n
 
     instance.data = Dictionary of entries in SBTab\n
@@ -80,10 +92,10 @@ class dataset:
         
         Keyword Arguments:
             headerRow {int} -- Excel row of the header information, (default: {2})
-            mode {str} -- version of dataset to load
+            mode {str} -- version of SBtable to load
         """
 
-    def __init__(self,filename,headerRow=2,mode="xslx"):
+    def __init__(self,filename,headerRow=2):
         """Loads the SBTab file"""
         self.name = filename
         with open(filename,encoding="latin-1") as tsvfile:

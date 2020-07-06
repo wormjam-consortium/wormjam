@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import csv
 import datetime
 import json
@@ -9,20 +11,13 @@ from copy import deepcopy
 import pyparsing
 import requests
 from lxml import etree
+
 from helper_classes import ModelSystem
 
 OUTPUT_NAME = "WormJam.xml"
 
-DISCORD_ENDPOINT = sys.argv[1]
-TRAVIS_BUILD_NUMBER = sys.argv[2]
-
-#!/usr/bin/env python
-
-"""SBTabReader.py - converts a csv with WormBase RNAi identifiers in the first column to a list of corresponding target genes
-
-Requires (use pip to install):
-openpyxl
-"""
+DISCORD_ENDPOINT = sys.argv[1] #Discord Webhook endpoint, passed from Travis-CI
+TRAVIS_BUILD_NUMBER = sys.argv[2] #Travis Build Number, passed from Travis-CI
 
 
 __author__ = "Jake Hattwell"
@@ -44,6 +39,7 @@ __status__ = "Live"
 ######################
 
 def genID():
+    ##UUID generator
     return str(uuid.uuid4()).replace("-","_")
 
 ######################
@@ -56,9 +52,9 @@ def genID():
 
 
 compiler = ModelSystem()
-compiler.load_folder("curation","tsv")
+compiler.load_folder("curation")
 
-metabolite_validation = compiler.validate_rxn_mets()
+metabolite_validation = compiler.validate_rxn_mets() #check that all required metabolites are included in the model
 
 try:
     assert len(metabolite_validation) == 0, "Missing metabolites"
@@ -90,6 +86,7 @@ except:
     r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
     exit(1)
 
+#only include genes that are involved in regulation of reactions in the SBML model
 active_gene_list = []
 for key,val in compiler.tables.get("Reaction").data.items():
     genes = val["!GeneAssociation"].split(" ")
@@ -100,7 +97,7 @@ for key,val in compiler.tables.get("Reaction").data.items():
         genes.remove("or")
     active_gene_list.extend(genes)
 active_gene_list = set(active_gene_list)
-print(len(active_gene_list))
+
 
 ######################
 ######################
@@ -112,7 +109,7 @@ print(len(active_gene_list))
 
 output_model = open(OUTPUT_NAME,"wb")
 
-#define xml namespaces
+#define xml namespaces for inclusion
 xmlns = "http://www.sbml.org/sbml/level3/version1/core"
 fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2"
 groups="http://www.sbml.org/sbml/level3/version1/groups/version1"
@@ -124,15 +121,15 @@ dcterms="http://purl.org/dc/terms/"
 bqbiol="http://biomodels.net/biology-qualifiers/"
 
 NS_MAP = {
-    'fbc': fbc,
-    'groups':groups,
-    'xhtml':xhtml,
-    'rdf':rdf,
-    'dc':dc,
-    'vCard':vCard,
-    'dcterms':dcterms,
-    'bqbiol':bqbiol,
-    None: xmlns}
+    'fbc': "http://www.sbml.org/sbml/level3/version1/fbc/version2",
+    'groups':"http://www.sbml.org/sbml/level3/version1/groups/version1",
+    'xhtml':"http://www.w3.org/1999/xhtml",
+    'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    'dc':"http://purl.org/dc/elements/1.1/",
+    'vCard':"http://www.w3.org/2001/vcard-rdf/3.0#",
+    'dcterms':"http://purl.org/dc/terms/",
+    'bqbiol':"http://biomodels.net/biology-qualifiers/",
+    None: xmlns} #This is just a catcher
 
 #create sbml structure
 
@@ -439,8 +436,7 @@ def react_proc(rxn):
  
 reaction_tree = etree.SubElement(model,"listOfReactions")
 
-# IDs !Identifiers:kegg.reaction	!Identifiers:rheadb_exact	!Identifiers:rheadb_fuzzy	!Identifiers:pubmed	!Identifiers:doi	!Identifiers:eco
-# Other !Reaction	!Name	!ReactionFormula	!IsReversible	!GeneAssociation	!Pathway	!SuperPathway	!Comment	!Curator	!Notes:EC NUMBER	!Notes:AUTHORS
+
 ignore = ["!Identifiers:kegg.reaction","!Identifiers:rheadb_exact","!Identifiers:rheadb_fuzzy","!Identifiers:pubmed","!Identifiers:doi","!Identifiers:eco",
 "!Authors","!ReactionFormula","!SuperPathway","!Name","!IsReversible"]
 
