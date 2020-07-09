@@ -285,7 +285,7 @@ for key,val in compiler.tables.get("Compound").data.items():
     for i in [key for key in list(val.keys()) if "!Identifier" not in key]:
         if val[i]!="":
             if key=="!Charge" and val[i]=="":
-                val[i] == "0"
+                val[i] == "0" #small fix to change a blank charge to a charge of 0
             etree.SubElement(notes_body,"{%s}"%NS_MAP["xhtml"]+"p").text=i.replace("!","").replace("Notes:","").upper() + ": " + val[i]
     if any([val[i] for i in identifier_lib if val[i] != ""]):
         annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(metabolite,"annotation"),"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+metaid})

@@ -1,2 +1,5 @@
-!!SBtab SbtabVersion='1.0'  TableType='Database'  TableName='Wormjam Databases'
-!ID !Name   !Kind   !HomepageURL    !IdentifiersOrgPrefix  !Comment    !Curator
+!!SBtab SbtabVersion='1.0' TableType='Database' TableName='Wormjam Databases'
+!ID    	!Name	!IsPartOf	!HomepageURL	!IdentifiersOrgPrefix	!Comment	!Curator
+chebi	Chemical Entities of Biological Interest	Compound	https://www.ebi.ac.uk/chebi/	https://identifiers.org/chebi	Added CHEBI to the Databases table as a test case	jpnh
+rhea	Rhea	Reaction	https://www.rhea-db.org/	https://identifiers.org/rhea	Added RHEA to the Databases table as a test case	jpnh
+uniprot	UniProt	Gene	https://www.uniprot.org/	https://identifiers.org/uniprot	Added UniProt to the Databases table as a test case	jpnh
