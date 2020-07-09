@@ -164,7 +164,7 @@ for key,val in compiler.tables.get("Curator").data.items():
     etree.SubElement(vCard_ORG,"{%s}"%vCard+"Orgname").text = val["!organization-name"]
 #
 # genes
-# I should add a gene filter here probably to prevent export of EVERY gene in the model
+# gene filter here to prevent export of EVERY gene in the model
 #
 
 identifier_lib = {
