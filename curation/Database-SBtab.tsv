@@ -3,3 +3,4 @@
 chebi	Chemical Entities of Biological Interest	Compound	https://www.ebi.ac.uk/chebi/	https://identifiers.org/chebi	Added CHEBI to the Databases table as a test case	jpnh
 rhea	Rhea	Reaction	https://www.rhea-db.org/	https://identifiers.org/rhea	Added RHEA to the Databases table as a test case	jpnh
 uniprot	UniProt	Gene	https://www.uniprot.org/	https://identifiers.org/uniprot	Added UniProt to the Databases table as a test case	jpnh
+ec-code	Enzyme Commission Number	Gene	https://enzyme.expasy.org/	https://identifiers.org/ec-code	Added EC-Codes to the Databases table as a test case	jpnh

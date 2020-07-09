@@ -43,19 +43,29 @@ def genID():
     ##UUID generator
     return str(uuid.uuid4()).replace("-","_")
 
-######################
-######################
-## 
+def annotate(db_dict, ref):
+    """Function to access reference links, and handle when those links are not in DB table"""    
+    if ref in db_dict:
+        return db_dict[ref]["!IdentifiersOrgPrefix"]
+    else:
+        return "https://identifiers.org/"+ref
+
+## Load settings
+
+settings = json.load(open(r"travis\settings.json","r"))["pipeline"]
+
+    
+
 ## Load tsv files
-##
-######################
-######################
-
-
 compiler = ModelSystem()
 compiler.load_folder("curation")
 
 metabolite_validation = compiler.validate_rxn_mets() #check that all required metabolites are included in the model
+
+if settings["dbtable"]:
+    db_dict = compiler.tables.get("Database").data
+else:
+    db_dict = {}
 
 try:
     assert len(metabolite_validation) == 0, "Missing metabolites"
@@ -187,13 +197,14 @@ for key,val in compiler.tables.get("Gene").data.items():
         rdf_bag_and_bqbio_is = etree.SubElement(etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag"),"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":"http://identifiers.org/wormbase/"+key})
         if val["!GO_process"] != "":
             rdf_bqbiol_occurs_in_bag = etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"occursIn"),"{%s}"%NS_MAP["rdf"]+"Bag")
-            for i in val["!GO_process"].split(";"):
+            for i in val["!GO_process"].split("|"):
                 etree.SubElement(rdf_bqbiol_occurs_in_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":"http://identifiers.org/go/"+i})
 
         if any([val[i] for i in identifier_lib if val[i] != ""]):
             for i in identifier_lib:
                 if val[i]!="":
-                    etree.SubElement(rdf_bqbiol_occurs_in_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":identifier_lib[i]+":"+val[i]})
+                    db = i.split(":")[1]
+                    etree.SubElement(rdf_bqbiol_occurs_in_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":annotate(db_dict,db)+":"+val[i]})
 #
 # Pathways
 #
