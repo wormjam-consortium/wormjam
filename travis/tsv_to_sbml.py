@@ -15,6 +15,8 @@ from lxml import etree
 from helper_classes import ModelSystem
 
 OUTPUT_NAME = "WormJam.xml"
+BUILD = True
+CLEAN_DELETION = False
 
 # ## Comment out these two lines for local builds of the model
 # DISCORD_ENDPOINT = sys.argv[1] #Discord Webhook endpoint, passed from Travis-CI
@@ -50,8 +52,36 @@ def annotate(db_dict, ref):
     else:
         return "https://identifiers.org/"+ref
 
-## Load settings
+def check_db_type(db_dict,ref):
+    """Function to access reference links, and handle when those links are not in DB table"""    
+    if ref in db_dict:
+        return db_dict[ref]["!IsOrIn"]
+    else:
+        return "Is"
 
+def gen_annotation_tree(parent, db_dict, data):
+    #get a list of which DBs are annotated for this entry, as well as what type of DB they are
+    annotated_dbs = [db.split(":")[1] for db in data.keys() if "!Identifiers" in db and data[db] != ""]
+    db_types = [check_db_type(db_dict,db) for db in annotated_dbs]
+    # create bqbiol:type -> rdf:bag -> rdf:li elements 
+    if "Is" in db_types:
+        bqbiol_is_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag")
+    if "In" in db_types:
+        bqbiol_occurs_in_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"occursIn"),"{%s}"%NS_MAP["rdf"]+"Bag")
+
+    #annotate to the correct bag
+    for db in annotated_dbs:
+        if check_db_type(db_dict,db) == "Is":
+            for identifier in data["!Identifiers:"+db].split("|"):
+                etree.SubElement(bqbiol_is_and_rdf_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":annotate(db_dict,db)+":"+identifier})
+        else:
+            for identifier in data["!Identifiers:"+db].split("|"): 
+                etree.SubElement(bqbiol_occurs_in_and_rdf_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":annotate(db_dict,db)+":"+identifier})
+
+
+
+## Load settings
+print("Build model is set to",BUILD)
 settings = json.load(open(r"travis\settings.json","r"))["pipeline"]
 
     
@@ -117,8 +147,8 @@ active_gene_list = set(active_gene_list)
 ##
 ######################
 ######################
-
-output_model = open(OUTPUT_NAME,"wb")
+if BUILD:
+    output_model = open(OUTPUT_NAME,"wb")
 
 #define xml namespaces for inclusion
 NS_MAP = {
@@ -179,18 +209,6 @@ for key,val in compiler.tables.get("Curator").data.items():
 # 
 #
 
-identifier_lib = {
-    "!Identifiers:refseq":"https://identifiers.org/refseq",
-    "!Identifiers:uniprot":"https://identifiers.org/uniprot",
-    "!Identifiers:ecogene":"https://identifiers.org/ecogene",
-    "!Identifiers:kegg.genes":"https://identifiers.org/kegg.genes",
-    "!Identifiers:ncbigi":"https://identifiers.org/ncbigi",
-    "!Identifiers:ncbiprotein":"https://identifiers.org/ncbiprotein",
-    "!Identifiers:ccds":"https://identifiers.org/ccds",
-    "!Identifiers:hprd":"https://identifiers.org/hprd",
-    "!Identifiers:asap":"https://identifiers.org/asap",
-    "!Identifiers:ec-code":"https://identifiers.org/ec-code",
-}
 model_listOfGeneProducts = etree.SubElement(model,"{%s}"%NS_MAP["fbc"]+"listOfGeneProducts")
 
 for key,val in compiler.tables.get("Gene").data.items():
@@ -205,22 +223,12 @@ for key,val in compiler.tables.get("Gene").data.items():
         annotation = etree.SubElement(fbc_gene_prod,"annotation")
         rdf_RDF = etree.SubElement(annotation,"{%s}"%NS_MAP["rdf"]+"RDF")
         rdf_desc = etree.SubElement(rdf_RDF,"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+attribs["metaid"]})
-        # THIS NEEDS TO BE REWORKED
-        # rdf_bag_and_bqbio_is = etree.SubElement(etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag"),"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":"http://identifiers.org/wormbase/"+key})
-        if val["!GO_process"] != "":
-            rdf_bqbiol_occurs_in_bag = etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"occursIn"),"{%s}"%NS_MAP["rdf"]+"Bag")
-            for i in val["!GO_process"].split("|"):
-                etree.SubElement(rdf_bqbiol_occurs_in_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":"http://identifiers.org/go/"+i})
+        gen_annotation_tree(rdf_desc,db_dict,val)      
 
-        if any(val[i] for i in [j for j in val.keys() if "!Identifiers:" in j] if val[i] != ""):
-            for i in identifier_lib:
-                if val[i]!="":
-                    db = i.split(":")[1]
-                    etree.SubElement(rdf_bqbiol_occurs_in_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":annotate(db_dict,db)+":"+val[i]})
 #
 # Pathways
 #
-group_tree = etree.SubElement(model,"{%s}"%NS_MAP["groups"]+"listOfGroups")
+model_listOfGroups = etree.SubElement(model,"{%s}"%NS_MAP["groups"]+"listOfGroups")
 
 for key,val in compiler.tables.get("Pathway").data.items():
     attribs = {
@@ -229,64 +237,38 @@ for key,val in compiler.tables.get("Pathway").data.items():
         "{%s}"%NS_MAP["groups"]+"name":key,
         "metaid":key.replace(" ","_")
     }
-    groups_group = etree.SubElement(group_tree,"{%s}"%NS_MAP["groups"]+"group",attrib=attribs)
-    descriptors = [val["!Identifiers:GO_process"],val["!Identifiers:kegg:pathway"],val["!Identifiers:BioCyc"],val["!Identifiers:pw"]]
-    links = ["http://identifiers.org/go/","http://identifiers.org/kegg:","http://identifiers.org/biocyc/","http://identifiers.org/pw/"]
-    merge = zip(links,descriptors)
-    new = []
-    for i in merge:
-        if i[1] != "":
-            ids = i[1].replace(" ","").split(";")
-            ids = [i[0] + j for j in ids]
-            new += ids
-    if new != []:
-        annotation = etree.SubElement(groups_group,"annotation")
-        rdf_desc = etree.SubElement(etree.SubElement(annotation,"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+attribs["metaid"]})
-        is_bag = etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag")
-        for i in new:
-            etree.SubElement(is_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":i})
+    groups_group = etree.SubElement(model_listOfGroups,"{%s}"%NS_MAP["groups"]+"group",attrib=attribs)
+    g_annotation = etree.SubElement(groups_group,"annotation")
+    g_rdf_desc = etree.SubElement(etree.SubElement(g_annotation,"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+attribs["metaid"]})
+    #annotate
+    gen_annotation_tree(g_rdf_desc,db_dict,val)
+    #insert group members
+    g_listOfMembers = etree.SubElement(groups_group,"{%s}"%NS_MAP["groups"]+"listOfMembers")
     listOfMembers = [rxn for rxn,info in compiler.tables.get("Reaction").data.items() if info["!Pathway"] == key]
-    group_listOfMemebers = etree.SubElement(groups_group,"{%s}"%NS_MAP["groups"]+"listOfMembers")
     for i in listOfMembers:
-        etree.SubElement(group_listOfMemebers,"{%s}"%NS_MAP["groups"]+"member",attrib={"{%s}"%NS_MAP["groups"]+"id":"GM_"+i,"{%s}"%NS_MAP["groups"]+"idRef":i})
+        etree.SubElement(g_listOfMembers,"{%s}"%NS_MAP["groups"]+"member",attrib={"{%s}"%NS_MAP["groups"]+"id":"GM_"+i,"{%s}"%NS_MAP["groups"]+"idRef":i})
+
 
 #
 # Compartments
 #
-compartment_tree = etree.SubElement(model,"listOfCompartments")
+model_compartment_tree = etree.SubElement(model,"listOfCompartments")
 
 for key,val in compiler.tables.get("Compartment").data.items():
     metaid = key.replace(" ","_")
-    compartment = etree.SubElement(compartment_tree,"compartment",attrib={"constant":"true","id":key,"metaid":metaid,"name":val["!Name"],"size":"1","spatialDimensions":"3"})
-    if val["!Comment"] != "":
-        etree.SubElement(etree.SubElement(compartment,"notes"),"{%s}"%NS_MAP["xhtml"]+"p").text = val["!Comment"]
-    if val["!Identifiers:go"] != "":
-        annotation = etree.SubElement(compartment,"annotation")
-        rdf_desc = etree.SubElement(etree.SubElement(annotation,"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+metaid})
-        is_bag = etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag")
-        etree.SubElement(is_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":"http://identifiers.org/go/"+val["!Identifiers:go"]})
+    #fairly straightforward annotation
+    compartment = etree.SubElement(model_compartment_tree,"compartment",attrib={"constant":"true","id":key,"metaid":metaid,"name":val["!Name"],"size":"1","spatialDimensions":str(val["!spatialDimensions"])})
+
+    annotation = etree.SubElement(compartment,"annotation")
+    cmpt_rdf_desc = etree.SubElement(etree.SubElement(annotation,"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+metaid})
+    # annotate
+    gen_annotation_tree(cmpt_rdf_desc,db_dict,val)
 
 #
 # Species
 #
 
-identifier_lib = {
-    "!Identifiers:bigg.metabolite":"https://identifiers.org/bigg.metabolite",
-    "!Identifiers:biocyc":"https://identifiers.org/biocyc",
-    "!Identifiers:chebi":"https://identifiers.org/chebi",
-    "!Identifiers:doi":"https://identifiers.org/doi",
-    "!Identifiers:eco":"https://identifiers.org/eco",
-    "!Identifiers:hmbd":"https://identifiers.org/hmdb",
-    "!Identifiers:inchi":"https://identifiers.org/inchi",
-    "!Identifiers:inchikey":"https://identifiers.org/inchikey",
-    "!Identifiers:kegg.compound":"https://identifiers.org/kegg.compound",
-    "!Identifiers:metanetx.compound":"https://identifiers.org/metanetx.compound",
-    "!Identifiers:pubmed.compound":"https://identifiers.org/pubmed.compound",
-    "!Identifiers:reactome":"https://identifiers.org/reactome",
-    "!Identifiers:seed.compound":"https://identifiers.org/seed.compound",
-
-}
-species_tree = etree.SubElement(model,"listOfSpecies")
+model_species_tree = etree.SubElement(model,"listOfSpecies")
 
 for key,val in compiler.tables.get("Compound").data.items():
     attribs = {
@@ -297,25 +279,21 @@ for key,val in compiler.tables.get("Compound").data.items():
         "{%s}"%NS_MAP["fbc"]+"chemicalFormula":val["!Formula"],
         "hasOnlySubstanceUnits":"false",
         "id":key,
-        "initialConcentration":"0",
+        "initialConcentration":val.get("!initialConcentration","0"),
         "name":"!Name"
     }
     if attribs["{%s}"%NS_MAP["fbc"]+"charge"] == "":
         attribs["{%s}"%NS_MAP["fbc"]+"charge"] = "0"
     metaid = key.replace(" ","_")
-    metabolite = etree.SubElement(species_tree,"species",metaid=metaid,attrib=attribs)
+    metabolite = etree.SubElement(model_species_tree,"species",metaid=metaid,attrib=attribs)
     notes_body = etree.SubElement(etree.SubElement(metabolite,"notes"),"{%s}"%NS_MAP["xhtml"]+"body")
     for i in [key for key in list(val.keys()) if "!Identifier" not in key]:
         if val[i]!="":
             if key=="!Charge" and val[i]=="":
                 val[i] == "0" #small fix to change a blank charge to a charge of 0
             etree.SubElement(notes_body,"{%s}"%NS_MAP["xhtml"]+"p").text=i.replace("!","").replace("Notes:","").upper() + ": " + val[i]
-    if any([val[i] for i in identifier_lib if val[i] != ""]):
-        annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(metabolite,"annotation"),"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+metaid})
-        next_level = etree.SubElement(etree.SubElement(annotation_tree,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag")
-        for i in identifier_lib:
-            if val[i]!="":
-                etree.SubElement(next_level,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":identifier_lib[i]+":"+val[i]})
+    annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(metabolite,"annotation"),"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+metaid})
+    gen_annotation_tree(annotation_tree,db_dict,val)
 
 #
 # Parameters
@@ -330,21 +308,6 @@ etree.SubElement(parameter_tree,"parameter",attrib={"constant":"true","id":"UPPE
 # Reactions
 #
 
-identifier_lib = {
-    "!Identifiers:kegg.reaction":"https://identifiers.org/kegg.reaction",
-    "!Identifiers:rhea":"https://identifiers.org/rhea",
-    "!Identifiers:rheadb_fuzzy":"https://identifiers.org/rheadb_fuzzy",
-    "!Identifiers:pubmed":"https://identifiers.org/pubmed",
-    "!Identifiers:doi":"https://identifiers.org/doi",
-    "!Identifiers:eco":"https://identifiers.org/eco",
-    "!Identifiers:metanetx.reaction":"https://identifiers.org/metanetx.reaction",
-    "!Identifiers:bigg.reaction":"https://identifiers.org/bigg.reaction",
-    "!Identifiers:reactome":"https://identifiers.org/reactome",
-    "!Identifiers:ec-code":"https://identifiers.org/ec-code",
-    "!Identifiers:brenda":"https://identifiers.org/brenda",
-    "!Identifiers:biocyc":"https://identifiers.org/biocyc",
-
-}
 
 # GPR helper functions
 
@@ -470,18 +433,13 @@ for key,val in compiler.tables.get("Reaction").data.items():
         attribs["{%s}"%NS_MAP["fbc"]+"lowerFluxBound"] = "ZERO_BOUND"
     reaction_field = etree.SubElement(reaction_tree,"reaction",attrib=attribs)
     notes_body = etree.SubElement(etree.SubElement(reaction_field,"notes"),"{%s}"%NS_MAP["xhtml"]+"body")
-    for i in [key2 for key2 in list(val.keys()) if key2 not in ignore]:
+    for i in [key2 for key2 in list(val.keys()) if "!Identifiers" not in key2]:
         if val[i]!="":
             etree.SubElement(notes_body,"{%s}"%NS_MAP["xhtml"]+"p").text=i.replace("!","").replace("Notes:","").replace("Pathway","Subsystem").upper() + ": " + val[i]
 
-    if any([val[i] for i in identifier_lib if val[i] != ""]):
-        annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(reaction_field,"annotation"),"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+metaid})
-        next_level = etree.SubElement(etree.SubElement(annotation_tree,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag")
 
-        for i in list(identifier_lib.keys()):
-            if val[i]!="":
-                for j in val[i].replace(" ","").split(";"):
-                    etree.SubElement(next_level,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":identifier_lib[i]+":"+j})
+    annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(reaction_field,"annotation"),"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+metaid})
+    gen_annotation_tree(annotation_tree, db_dict, val)
 
     
     genes = "("+val["!GeneAssociation"]+")"
@@ -513,17 +471,6 @@ for key,val in compiler.tables.get("Reaction").data.items():
 ##
 ######################
 ######################
-
-output_model.write(etree.tostring(sbml,encoding="UTF-8",standalone=False,xml_declaration=True,pretty_print=True))
-output_model.close()
-
-
-
-
-
-#######################################################################################################################
-## pretty print fragment
-# with open(OUTPUT_NAME,"rb") as f:
-#     parser = etree.XMLParser(remove_blank_text=True)
-#     tree = etree.parse(f, parser)
-#     print(etree.tostring(root,encoding="UTF-8",standalone=False,xml_declaration=True,pretty_print=True).decode())
+if BUILD:
+    output_model.write(etree.tostring(sbml,encoding="UTF-8",standalone=False,xml_declaration=True,pretty_print=True))
+    output_model.close()

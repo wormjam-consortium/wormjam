@@ -1,6 +1,10 @@
-!!SBtab SbtabVersion='1.0' TableType='Database' TableName='Wormjam Databases'
-!ID    	!Name	!IsPartOf	!HomepageURL	!IdentifiersOrgPrefix	!Comment	!Curator
-chebi	Chemical Entities of Biological Interest	Compound	https://www.ebi.ac.uk/chebi/	https://identifiers.org/chebi	Added CHEBI to the Databases table as a test case	jpnh
-rhea	Rhea	Reaction	https://www.rhea-db.org/	https://identifiers.org/rhea	Added RHEA to the Databases table as a test case	jpnh
-uniprot	UniProt	Gene	https://www.uniprot.org/	https://identifiers.org/uniprot	Added UniProt to the Databases table as a test case	jpnh
-ec-code	Enzyme Commission Number	Gene	https://enzyme.expasy.org/	https://identifiers.org/ec-code	Added EC-Codes to the Databases table as a test case	jpnh
+!!SBtab SbtabVersion='1.0' TableType='Database' TableName='Wormjam Databases'							
+!ID    	!Name	!IsPartOf	!IsOrIn	!HomepageURL	!IdentifiersOrgPrefix	!Comment	!Curator
+chebi	Chemical Entities of Biological Interest	Compound	Is	https://www.ebi.ac.uk/chebi/	https://identifiers.org/chebi	Added CHEBI to the Databases table as a test case	jpnh
+rhea	Rhea	Reaction	Is	https://www.rhea-db.org/	https://identifiers.org/rhea	Added RHEA to the Databases table as a test case	jpnh
+uniprot	UniProt	Gene	Is	https://www.uniprot.org/	https://identifiers.org/uniprot	Added UniProt to the Databases table as a test case	jpnh
+ec-code	Enzyme Commission Number	Gene	In	https://enzyme.expasy.org/	https://identifiers.org/ec-code	Added EC-Codes to the Databases table as a test case	jpnh
+GO_process	Gene Ontology Biogical Process	Gene|Pathway	In	http://geneontology.org/	https://identifiers.org/GO	Added to db table	jpnh
+GO_function	Gene Ontology Molecular Function	Gene	In	http://geneontology.org/	https://identifiers.org/GO	Added to db table	jpnh
+GO_component	Gene Ontology Cellular Component	Gene	Is	http://geneontology.org/	https://identifiers.org/GO	Added to db table	jpnh
+pw	Pathway Ontology	Pathway	Is	https://www.ebi.ac.uk/ols/ontologies/pw	https://identifiers.org/pw	Added to the db table	jpnh
