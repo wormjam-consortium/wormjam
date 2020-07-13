@@ -130,10 +130,9 @@ NS_MAP = {
     'vCard':"http://www.w3.org/2001/vcard-rdf/3.0#",
     'dcterms':"http://purl.org/dc/terms/",
     'bqbiol':"http://biomodels.net/biology-qualifiers/",
-    None: "http://www.sbml.org/sbml/level3/version1/core"} #This is just a catcher/default namespace
+    None: "http://www.sbml.org/sbml/level3/version2/core"} #This is just a catcher/default namespace
 
 #create sbml structure
-
 sbml = etree.Element("sbml",metaid=genID(),attrib={"{%s}"%NS_MAP["fbc"]+"required":"false","{%s}"%NS_MAP["groups"]+"required":"false"},nsmap=NS_MAP)
 other_attribs = {
     "level":"3",
@@ -142,6 +141,11 @@ other_attribs = {
 for key,val in other_attribs.items():
     sbml.set(key,val)
 
+#create model structure
+#customisation goes here
+#id = 
+#name = 
+#desc = 
 model = etree.SubElement(sbml,"model",id="WormJamTestBuild",attrib={"{%s}"%NS_MAP["fbc"]+"strict":"false"},metaid=genID(),name="WormJam Draft Model")
 model_notes = etree.SubElement(model,"notes")
 model_notes_desc = etree.SubElement(model_notes,"{%s}"%NS_MAP["xhtml"]+"p")
@@ -149,23 +153,30 @@ model_notes_desc.text="Genome Scale Model of the organism Caenorhabditis elegans
 
 #
 # curators
+# We store the curator information within the model's annotation
+# Need to add in that curators do get mentioned in the annotation package
 #
 
 model_annotation = etree.SubElement(model,"annotation")
 model_annotation_RDF = etree.SubElement(model_annotation,"{%s}"%NS_MAP["rdf"]+"RDF")
+# In this script, I nest much of the XML structure creation
+# rdf:Description -> dc:creator -> rdf:Bag == This bag holds lists. Each list contains info about a curator.
 model_annotation_RDF_description_DC_bag = etree.SubElement(etree.SubElement(etree.SubElement(model_annotation_RDF,"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+model.get("metaid")}),"{%s}"%NS_MAP["dc"]+"creator"),"{%s}"%NS_MAP["rdf"]+"Bag")
 
 for key,val in compiler.tables.get("Curator").data.items():
-    rdf_li = etree.SubElement(model_annotation_RDF_description_DC_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"parseType":"Resource"})
+    rdf_li = etree.SubElement(model_annotation_RDF_description_DC_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"about":key,"{%s}"%NS_MAP["rdf"]+"parseType":"Resource"})
     vCard_N = etree.SubElement(rdf_li,"{%s}"%NS_MAP["vCard"]+"N",attrib={"{%s}"%NS_MAP["rdf"]+"parseType":"Resource"})
     etree.SubElement(vCard_N,"{%s}"%NS_MAP["vCard"]+"Family").text = val["!family-name"]
     etree.SubElement(vCard_N,"{%s}"%NS_MAP["vCard"]+"Given").text = val["!given-name"]
     etree.SubElement(rdf_li,"{%s}"%NS_MAP["vCard"]+"EMAIL").text = val["!email"]
     vCard_ORG = etree.SubElement(rdf_li,"{%s}"%NS_MAP["vCard"]+"ORG",attrib={"{%s}"%NS_MAP["rdf"]+"parseType":"Resource"})
     etree.SubElement(vCard_ORG,"{%s}"%NS_MAP["vCard"]+"Orgname").text = val["!organization-name"]
+
+
+
 #
 # genes
-# gene filter here to prevent export of EVERY gene in the model
+# 
 #
 
 identifier_lib = {
@@ -194,13 +205,14 @@ for key,val in compiler.tables.get("Gene").data.items():
         annotation = etree.SubElement(fbc_gene_prod,"annotation")
         rdf_RDF = etree.SubElement(annotation,"{%s}"%NS_MAP["rdf"]+"RDF")
         rdf_desc = etree.SubElement(rdf_RDF,"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+attribs["metaid"]})
-        rdf_bag_and_bqbio_is = etree.SubElement(etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag"),"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":"http://identifiers.org/wormbase/"+key})
+        # THIS NEEDS TO BE REWORKED
+        # rdf_bag_and_bqbio_is = etree.SubElement(etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag"),"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":"http://identifiers.org/wormbase/"+key})
         if val["!GO_process"] != "":
             rdf_bqbiol_occurs_in_bag = etree.SubElement(etree.SubElement(rdf_desc,"{%s}"%NS_MAP["bqbiol"]+"occursIn"),"{%s}"%NS_MAP["rdf"]+"Bag")
             for i in val["!GO_process"].split("|"):
                 etree.SubElement(rdf_bqbiol_occurs_in_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":"http://identifiers.org/go/"+i})
 
-        if any([val[i] for i in identifier_lib if val[i] != ""]):
+        if any(val[i] for i in [j for j in val.keys() if "!Identifiers:" in j] if val[i] != ""):
             for i in identifier_lib:
                 if val[i]!="":
                     db = i.split(":")[1]
