@@ -82,7 +82,7 @@ def gen_annotation_tree(parent, db_dict, data):
 
 ## Load settings
 print("Build model is set to",BUILD)
-settings = json.load(open(r"travis\settings.json","r"))["pipeline"]
+settings = json.load(open("travis/settings.json","r"))["pipeline"]
 
     
 
