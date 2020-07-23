@@ -19,8 +19,8 @@ BUILD = True
 CLEAN_DELETION = False
 
 # ## Comment out these two lines for local builds of the model
-# DISCORD_ENDPOINT = sys.argv[1] #Discord Webhook endpoint, passed from Travis-CI
-# TRAVIS_BUILD_NUMBER = sys.argv[2] #Travis Build Number, passed from Travis-CI
+DISCORD_ENDPOINT = sys.argv[1] #Discord Webhook endpoint, passed from Travis-CI
+TRAVIS_BUILD_NUMBER = sys.argv[2] #Travis Build Number, passed from Travis-CI
 
 
 __author__ = "Jake Hattwell"
@@ -67,7 +67,7 @@ def gen_annotation_tree(parent, db_dict, data):
     if "Is" in db_types:
         bqbiol_is_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag")
     if "In" in db_types:
-        bqbiol_occurs_in_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"occursIn"),"{%s}"%NS_MAP["rdf"]+"Bag")
+        bqbiol_occurs_in_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"isPartOf"),"{%s}"%NS_MAP["rdf"]+"Bag")
 
     #annotate to the correct bag
     for db in annotated_dbs:
@@ -138,7 +138,7 @@ for key,val in compiler.tables.get("Reaction").data.items():
         genes.remove("or")
     active_gene_list.extend(genes)
 active_gene_list = set(active_gene_list)
-
+print(len(active_gene_list))
 
 ######################
 ######################
@@ -160,7 +160,7 @@ NS_MAP = {
     'vCard':"http://www.w3.org/2001/vcard-rdf/3.0#",
     'dcterms':"http://purl.org/dc/terms/",
     'bqbiol':"http://biomodels.net/biology-qualifiers/",
-    None: "http://www.sbml.org/sbml/level3/version2/core"} #This is just a catcher/default namespace
+    None: "http://www.sbml.org/sbml/level3/version1/core"} #This is just a catcher/default namespace
 
 #create sbml structure
 sbml = etree.Element("sbml",metaid=genID(),attrib={"{%s}"%NS_MAP["fbc"]+"required":"false","{%s}"%NS_MAP["groups"]+"required":"false"},nsmap=NS_MAP)
@@ -287,7 +287,7 @@ for key,val in compiler.tables.get("Compound").data.items():
     metaid = key.replace(" ","_")
     metabolite = etree.SubElement(model_species_tree,"species",metaid=metaid,attrib=attribs)
     notes_body = etree.SubElement(etree.SubElement(metabolite,"notes"),"{%s}"%NS_MAP["xhtml"]+"body")
-    for i in [key for key in list(val.keys()) if "!Identifier" not in key]:
+    for i in [key2 for key2 in list(val.keys()) if all(block not in key2 for block in ["!Identifiers","!Formula","!Charge"])]:
         if val[i]!="":
             if key=="!Charge" and val[i]=="":
                 val[i] == "0" #small fix to change a blank charge to a charge of 0
@@ -433,7 +433,7 @@ for key,val in compiler.tables.get("Reaction").data.items():
         attribs["{%s}"%NS_MAP["fbc"]+"lowerFluxBound"] = "ZERO_BOUND"
     reaction_field = etree.SubElement(reaction_tree,"reaction",attrib=attribs)
     notes_body = etree.SubElement(etree.SubElement(reaction_field,"notes"),"{%s}"%NS_MAP["xhtml"]+"body")
-    for i in [key2 for key2 in list(val.keys()) if "!Identifiers" not in key2]:
+    for i in [key2 for key2 in list(val.keys()) if all(block not in key2 for block in ["!Identifiers","!ReactionFormula"])]:
         if val[i]!="":
             etree.SubElement(notes_body,"{%s}"%NS_MAP["xhtml"]+"p").text=i.replace("!","").replace("Notes:","").replace("Pathway","Subsystem").upper() + ": " + val[i]
 
