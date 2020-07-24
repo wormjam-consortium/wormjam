@@ -7,6 +7,7 @@ import datetime
 DISCORD_ENDPOINT = sys.argv[1]
 BUILD_NUMBER = sys.argv[2]
 TRAVIS_BUILD_WEB_URL = sys.argv[3]
+TRAVIS_PULL_REQUEST_SLUG = sys.argv[4]
 
 
 files = {'results.json': open('results.json', 'rb')}
@@ -14,7 +15,7 @@ payload_json = {
     "embeds": [{
         "title": "WormJam CI Report",
         "color": 16709211,
-        "description": "Pull Request",
+        "description": "Pull Request from "+TRAVIS_PULL_REQUEST_SLUG,
         "fields":[
             {
                 "name": "Build Number",
