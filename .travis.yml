@@ -9,22 +9,22 @@ install:
 jobs:
   include:
     - stage: build_model
-      script: python travis/tsv_to_sbml.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER
+      script: python travis/tsv_to_sbml.py $DISCORD_WEBHOOK_MERGE $TRAVIS_BUILD_NUMBER
     - stage: basic_tests
       script:
-        - python travis/tsv_to_sbml.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER
+        - python travis/tsv_to_sbml.py $DISCORD_WEBHOOK_MERGE $TRAVIS_BUILD_NUMBER
         - python travis/basic_fba.py
         - python travis/restricted_fba.py
         
     - stage: generate_report
       script: 
-        - python travis/tsv_to_sbml.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER
+        - python travis/tsv_to_sbml.py $DISCORD_WEBHOOK_MERGE $TRAVIS_BUILD_NUMBER
         - python travis/run_memote.py;
         - if [ $TRAVIS_PULL_REQUEST != "false" ]; then
-            python travis/comment_script.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL $TRAVIS_PULL_REQUEST_SLUG;
+            python travis/comment_script.py $DISCORD_WEBHOOK_MERGE $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL $TRAVIS_PULL_REQUEST_SLUG;
           else
             tar -czvf WormJam.tar.gz WormJam.xml;
-            python travis/PR_merge.py $DISCORD_ENDPOINT $DISCORD_ENDPOINT_2 $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL;
+            python travis/PR_merge.py $DISCORD_WEBHOOK_MERGE $DISCORD_WEBHOOK_MODEL $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL;
           fi
 stages:
   - build_model
@@ -32,5 +32,5 @@ stages:
   - generate_report
 
 after_failure:
-  - python travis/failure_reporter.py $DISCORD_ENDPOINT $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL
+  - python travis/failure_reporter.py $DISCORD_WEBHOOK_MERGE $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL
 
