@@ -5,9 +5,9 @@ import requests
 import datetime
 
 DISCORD_ENDPOINT = sys.argv[1]
-TRAVIS_BUILD_NUMBER = sys.argv[2]
-TRAVIS_BUILD_WEB_URL = sys.argv[3]
-DISCORD_ENDPOINT_2 = sys.argv[4]
+DISCORD_ENDPOINT_2 = sys.argv[2]
+TRAVIS_BUILD_NUMBER = sys.argv[3]
+TRAVIS_BUILD_WEB_URL = sys.argv[4]
 
 timestamp = datetime.datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 filename = "WormJam"+timestamp+".tar.gz"
