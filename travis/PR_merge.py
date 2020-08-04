@@ -19,7 +19,7 @@ payload_json = {
     "embeds": [{
         "title": "WormJam CI Report",
         "color": 16709211,
-        "description": "Model Build from [%s]{%s}"%(TRAVIS_REPO_SLUG,"https://github.com/"+TRAVIS_REPO_SLUG),
+        "description": "Model Build from [%s](%s)"%(TRAVIS_REPO_SLUG,"https://github.com/"+TRAVIS_REPO_SLUG),
         "fields":[
             {
                 "name": "Build Number",
