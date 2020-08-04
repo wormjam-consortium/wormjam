@@ -5,12 +5,13 @@ import datetime
 DISCORD_ENDPOINT = sys.argv[1]
 TRAVIS_BUILD_NUMBER = sys.argv[2]
 TRAVIS_BUILD_WEB_URL = sys.argv[3]
+TRAVIS_REPO_SLUG = sys.argv[4]
 
 payload_json = {
     "embeds": [{
         "title": "WormJam CI Report",
         "color": 10027008,
-        "description": "A build has failed",
+        "description": "A build has failed from [%s]{%s}"%(TRAVIS_REPO_SLUG,"https://github.com/"+TRAVIS_REPO_SLUG),
         "fields":[
             {
                 "name": "Build Number",
