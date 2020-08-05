@@ -22,6 +22,7 @@ jobs:
       script: 
         - python travis/tsv_to_sbml.py $DISCORD_WEBHOOK_MERGE $TRAVIS_BUILD_NUMBER
         - python travis/run_memote.py;
+        - python travis/result_web_gen.py;
         - tar -czvf WormJam.tar.gz WormJam.xml;
         - python travis/PR_merge.py $DISCORD_WEBHOOK_MERGE $DISCORD_WEBHOOK_MODEL $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_WEB_URL $TRAVIS_REPO_SLUG;
 stages:

@@ -13,7 +13,7 @@ TRAVIS_REPO_SLUG = sys.argv[5]
 timestamp = datetime.datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 filename = "WormJam"+timestamp+".tar.gz"
 
-files = {'results.json': open('results.json', 'rb')}
+files = {'Report.html': open('Report.html', 'rb')}
 files2 = {filename:open("WormJam.tar.gz",'rb')}
 payload_json = {
     "embeds": [{
