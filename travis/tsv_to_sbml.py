@@ -346,9 +346,9 @@ def process_gene_association(gene_association):
     ##dive into GA_tree, building GPR along the way
     group = GA_tree[0]
     if len(list(group))==0:
-		#case 1, single gene
-		etree.SubElement(gpr,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+group.text})
-		return gpr
+        #case 1, single gene
+        etree.SubElement(gpr,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+group.text})
+        return gpr
     else:
         #complex case
         def genHead(booltype):
