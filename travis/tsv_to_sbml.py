@@ -348,6 +348,7 @@ def process_gene_association(gene_association):
     if "operator" not in [element.tag for element in list(group)]:
         #case 1, single gene
         etree.SubElement(gpr,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+list(group)[0].text})
+        return gpr
     else:
         #complex case
         def genHead(booltype):
