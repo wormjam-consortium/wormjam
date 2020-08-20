@@ -345,10 +345,10 @@ def process_gene_association(gene_association):
     gpr = etree.Element("{%s}"%NS_MAP["fbc"]+"geneProductAssociation")
     ##dive into GA_tree, building GPR along the way
     group = GA_tree[0]
-    if "operator" not in [element.tag for element in list(group)]:
-        #case 1, single gene
-        etree.SubElement(gpr,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+list(group)[0].text})
-        return gpr
+    if len(list(group))==0:
+		#case 1, single gene
+		etree.SubElement(gpr,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+group.text})
+		return gpr
     else:
         #complex case
         def genHead(booltype):
