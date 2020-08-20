@@ -8,7 +8,7 @@ import sys
 import uuid
 from copy import deepcopy
 
-import pyparsing
+import pyparsing as pp
 import requests
 from lxml import etree
 
@@ -19,8 +19,8 @@ BUILD = True
 CLEAN_DELETION = False
 
 # ## Comment out these two lines for local builds of the model
-DISCORD_ENDPOINT = sys.argv[1] #Discord Webhook endpoint, passed from Travis-CI
-TRAVIS_BUILD_NUMBER = sys.argv[2] #Travis Build Number, passed from Travis-CI
+# DISCORD_ENDPOINT = sys.argv[1] #Discord Webhook endpoint, passed from Travis-CI
+# TRAVIS_BUILD_NUMBER = sys.argv[2] #Travis Build Number, passed from Travis-CI
 
 
 __author__ = "Jake Hattwell"
@@ -311,78 +311,89 @@ etree.SubElement(parameter_tree,"parameter",attrib={"constant":"true","id":"UPPE
 
 # GPR helper functions
 
-def genHead(parent,booltype):
-    #function to generate the and/or xml field
-    if booltype == "or":
-        branch = etree.SubElement(parent,"{%s}"%NS_MAP["fbc"]+"or",attrib={"sboTerm":"SBO:0000174"})
-    else:
-        branch = etree.SubElement(parent,"{%s}"%NS_MAP["fbc"]+"and",attrib={"sboTerm":"SBO:0000173"})
-    return branch
+def process_gene_association(gene_association):
+    """Function that converts a string gene association,
+    then converts it to XML using pyparsing, then reformats that xml
+    into a SBML style geneProductAssociation"""
 
-def parse(parent,my_list):
-    if my_list == []: #handle empty gene associations
-        result =  None
+    if gene_association=='':
         return None
-    while type(my_list) == list and len(my_list) == 1: #whilst there is a single entry in the list, unpack it
-        my_list = my_list[0]
-    if type(my_list) == str: #Handling single genes
-        result = ("single",my_list)
-    else:
-        if any(type(i) == list for i in my_list): #If there are lists (nested Gene associations)
-            for index,item in enumerate(my_list):
-                #unpack
-                if type(item) == list and len(item) == 1:
-                    my_list[index] = item[0]
-            types = None
-            op_type = my_list[1]
-            types = op_type
-            while op_type in my_list:
-                my_list.remove(op_type)
-            for index,item in enumerate(my_list): #start diving down levels
-                if type(item)==list:
-                    op_type=item[1]
-                    while op_type in item:
-                        item.remove(op_type)
-                    for index2,item2 in enumerate(item):
-                        if type(item2)==list:
-                            op_type2=item2[1]
-                            while op_type2 in item2:
-                                item2.remove(op_type2)
-                            item[index2]=(op_type2,item2)
-                    my_list[index] = (op_type,item)
-            result = (types,my_list)
-        else:
-            op_type = my_list[1]
-            while op_type in my_list:
-                my_list.remove(op_type)
-            result = (op_type,my_list)
-    #create the xml tree
-    gpr = etree.SubElement(parent,"{%s}"%NS_MAP["fbc"]+"geneProductAssociation")
-    #simple case
-    if result[0] == 'single':
-        etree.SubElement(gpr,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+result[1]})
-    #No nesting bool
-    elif all(type(i) != tuple for i in result[1]):
-        branch = genHead(gpr,result[0])
-        for i in result[1]:
-            etree.SubElement(branch,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+i})
-    #complex case
-    else:
-        branch = genHead(gpr,result[0])
-        for i in result[1]: #level diving
-            if type(i) == tuple:
-                inner = genHead(branch,i[0])
-                for j in i[1]:
-                    if type(j) == tuple:
-                        inner2 = genHead(branch,j[0])
-                        for k in j[1]:
-                            etree.SubElement(inner2,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+k})
-                    else:
-                        etree.SubElement(inner,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+j})
+    identifier = pp.Word(pp.alphas, pp.alphanums + "_" + ".")("gene")
+    comparison_term = identifier
+    AND_ = pp.Keyword("and")("operator")
+    OR_ = pp.Keyword("or")("operator")
+    NOT_ = pp.Keyword("not")("operator")
+    expr = pp.operatorPrecedence(comparison_term,[
+                                # (NOT_, 1, pp.opAssoc.RIGHT, ),
+                                (AND_, 2, pp.opAssoc.LEFT, ),
+                                (OR_, 2, pp.opAssoc.LEFT, ),
+                                ])
+    #HACK
+    expr.expr.resultsName = "group"
 
+    try:
+        out = expr.parseString(gene_association)
+    except:
+        #GA probably missing, return false to trigger warning
+        return False
+
+
+    text = out.asXML("expression")
+    GA_tree = etree.fromstring(text)
+
+    ##Expression containing group
+    gpr = etree.Element("{%s}"%NS_MAP["fbc"]+"geneProductAssociation")
+    ##dive into GA_tree, building GPR along the way
+    group = GA_tree[0]
+    if "operator" not in [element.tag for element in list(group)]:
+        #case 1, single gene
+        etree.SubElement(gpr,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+list(group)[0].text})
+    else:
+        #complex case
+        def genHead(booltype):
+            #help function to generate the and/or xml field
+            if booltype == "or":
+                branch = etree.Element("{%s}"%NS_MAP["fbc"]+"or",attrib={"sboTerm":"SBO:0000174"})
             else:
-                etree.SubElement(branch,"{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+i[1]})
+                branch = etree.Element("{%s}"%NS_MAP["fbc"]+"and",attrib={"sboTerm":"SBO:0000173"})
+            return branch
+
+        # Recursion explanation for when I inevitably need to reuse this
+
+        # DIVE FUNC START - Accepts Element that has children
+        # Create a list of genes to hold Elements that are generated
+        # Check what operator this group of elements is linked by (AND/OR)
+        # For each element:
+        # 	Check if any child that has an operator tag, indicating that it contains nested children
+        # 	If children with nested:
+        # 		RECURSIVELY move to examining the group of elements belonging to the child 
+        #		Attach the results of the examination to the gene list 
+        # 	Else, if no children have operator children, then this must be the deepest level of this branch:
+        # 		Create elements of each gene and append to gene list
+        # If we are outside of the for loop now, it means that everything deeper than this level is in genelist.
+        # Create an AND/OR element, and add everything in gene list as it's children, and return it
+        
+        def dive(xml_fragment):
+            genes = []
+            operator = [op.text for op in list(xml_fragment) if op.tag=="operator"][0]
+            for element in list(xml_fragment):
+                hits = [child for child in list(element) if child.tag == "operator"]				
+                if len(hits) > 0:
+                    genes.append(dive(element))
+                else:
+                    if element.text not in ['and','or']:
+                        e = etree.Element("{%s}"%NS_MAP["fbc"]+"geneProductRef",attrib={"{%s}"%NS_MAP["fbc"]+"geneProduct":"G_"+element.text})
+                        genes.append(e)
+            
+            op_xml = genHead(operator)
+            for gene in genes:
+                op_xml.append(gene)
+            return op_xml
+
+
+        gpr.append(dive(group))
     return gpr
+#END XML PARSING
 
     ##reaction string handling
 def react_proc(rxn):
@@ -440,17 +451,10 @@ for key,val in compiler.tables.get("Reaction").data.items():
 
     annotation_tree = etree.SubElement(etree.SubElement(etree.SubElement(reaction_field,"annotation"),"{%s}"%NS_MAP["rdf"]+"RDF"),"{%s}"%NS_MAP["rdf"]+"Description",attrib={"{%s}"%NS_MAP["rdf"]+"about":"#"+metaid})
     gen_annotation_tree(annotation_tree, db_dict, val)
-
-    
-    genes = "("+val["!GeneAssociation"]+")"
-    parens = pyparsing.nestedExpr( '(', ')', content=pyparsing.Word(pyparsing.alphanums) | ' or ' | " and " )
-    r = parens.parseString(genes)[0].asList()
-    er = deepcopy(r)
     try:
-        parse(reaction_field,r)
+        reaction_field.append(process_gene_association(val["!GeneAssociation"]))
     except Exception as e:
-        print(key,er)
-        print(e)
+        pass
     
     reactants,products = react_proc(val["!ReactionFormula"])
     if "" not in reactants:
