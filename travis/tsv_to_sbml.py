@@ -97,36 +97,6 @@ if settings["dbtable"]:
 else:
     db_dict = {}
 
-try:
-    assert len(metabolite_validation) == 0, "Missing metabolites"
-except:
-    text = "Reaction: Missing Metabolites"
-    for key,val in metabolite_validation.items():
-        text += "\n"+key+": " + ", ".join(val)
-    payload_json = {
-        "embeds": [{
-            "title": "WormJam CI Report",
-            "color": 10027008,
-            "description": "Missing Metabolites - Build aborted",
-            "fields":[
-                {
-                    "name": "Build Number",
-                    "value":str(TRAVIS_BUILD_NUMBER)
-                },
-                {
-                    "name":"Notes",
-                    "value":text
-                }
-            ],
-            "thumbnail": {
-                "url": "https://travis-ci.com/images/logos/Tessa-1.png"
-            },
-            "timestamp": str(datetime.datetime.now().isoformat())
-        }]
-    }
-    r =requests.post(DISCORD_ENDPOINT,data=json.dumps(payload_json), headers={"Content-Type": "application/json"})
-    exit(1)
-
 #only include genes that are involved in regulation of reactions in the SBML model
 active_gene_list = []
 for key,val in compiler.tables.get("Reaction").data.items():
