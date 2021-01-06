@@ -53,22 +53,22 @@ def gen_annotation_tree(parent, db_dict, data):
     annotated_dbs = [db.split(":")[1] for db in data.keys() if "!Identifiers" in db and data[db] != ""]
     db_types = [check_db_type(db_dict,db) for db in annotated_dbs]
     # create bqbiol:type -> rdf:bag -> rdf:li elements 
-    bqbiol_is_and_rdf_bag = None
-    bqbiol_occurs_in_and_rdf_bag = None
+    bqbiol_is_and_rdf_bag = False
+    bqbiol_occurs_in_and_rdf_bag = False
     if "Is" in db_types:
         bqbiol_is_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag")
     # if "In" in db_types: (Reuse this when introducing stricter typing)
     else:
         bqbiol_occurs_in_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"isPartOf"),"{%s}"%NS_MAP["rdf"]+"Bag")
-
-    #annotate to the correct bag
-    for db in annotated_dbs:
-        if check_db_type(db_dict,db) == "Is":
-            for identifier in data["!Identifiers:"+db].split("|"):
-                etree.SubElement(bqbiol_is_and_rdf_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":annotate(db_dict,db)+":"+identifier})
-        else:
-            for identifier in data["!Identifiers:"+db].split("|"): 
-                etree.SubElement(bqbiol_occurs_in_and_rdf_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":annotate(db_dict,db)+":"+identifier})
+    if (bqbiol_is_and_rdf_bag or bqbiol_occurs_in_and_rdf_bag):
+        #annotate to the correct bag
+        for db in annotated_dbs:
+            if check_db_type(db_dict,db) == "Is":
+                for identifier in data["!Identifiers:"+db].split("|"):
+                    etree.SubElement(bqbiol_is_and_rdf_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":annotate(db_dict,db)+":"+identifier})
+            else:
+                for identifier in data["!Identifiers:"+db].split("|"): 
+                    etree.SubElement(bqbiol_occurs_in_and_rdf_bag,"{%s}"%NS_MAP["rdf"]+"li",attrib={"{%s}"%NS_MAP["rdf"]+"resource":annotate(db_dict,db)+":"+identifier})
 
 
 
