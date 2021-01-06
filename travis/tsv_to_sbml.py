@@ -1,15 +1,9 @@
 #!/usr/bin/env python
 
-import csv
-import datetime
 import json
-import os
-import sys
 import uuid
-from copy import deepcopy
 
 import pyparsing as pp
-import requests
 from lxml import etree
 
 from helper_classes import ModelSystem
@@ -17,11 +11,6 @@ from helper_classes import ModelSystem
 OUTPUT_NAME = "WormJam.xml"
 BUILD = True
 CLEAN_DELETION = False
-
-# ## Comment out these two lines for local builds of the model
-# DISCORD_ENDPOINT = sys.argv[1] #Discord Webhook endpoint, passed from Travis-CI
-# TRAVIS_BUILD_NUMBER = sys.argv[2] #Travis Build Number, passed from Travis-CI
-
 
 __author__ = "Jake Hattwell"
 __copyright__ = "None"
@@ -64,9 +53,12 @@ def gen_annotation_tree(parent, db_dict, data):
     annotated_dbs = [db.split(":")[1] for db in data.keys() if "!Identifiers" in db and data[db] != ""]
     db_types = [check_db_type(db_dict,db) for db in annotated_dbs]
     # create bqbiol:type -> rdf:bag -> rdf:li elements 
+    bqbiol_is_and_rdf_bag = None
+    bqbiol_occurs_in_and_rdf_bag = None
     if "Is" in db_types:
         bqbiol_is_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"is"),"{%s}"%NS_MAP["rdf"]+"Bag")
-    if "In" in db_types:
+    # if "In" in db_types: (Reuse this when introducing stricter typing)
+    else:
         bqbiol_occurs_in_and_rdf_bag = etree.SubElement(etree.SubElement(parent,"{%s}"%NS_MAP["bqbiol"]+"isPartOf"),"{%s}"%NS_MAP["rdf"]+"Bag")
 
     #annotate to the correct bag
@@ -117,8 +109,6 @@ print(len(active_gene_list))
 ##
 ######################
 ######################
-if BUILD:
-    output_model = open(OUTPUT_NAME,"wb")
 
 #define xml namespaces for inclusion
 NS_MAP = {
@@ -447,5 +437,6 @@ for key,val in compiler.tables.get("Reaction").data.items():
 ######################
 ######################
 if BUILD:
+    output_model = open(OUTPUT_NAME,"wb")
     output_model.write(etree.tostring(sbml,encoding="UTF-8",standalone=False,xml_declaration=True,pretty_print=True))
     output_model.close()
