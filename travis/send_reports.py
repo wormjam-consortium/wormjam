@@ -4,7 +4,6 @@ import os
 import requests
 import datetime
 
-print(sys.argv)
 
 DISCORD_ENDPOINT = sys.argv[1]
 DISCORD_ENDPOINT_2 = sys.argv[2]
