@@ -51,7 +51,7 @@ jobs:
         pip install -r requirements.txt
     - name: Initial build
       run:
-        python travis/tsv_to_sbml.py
+        python .github/tests/tsv_to_sbml.py
   Model_Benchmark:
     runs-on: ubuntu-latest
     strategy:
@@ -74,8 +74,8 @@ jobs:
         DISCORD_WEBHOOK_MERGE: ${{ secrets.DISCORD_WEBHOOK_MERGE}}
         DISCORD_WEBHOOK_MODEL: ${{ secrets.DISCORD_WEBHOOK_MODEL}}
       run: |
-        python travis/tsv_to_sbml.py
-        python travis/run_memote.py
-        python travis/result_web_gen.py
+        python .github/tests/tsv_to_sbml.py
+        python .github/tests/run_memote.py
+        python .github/tests/result_web_gen.py
         tar -czvf WormJam.tar.gz WormJam.xml
-        python travis/send_reports.py "$DISCORD_WEBHOOK_MERGE" "$DISCORD_WEBHOOK_MODEL" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY
+        python .github/tests/send_reports.py "$DISCORD_WEBHOOK_MERGE" "$DISCORD_WEBHOOK_MODEL" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY
