@@ -6,9 +6,9 @@ import datetime
 
 DISCORD_ENDPOINT = sys.argv[1]
 DISCORD_ENDPOINT_2 = sys.argv[2]
-TRAVIS_BUILD_NUMBER = sys.argv[3]
-TRAVIS_BUILD_WEB_URL = sys.argv[4]
-TRAVIS_REPO_SLUG = sys.argv[5]
+TRAVIS_BUILD_NUMBER = sys.argv[3] #Github counter
+TRAVIS_BUILD_WEB_URL = sys.argv[4] #github unique run ID used for link construction
+TRAVIS_REPO_SLUG = sys.argv[5] #user/repo
 
 timestamp = datetime.datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 filename = "WormJam"+timestamp+".tar.gz"
@@ -27,7 +27,7 @@ payload_json = {
             },
             {
                 "name":"Build logs",
-                "value":"Logs can be found [here]("+TRAVIS_BUILD_WEB_URL+")"
+                "value":"Logs can be found [here](https://github.com/%s/actions/runs/%s)"%(TRAVIS_REPO_SLUG,TRAVIS_BUILD_WEB_URL)
             }
         ],
         "thumbnail": {

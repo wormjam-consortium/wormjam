@@ -74,3 +74,5 @@ jobs:
         python travis/tsv_to_sbml.py
         python travis/run_memote.py
         python travis/result_web_gen.py
+        tar -czvf WormJam.tar.gz WormJam.xml
+        python travis/send_reports.py $DISCORD_WEBHOOK_MERGE $DISCORD_WEBHOOK_MODEL $GITHUB_RUN_NUMBER $GITHUB_RUN_ID #GITHUB_REPOSITORY
