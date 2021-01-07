@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
 import json
+import sys
 import uuid
-
+from pathlib import Path
 import pyparsing as pp
 from lxml import etree
 
@@ -74,7 +75,8 @@ def gen_annotation_tree(parent, db_dict, data):
 
 ## Load settings
 print("Build model is set to",BUILD)
-settings = json.load(open("travis/settings.json","r"))["pipeline"]
+settings_path = Path(".github") / "tests" / "settings.json"
+settings = json.load(open(settings_path,"r"))["pipeline"]
 
     
 
