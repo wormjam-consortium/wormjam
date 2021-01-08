@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from bs4 import BeautifulSoup
 
 from json2html import *
@@ -10,7 +11,8 @@ meta = data["meta"]
 tests = data["tests"]
 meta_html = json2html.convert(json=meta)
 test_keys = list(tests.keys())
-settings = json.load(open("travis/settings.json","r"))["pipeline"]
+settings_path = Path(".github") / "tests" / "settings.json"
+settings = json.load(open(settings_path,"r"))["pipeline"]
 
 ###Templates 
 collapsible_template = """<div class="card">
