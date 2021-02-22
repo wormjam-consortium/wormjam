@@ -93,6 +93,8 @@ jobs:
       run: |
         python .github/tests/tsv_to_sbml.py
         python .github/tests/run_memote.py
+    - name: Report to Discord server
+      run: |
         python .github/tests/result_web_gen.py
         tar -czvf WormJam.tar.gz WormJam.xml
         python .github/tests/send_reports.py "$DISCORD_WEBHOOK_MERGE" "$DISCORD_WEBHOOK_MODEL" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY
