@@ -71,7 +71,7 @@ jobs:
     env: 
       DISCORD_WEBHOOK_MERGE: ${{ secrets.DISCORD_WEBHOOK_MERGE}}
       DISCORD_WEBHOOK_MODEL: ${{ secrets.DISCORD_WEBHOOK_MODEL}}
-    needs: Test_Build
+    needs: [Lint_Compliance,Test_Build]
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -22,7 +22,6 @@ __maintainer__ = "Jake Hattwell"
 __email__ = "j.hattwell@uq.edu.au"
 __status__ = "Live"
 
-print(fail)
 ######################
 ######################
 ##
