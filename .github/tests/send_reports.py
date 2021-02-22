@@ -1,26 +1,29 @@
 import json
 import sys
-import os
 import requests
 import datetime
 
 
-DISCORD_ENDPOINT = sys.argv[1]
-DISCORD_ENDPOINT_2 = sys.argv[2]
-GITHUB_BUILD_NUMBER = sys.argv[3]  # Github counter
+DISCORD_ENDPOINT = sys.argv[1] #Github Actions Channel Webhook
+DISCORD_ENDPOINT_2 = sys.argv[2] # Model Uploads Channel Webhook
+GITHUB_BUILD_NUMBER = sys.argv[3]  # Github build counter
 GITHUB_BUILD_WEB_URL = sys.argv[4]  # github unique run ID used for link construction
 GITHUB_REPO_SLUG = sys.argv[5]  # user/repo
 
 timestamp = datetime.datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 filename = "WormJam" + timestamp + ".tar.gz"
 
-files = {"Report.html": open("Report.html", "rb")}
-files2 = {filename: open("WormJam.tar.gz", "rb")}
+#prepare files for sending
+report_file = {"Report.html": open("Report.html", "rb")}
+packaged_model_file = {filename: open("WormJam.tar.gz", "rb")}
+
+#construct embed to send to discord
+#This embed is used for both messages
 payload_json = {
     "embeds": [
         {
             "title": "WormJam CI Report",
-            "color": 16709211,
+            "color": 2132223, #this is github action colour
             "description": "Model Build from [%s](%s)"
             % (GITHUB_REPO_SLUG, "https://github.com/" + GITHUB_REPO_SLUG),
             "fields": [
@@ -32,24 +35,25 @@ payload_json = {
                 },
             ],
             "thumbnail": {
-                "url": "https://avatars1.githubusercontent.com/u/44036562?s=280&v=4"
+                "url": "https://avatars1.githubusercontent.com/u/44036562?s=280&v=4" #github actions logo
             },
             "timestamp": str(datetime.datetime.now().isoformat()),
         }
     ]
 }
-
+#Send the report
 r = requests.post(
     DISCORD_ENDPOINT,
     data=json.dumps(payload_json),
     headers={"Content-Type": "application/json"},
 )
-r2 = requests.post(DISCORD_ENDPOINT, files=files)
+r2 = requests.post(DISCORD_ENDPOINT, files=report_file)
 print(r, r2)
+#send the model
 r3 = requests.post(
     DISCORD_ENDPOINT_2,
     data=json.dumps(payload_json),
     headers={"Content-Type": "application/json"},
 )
-r4 = requests.post(DISCORD_ENDPOINT_2, files=files2)
+r4 = requests.post(DISCORD_ENDPOINT_2, files=packaged_model_file)
 print(r3, r4)
