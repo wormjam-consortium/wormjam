@@ -1,4 +1,4 @@
-name: Model Benchmark
+name: Model Build and Test
 
 on: 
   push:

@@ -2,7 +2,7 @@
 
 Repository containing the general release of the WormJam genome scale model of *C. elegans* as well as utility scripts.
 
-[![Build Status](https://travis-ci.com/wormjam-consortium/wormjam.svg?branch=devel)](https://travis-ci.com/github/wormjam-consortium/wormjam)
+![Build Status](https://github.com/JakeHattwell/WormJam/actions/workflows/model_builder.yml/badge.svg?branch=devel)
 
 [Visit the accompanying website](https://wormjam.life)
 
