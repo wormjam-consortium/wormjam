@@ -3,6 +3,7 @@ name: Model Benchmark
 on: 
   push:
     branches:
+    - master
     - devel
 
 jobs:
@@ -38,7 +39,7 @@ jobs:
     - name: Failure handler
       if: ${{ failure() }}
       run:
-        python .github/tests/failure_reporter.py "$DISCORD_WEBHOOK_MERGE" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY
+        python .github/tests/failure_reporter.py "$DISCORD_WEBHOOK_MERGE" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY $GITHUB_REF
   Test_Build:
     env: 
       DISCORD_WEBHOOK_MERGE: ${{ secrets.DISCORD_WEBHOOK_MERGE}}
@@ -66,7 +67,7 @@ jobs:
     - name: Failure handler
       if: ${{ failure() }}
       run:
-        python .github/tests/failure_reporter.py "$DISCORD_WEBHOOK_MERGE" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY
+        python .github/tests/failure_reporter.py "$DISCORD_WEBHOOK_MERGE" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY $GITHUB_REF
   Model_Benchmark:
     env: 
       DISCORD_WEBHOOK_MERGE: ${{ secrets.DISCORD_WEBHOOK_MERGE}}
@@ -97,8 +98,8 @@ jobs:
       run: |
         python .github/tests/result_web_gen.py
         tar -czvf WormJam.tar.gz WormJam.xml
-        python .github/tests/send_reports.py "$DISCORD_WEBHOOK_MERGE" "$DISCORD_WEBHOOK_MODEL" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY
+        python .github/tests/send_reports.py "$DISCORD_WEBHOOK_MERGE" "$DISCORD_WEBHOOK_MODEL" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY $GITHUB_REF
     - name: Failure handler
       if: ${{ failure() }}
       run:
-        python .github/tests/failure_reporter.py "$DISCORD_WEBHOOK_MERGE" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY
+        python .github/tests/failure_reporter.py "$DISCORD_WEBHOOK_MERGE" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY $GITHUB_REF

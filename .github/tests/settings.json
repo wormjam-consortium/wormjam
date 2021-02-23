@@ -3,6 +3,6 @@
         "name": "WormJam",
         "organism": "Caenorhabditis elegans",
         "short name": "C. elegans",
-        "dbtable": "True"
+        "dbtable": true
     }
 }

@@ -9,6 +9,7 @@ DISCORD_ENDPOINT_2 = sys.argv[2] # Model Uploads Channel Webhook
 GITHUB_BUILD_NUMBER = sys.argv[3]  # Github build counter
 GITHUB_BUILD_WEB_URL = sys.argv[4]  # github unique run ID used for link construction
 GITHUB_REPO_SLUG = sys.argv[5]  # user/repo
+GITHUB_REPO_BRANCH = sys.argv[6].split("/")[-1] #branch - process the string and grab the last term
 
 timestamp = datetime.datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 filename = "WormJam" + timestamp + ".tar.gz"
@@ -24,8 +25,8 @@ payload_json = {
         {
             "title": "WormJam CI Report",
             "color": 2132223, #this is github action colour
-            "description": "Model Build from [%s](%s)"
-            % (GITHUB_REPO_SLUG, "https://github.com/" + GITHUB_REPO_SLUG),
+            "description": "Model Build from [%s](%s) on branch %s"
+            % (GITHUB_REPO_SLUG, "https://github.com/" + GITHUB_REPO_SLUG,GITHUB_REPO_BRANCH),
             "fields": [
                 {"name": "Build Number", "value": str(GITHUB_BUILD_NUMBER)},
                 {
