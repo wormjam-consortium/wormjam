@@ -1,4 +1,5 @@
 # WormJam
+
 [![DOI](https://zenodo.org/badge/158399164.svg)](https://zenodo.org/badge/latestdoi/158399164) [![GitHub license](https://img.shields.io/github/license/wormjam-consortium/wormjam)](https://github.com/wormjam-consortium/wormjam/blob/master/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues/wormjam-consortium/wormjam)](https://github.com/wormjam-consortium/wormjam/issues)
 
 ![Core Build Status](https://github.com/WormJam-Consortium/WormJam/actions/workflows/master_branch.yml/badge.svg) ![Dev Build Status](https://github.com/WormJam-Consortium/WormJam/actions/workflows/devel_branch.yml/badge.svg)  
