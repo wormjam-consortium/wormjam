@@ -1,4 +1,4 @@
-name: Dev Model
+name: Dev Version
 
 on: 
   push:
