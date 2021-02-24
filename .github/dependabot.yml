@@ -10,4 +10,5 @@ updates:
       # Check for  updates on Sundays
       day: "sunday"
     target-branch: "devel"
-    labels: "pip-requirements"
+    labels: 
+      - "pip-requirements"
