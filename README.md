@@ -1,13 +1,15 @@
 # WormJam
+[![DOI](https://zenodo.org/badge/158399164.svg)](https://zenodo.org/badge/latestdoi/158399164) [![GitHub license](https://img.shields.io/github/license/wormjam-consortium/wormjam)](https://github.com/wormjam-consortium/wormjam/blob/master/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues/wormjam-consortium/wormjam)](https://github.com/wormjam-consortium/wormjam/issues)
 
-Repository containing the general release of the WormJam genome scale model of *C. elegans* as well as utility scripts.
+![Core Build Status](https://github.com/WormJam-Consortium/WormJam/actions/workflows/master_branch.yml/badge.svg?branch=devel) ![Dev Build Status](https://github.com/WormJam-Consortium/WormJam/actions/workflows/devel_branch.yml/badge.svg?branch=devel)  
 
-[![Build Status](https://travis-ci.com/JakeHattwell/wormjam.svg?branch=devel)](https://travis-ci.com/JakeHattwell/wormjam)
+**Development branches of the WormJam model should not be used for research purposes. Please ensure you are using the master branch of [this repository](https://github.com/WormJam-Consortium/WormJam) for the stable model.**
 
-[Visit the accompanying website](https://gh.wormjam.life)
 
-[Join our Google Group here!](https://groups.google.com/forum/#!forum/wormjam)
+This is a repository containing the general release of the WormJam genome scale model of *C. elegans* as well as the ContInGEMC curation framework.
 
-[Download the current release of the WormJam model here](https://github.com/JakeHattwell/wormjam/raw/master/sbml/WormJam_2018_12_13.xml)
 
-More details coming soon!
+### Other links
+* [Visit the accompanying website](https://wormjam.life)
+* [Join our Google Group here!](https://groups.google.com/forum/#!forum/wormjam)
+* [Download the current release of the WormJam model from Zenodo](https://zenodo.org/record/3978712)

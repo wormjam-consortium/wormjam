@@ -1,7 +1,0 @@
-!!SBtab SbtabVersion='1.0' TableType='Compartment' TableName='WormJam compartments'
-!ID	!Name	!Identifiers:go	!Comment
-c	Cytosol	GO:0005829	
-e	Extracellular	GO:0005576	This mix the extracellular and extra-organism compartments
-m	Mitochondrion	GO:0005739	
-n	Nucleus	GO:0005634	
-i	Mitochondrial Inner Membrane	GO:0005759	Added to segregate hydrogen for ATP production
