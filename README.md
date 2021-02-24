@@ -6,7 +6,7 @@
 **Development branches of the WormJam model should not be used for research purposes. Please ensure you are using the master branch of [this repository](https://github.com/WormJam-Consortium/WormJam) for the stable model.**
 
 
-This is a repository containing the general release of the WormJam genome scale model of *C. elegans* as well as the ContInGEMC curation framework.
+This is a repository containing the general release of the WormJam genome-scale metabolic model of *C. elegans* and the ContInGEMC curation framework.
 
 
 ### Other links
