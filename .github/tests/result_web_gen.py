@@ -1,18 +1,19 @@
 import json
+from pathlib import Path
 from bs4 import BeautifulSoup
 
 from json2html import *
 
 
-
-data = json.load(open("results.json","r"))
+data = json.load(open("results.json", "r"))
 meta = data["meta"]
 tests = data["tests"]
 meta_html = json2html.convert(json=meta)
 test_keys = list(tests.keys())
-settings = json.load(open("travis/settings.json","r"))["pipeline"]
+settings_path = Path(".github") / "tests" / "settings.json"
+settings = json.load(open(settings_path, "r"))["pipeline"]
 
-###Templates 
+###Templates
 collapsible_template = """<div class="card">
     <div class="card-header" id="{0}">
       <h2 class="mb-0">
@@ -33,13 +34,32 @@ toc_template = """<li><a href="#{0}">{1}</a></li>"""
 collapsible_insert = ""
 toc_insert = ""
 for test in test_keys:
-	toc_insert += toc_template.format(test,test.replace("test","").replace("_"," ").title().replace("Ids","IDs").replace("Id ","ID "))+"\n"
-	collapsible_insert += collapsible_template.format(test,test.replace("test","").replace("_"," ").title().replace("Ids","IDs").replace("Id ","ID "),json2html.convert(json=tests[test]))+"\n"
+    toc_insert += (
+        toc_template.format(
+            test,
+            test.replace("test", "")
+            .replace("_", " ")
+            .title()
+            .replace("Ids", "IDs")
+            .replace("Id ", "ID "),
+        )
+        + "\n"
+    )
+    collapsible_insert += (
+        collapsible_template.format(
+            test,
+            test.replace("test", "")
+            .replace("_", " ")
+            .title()
+            .replace("Ids", "IDs")
+            .replace("Id ", "ID "),
+            json2html.convert(json=tests[test]),
+        )
+        + "\n"
+    )
 
 
-
-
-#double curly brackets for escaping string formatting
+# double curly brackets for escaping string formatting
 blob = f"""<html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
@@ -149,11 +169,14 @@ $(document).ready(function(){{
 </body>
 </html>"""
 
-blob = blob.replace("""<table border="1">""","""<table class="table table-sm table-bordered table-responsive">""")
-blob = blob.replace("""failed""","""failed <i class="fas fa-times-circle"></i>""")
-blob = blob.replace("""passed""","""passed <i class="fas fa-check-circle"></i>""")
+blob = blob.replace(
+    """<table border="1">""",
+    """<table class="table table-sm table-bordered table-responsive">""",
+)
+blob = blob.replace("""failed""", """failed <i class="fas fa-times-circle"></i>""")
+blob = blob.replace("""passed""", """passed <i class="fas fa-check-circle"></i>""")
 
-soup = BeautifulSoup(blob,features="lxml")
+soup = BeautifulSoup(blob, features="lxml")
 
-with open("Report.html","w+",encoding="utf-8") as f:
-	f.write(soup.prettify(formatter="html5"))
+with open("Report.html", "w+", encoding="utf-8") as f:
+    f.write(soup.prettify(formatter="html5"))
