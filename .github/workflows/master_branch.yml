@@ -3,7 +3,7 @@ name: Core Version
 on: 
   push:
     branches:
-    - master
+      - master
 
 jobs:
   Lint_Compliance:

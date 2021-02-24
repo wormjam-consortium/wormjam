@@ -3,7 +3,7 @@ name: Dev Model
 on: 
   push:
     branches:
-    - devel
+      - devel
 
 jobs:
   Lint_Compliance:
