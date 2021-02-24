@@ -1,6 +1,0 @@
-!!SBtab SbtabVersion='1.0' TableType='Compartment' TableName='WormJam compartments'
-!ID	!Name	!Identifiers:go	!Comment
-cytosol	cytosol	Cytosol	GO:0005829	
-extracellular	extracellular	Extracellular	GO:0005576	This mix the extracellular and extra-organism compartments
-mitochondrion	mitochondrion	Mitochondrion	GO:0005739	
-nucleus	nucleus	Nucleus	GO:0005634	
