@@ -1,9 +1,8 @@
-name: Model Build and Test
+name: Dev Model
 
 on: 
   push:
     branches:
-    - master
     - devel
 
 jobs:
