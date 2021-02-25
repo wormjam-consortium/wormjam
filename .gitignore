@@ -4,5 +4,6 @@
 .Ruserdata
 .Rproj
 .bridge
-*/__pycache__
+.vscode
+*.pyc
 pipfile
