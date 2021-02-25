@@ -7,7 +7,11 @@ from pathlib import Path
 import pyparsing as pp
 from lxml import etree
 
-from helper_classes import ModelSystem
+#debugging
+from xml.etree import ElementTree
+
+from support.helper_classes import ModelSystem
+from support.annotation import gen_annotation_tree
 
 OUTPUT_NAME = "WormJam.xml"
 BUILD = True
@@ -34,73 +38,6 @@ __status__ = "Live"
 def genID():
     ##UUID generator
     return str(uuid.uuid4()).replace("-", "_")
-
-
-def annotate(db_dict, ref):
-    """Function to access reference links, and handle when those links are not in DB table"""
-    if ref in db_dict:
-        return db_dict[ref]["!IdentifiersOrgPrefix"]
-    else:
-        return "https://identifiers.org/" + ref
-
-
-def check_db_type(db_dict, ref):
-    """Function to access reference links, and handle when those links are not in DB table"""
-    if ref in db_dict:
-        return db_dict[ref]["!IsOrIn"]
-    else:
-        return "Is"
-
-
-def gen_annotation_tree(parent, db_dict, data):
-    # get a list of which DBs are annotated for this entry, as well as what type of DB they are
-    annotated_dbs = [
-        db.split(":")[1]
-        for db in data.keys()
-        if "!Identifiers" in db and data[db] != ""
-    ]
-    db_types = [check_db_type(db_dict, db) for db in annotated_dbs]
-    # create bqbiol:type -> rdf:bag -> rdf:li elements
-    bqbiol_is_and_rdf_bag = False
-    bqbiol_occurs_in_and_rdf_bag = False
-    if "Is" in db_types:
-        bqbiol_is_and_rdf_bag = etree.SubElement(
-            etree.SubElement(parent, "{%s}" % NS_MAP["bqbiol"] + "is"),
-            "{%s}" % NS_MAP["rdf"] + "Bag",
-        )
-    # if "In" in db_types: (Reuse this when introducing stricter typing)
-    else:
-        bqbiol_occurs_in_and_rdf_bag = etree.SubElement(
-            etree.SubElement(parent, "{%s}" % NS_MAP["bqbiol"] + "isPartOf"),
-            "{%s}" % NS_MAP["rdf"] + "Bag",
-        )
-    if bqbiol_is_and_rdf_bag or bqbiol_occurs_in_and_rdf_bag:
-        # annotate to the correct bag
-        for db in annotated_dbs:
-            if check_db_type(db_dict, db) == "Is":
-                for identifier in data["!Identifiers:" + db].split("|"):
-                    etree.SubElement(
-                        bqbiol_is_and_rdf_bag,
-                        "{%s}" % NS_MAP["rdf"] + "li",
-                        attrib={
-                            "{%s}" % NS_MAP["rdf"]
-                            + "resource": annotate(db_dict, db)
-                            + ":"
-                            + identifier
-                        },
-                    )
-            else:
-                for identifier in data["!Identifiers:" + db].split("|"):
-                    etree.SubElement(
-                        bqbiol_occurs_in_and_rdf_bag,
-                        "{%s}" % NS_MAP["rdf"] + "li",
-                        attrib={
-                            "{%s}" % NS_MAP["rdf"]
-                            + "resource": annotate(db_dict, db)
-                            + ":"
-                            + identifier
-                        },
-                    )
 
 
 ## Load settings
@@ -143,7 +80,7 @@ print(len(active_gene_list))
 ######################
 ######################
 
-# define xml namespaces for inclusion
+# define standard xml namespaces for inclusion
 NS_MAP = {
     "fbc": "http://www.sbml.org/sbml/level3/version1/fbc/version2",
     "groups": "http://www.sbml.org/sbml/level3/version1/groups/version1",
@@ -267,14 +204,7 @@ for key, val in compiler.tables.get("Gene").data.items():
             "{%s}" % NS_MAP["fbc"] + "geneProduct",
             attrib=attribs,
         )
-        annotation = etree.SubElement(fbc_gene_prod, "annotation")
-        rdf_RDF = etree.SubElement(annotation, "{%s}" % NS_MAP["rdf"] + "RDF")
-        rdf_desc = etree.SubElement(
-            rdf_RDF,
-            "{%s}" % NS_MAP["rdf"] + "Description",
-            attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + attribs["metaid"]},
-        )
-        gen_annotation_tree(rdf_desc, db_dict, val)
+        fbc_gene_prod.append(gen_annotation_tree(attribs["metaid"], db_dict, val, NS_MAP))
 
 #
 # Pathways
@@ -291,14 +221,7 @@ for key, val in compiler.tables.get("Pathway").data.items():
     groups_group = etree.SubElement(
         model_listOfGroups, "{%s}" % NS_MAP["groups"] + "group", attrib=attribs
     )
-    g_annotation = etree.SubElement(groups_group, "annotation")
-    g_rdf_desc = etree.SubElement(
-        etree.SubElement(g_annotation, "{%s}" % NS_MAP["rdf"] + "RDF"),
-        "{%s}" % NS_MAP["rdf"] + "Description",
-        attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + attribs["metaid"]},
-    )
-    # annotate
-    gen_annotation_tree(g_rdf_desc, db_dict, val)
+    groups_group.append(gen_annotation_tree(attribs["metaid"], db_dict, val, NS_MAP))
     # insert group members
     g_listOfMembers = etree.SubElement(
         groups_group, "{%s}" % NS_MAP["groups"] + "listOfMembers"
@@ -340,14 +263,7 @@ for key, val in compiler.tables.get("Compartment").data.items():
         },
     )
 
-    annotation = etree.SubElement(compartment, "annotation")
-    cmpt_rdf_desc = etree.SubElement(
-        etree.SubElement(annotation, "{%s}" % NS_MAP["rdf"] + "RDF"),
-        "{%s}" % NS_MAP["rdf"] + "Description",
-        attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
-    )
-    # annotate
-    gen_annotation_tree(cmpt_rdf_desc, db_dict, val)
+    compartment.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
 
 #
 # Species
@@ -387,14 +303,8 @@ for key, val in compiler.tables.get("Compound").data.items():
             etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = (
                 i.replace("!", "").replace("Notes:", "").upper() + ": " + val[i]
             )
-    annotation_tree = etree.SubElement(
-        etree.SubElement(
-            etree.SubElement(metabolite, "annotation"), "{%s}" % NS_MAP["rdf"] + "RDF"
-        ),
-        "{%s}" % NS_MAP["rdf"] + "Description",
-        attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
-    )
-    gen_annotation_tree(annotation_tree, db_dict, val)
+    metabolite.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
+
 
 #
 # Parameters
@@ -617,15 +527,7 @@ for key, val in compiler.tables.get("Reaction").data.items():
                 + val[i]
             )
 
-    annotation_tree = etree.SubElement(
-        etree.SubElement(
-            etree.SubElement(reaction_field, "annotation"),
-            "{%s}" % NS_MAP["rdf"] + "RDF",
-        ),
-        "{%s}" % NS_MAP["rdf"] + "Description",
-        attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
-    )
-    gen_annotation_tree(annotation_tree, db_dict, val)
+    reaction_field.append(gen_annotation_tree(metaid,db_dict,val,NS_MAP))
     try:
         reaction_field.append(process_gene_association(val["!GeneAssociation"]))
     except Exception as e:
