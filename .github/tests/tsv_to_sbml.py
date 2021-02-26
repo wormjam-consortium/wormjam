@@ -7,7 +7,7 @@ from pathlib import Path
 import pyparsing as pp
 from lxml import etree
 
-#debugging
+# debugging
 from xml.etree import ElementTree
 
 from support.helper_classes import ModelSystem
@@ -204,7 +204,9 @@ for key, val in compiler.tables.get("Gene").data.items():
             "{%s}" % NS_MAP["fbc"] + "geneProduct",
             attrib=attribs,
         )
-        fbc_gene_prod.append(gen_annotation_tree(attribs["metaid"], db_dict, val, NS_MAP))
+        fbc_gene_prod.append(
+            gen_annotation_tree(attribs["metaid"], db_dict, val, NS_MAP)
+        )
 
 #
 # Pathways
@@ -527,7 +529,7 @@ for key, val in compiler.tables.get("Reaction").data.items():
                 + val[i]
             )
 
-    reaction_field.append(gen_annotation_tree(metaid,db_dict,val,NS_MAP))
+    reaction_field.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
     try:
         reaction_field.append(process_gene_association(val["!GeneAssociation"]))
     except Exception as e:
