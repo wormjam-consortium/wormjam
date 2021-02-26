@@ -1,14 +1,15 @@
 from lxml import etree
 
-#debugging
+# debugging
 from xml.etree import ElementTree
 
-#if no database SBtab, then db_dict is an empty dict
+# if no database SBtab, then db_dict is an empty dict
+
 
 def _annotate(db_dict, ref):
     """Function to access reference links, and handle when those links are not in DB table
-	
-	Takes a dict of databases and a database name"""
+
+    Takes a dict of databases and a database name"""
     if ref in db_dict:
         return db_dict[ref]["!IdentifiersOrgPrefix"]
     else:
@@ -26,11 +27,9 @@ def _check_db_type(db_dict, ref):
 def gen_annotation_tree(metaid, db_dict, data, NS_MAP):
 
     annotation_tree = etree.SubElement(
-    etree.SubElement(
-        etree.Element("annotation"), "{%s}" % NS_MAP["rdf"] + "RDF"
-    ),
-    "{%s}" % NS_MAP["rdf"] + "Description",
-    attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
+        etree.SubElement(etree.Element("annotation"), "{%s}" % NS_MAP["rdf"] + "RDF"),
+        "{%s}" % NS_MAP["rdf"] + "Description",
+        attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
     )
     # get a list of which DBs are annotated for this entry, as well as what type of DB they are
     annotated_dbs = [
