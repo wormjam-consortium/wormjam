@@ -26,8 +26,9 @@ def _check_db_type(db_dict, ref):
 
 def gen_annotation_tree(metaid, db_dict, data, NS_MAP):
 
-    annotation_tree = etree.SubElement(
-        etree.SubElement(etree.Element("annotation"), "{%s}" % NS_MAP["rdf"] + "RDF"),
+    annotation_tree = etree.Element("annotation")
+    
+    description = etree.SubElement(etree.SubElement(annotation_tree, "{%s}" % NS_MAP["rdf"] + "RDF"),
         "{%s}" % NS_MAP["rdf"] + "Description",
         attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
     )
@@ -45,12 +46,12 @@ def gen_annotation_tree(metaid, db_dict, data, NS_MAP):
     bqbiol_occurs_in_and_rdf_bag = False
     if "Is" in db_types:
         bqbiol_is_and_rdf_bag = etree.SubElement(
-            etree.SubElement(annotation_tree, "{%s}" % NS_MAP["bqbiol"] + "is"),
+            etree.SubElement(description, "{%s}" % NS_MAP["bqbiol"] + "is"),
             "{%s}" % NS_MAP["rdf"] + "Bag",
         )
     if "In" in db_types:
         bqbiol_occurs_in_and_rdf_bag = etree.SubElement(
-            etree.SubElement(annotation_tree, "{%s}" % NS_MAP["bqbiol"] + "isPartOf"),
+            etree.SubElement(description, "{%s}" % NS_MAP["bqbiol"] + "isPartOf"),
             "{%s}" % NS_MAP["rdf"] + "Bag",
         )
     for db in annotated_dbs:
