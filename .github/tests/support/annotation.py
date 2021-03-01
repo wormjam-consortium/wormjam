@@ -26,8 +26,9 @@ def _check_db_type(db_dict, ref):
 
 def gen_annotation_tree(metaid, db_dict, data, NS_MAP):
 
-    annotation_tree = etree.SubElement(
-        etree.SubElement(etree.Element("annotation"), "{%s}" % NS_MAP["rdf"] + "RDF"),
+    annotation_tree = etree.Element("annotation")
+    
+    etree.SubElement(etree.SubElement(annotation_tree, "{%s}" % NS_MAP["rdf"] + "RDF"),
         "{%s}" % NS_MAP["rdf"] + "Description",
         attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
     )
