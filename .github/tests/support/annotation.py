@@ -1,14 +1,15 @@
 from lxml import etree
 
-#debugging
+# debugging
 from xml.etree import ElementTree
 
-#if no database SBtab, then db_dict is an empty dict
+# if no database SBtab, then db_dict is an empty dict
+
 
 def _annotate(db_dict, ref):
     """Function to access reference links, and handle when those links are not in DB table
-	
-	Takes a dict of databases and a database name"""
+
+    Takes a dict of databases and a database name"""
     if ref in db_dict:
         return db_dict[ref]["!IdentifiersOrgPrefix"]
     else:
@@ -25,12 +26,11 @@ def _check_db_type(db_dict, ref):
 
 def gen_annotation_tree(metaid, db_dict, data, NS_MAP):
 
-    annotation_tree = etree.SubElement(
-    etree.SubElement(
-        etree.Element("annotation"), "{%s}" % NS_MAP["rdf"] + "RDF"
-    ),
-    "{%s}" % NS_MAP["rdf"] + "Description",
-    attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
+    annotation_tree = etree.Element("annotation")
+    
+    description = etree.SubElement(etree.SubElement(annotation_tree, "{%s}" % NS_MAP["rdf"] + "RDF"),
+        "{%s}" % NS_MAP["rdf"] + "Description",
+        attrib={"{%s}" % NS_MAP["rdf"] + "about": "#" + metaid},
     )
     # get a list of which DBs are annotated for this entry, as well as what type of DB they are
     annotated_dbs = [
@@ -46,12 +46,12 @@ def gen_annotation_tree(metaid, db_dict, data, NS_MAP):
     bqbiol_occurs_in_and_rdf_bag = False
     if "Is" in db_types:
         bqbiol_is_and_rdf_bag = etree.SubElement(
-            etree.SubElement(annotation_tree, "{%s}" % NS_MAP["bqbiol"] + "is"),
+            etree.SubElement(description, "{%s}" % NS_MAP["bqbiol"] + "is"),
             "{%s}" % NS_MAP["rdf"] + "Bag",
         )
     if "In" in db_types:
         bqbiol_occurs_in_and_rdf_bag = etree.SubElement(
-            etree.SubElement(annotation_tree, "{%s}" % NS_MAP["bqbiol"] + "isPartOf"),
+            etree.SubElement(description, "{%s}" % NS_MAP["bqbiol"] + "isPartOf"),
             "{%s}" % NS_MAP["rdf"] + "Bag",
         )
     for db in annotated_dbs:
