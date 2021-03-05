@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import json
-import sys
 import uuid
 from pathlib import Path
 import pyparsing as pp
@@ -45,6 +44,8 @@ print("Build model is set to", BUILD)
 settings_path = Path(".github") / "tests" / "settings.json"
 settings = json.load(open(settings_path, "r"))["pipeline"]
 
+model_name = settings["name"]
+
 
 ## Load tsv files
 compiler = ModelSystem()
@@ -87,7 +88,7 @@ NS_MAP = {
     "xhtml": "http://www.w3.org/1999/xhtml",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "dc": "http://purl.org/dc/elements/1.1/",
-    "vCard": "http://www.w3.org/2001/vcard-rdf/3.0#",
+    "vCard": "urn:ietf:params:xml:ns:vcard-4.0",
     "dcterms": "http://purl.org/dc/terms/",
     "bqbiol": "http://biomodels.net/biology-qualifiers/",
     None: "http://www.sbml.org/sbml/level3/version1/core",
@@ -96,7 +97,6 @@ NS_MAP = {
 # create sbml structure
 sbml = etree.Element(
     "sbml",
-    metaid=genID(),
     attrib={
         "{%s}" % NS_MAP["fbc"] + "required": "false",
         "{%s}" % NS_MAP["groups"] + "required": "false",
@@ -120,7 +120,7 @@ model = etree.SubElement(
     "model",
     id="WormJamTestBuild",
     attrib={"{%s}" % NS_MAP["fbc"] + "strict": "false"},
-    metaid=genID(),
+    metaid=model_name+".xml",
     name="WormJam Draft Model",
 )
 model_notes = etree.SubElement(model, "notes")
@@ -148,37 +148,35 @@ model_annotation_RDF_description_DC_bag = etree.SubElement(
         ),
         "{%s}" % NS_MAP["dc"] + "creator",
     ),
-    "{%s}" % NS_MAP["rdf"] + "Bag",
+    "{%s}" % NS_MAP["vCard"] + "vcards",
 )
 
 for key, val in compiler.tables.get("Curator").data.items():
-    rdf_li = etree.SubElement(
+    vCard = etree.SubElement(
         model_annotation_RDF_description_DC_bag,
-        "{%s}" % NS_MAP["rdf"] + "li",
+        "{%s}" % NS_MAP["vCard"] + "vcard",
         attrib={
             "{%s}" % NS_MAP["rdf"] + "about": key,
             "{%s}" % NS_MAP["rdf"] + "parseType": "Resource",
         },
     )
+    etree.SubElement(vCard, "{%s}" % NS_MAP["vCard"] + "fn").text = val["!GivenName"] + " " + val["!Surname"]
     vCard_N = etree.SubElement(
-        rdf_li,
-        "{%s}" % NS_MAP["vCard"] + "N",
+        vCard,
+        "{%s}" % NS_MAP["vCard"] + "n",
         attrib={"{%s}" % NS_MAP["rdf"] + "parseType": "Resource"},
     )
-    etree.SubElement(vCard_N, "{%s}" % NS_MAP["vCard"] + "Family").text = val[
-        "!family-name"
+    etree.SubElement(vCard_N, "{%s}" % NS_MAP["vCard"] + "surname").text = val[
+        "!Surname"
     ]
-    etree.SubElement(vCard_N, "{%s}" % NS_MAP["vCard"] + "Given").text = val[
-        "!given-name"
+    etree.SubElement(vCard_N, "{%s}" % NS_MAP["vCard"] + "given").text = val[
+        "!GivenName"
     ]
-    etree.SubElement(rdf_li, "{%s}" % NS_MAP["vCard"] + "EMAIL").text = val["!email"]
-    vCard_ORG = etree.SubElement(
-        rdf_li,
-        "{%s}" % NS_MAP["vCard"] + "ORG",
-        attrib={"{%s}" % NS_MAP["rdf"] + "parseType": "Resource"},
-    )
-    etree.SubElement(vCard_ORG, "{%s}" % NS_MAP["vCard"] + "Orgname").text = val[
-        "!organization-name"
+
+    etree.SubElement(vCard, "{%s}" % NS_MAP["vCard"] + "email").text = val["!Email"]
+
+    etree.SubElement(vCard, "{%s}" % NS_MAP["vCard"] + "org").text = val[
+        "!OrganizationName"
     ]
 
 
@@ -196,7 +194,8 @@ for key, val in compiler.tables.get("Gene").data.items():
         attribs = {
             "{%s}" % NS_MAP["fbc"] + "id": "G_" + key,
             "{%s}" % NS_MAP["fbc"] + "label": key,
-            "{%s}" % NS_MAP["fbc"] + "name": val["!Locus"],
+            "sboTerm": val.get("!SBOTerm",""),
+            "{%s}" % NS_MAP["fbc"] + "name": val["!LocusName"],
             "metaid": key.replace(" ", "_"),
         }
         fbc_gene_prod = etree.SubElement(
@@ -207,6 +206,10 @@ for key, val in compiler.tables.get("Gene").data.items():
         fbc_gene_prod.append(
             gen_annotation_tree(attribs["metaid"], db_dict, val, NS_MAP)
         )
+unused = compiler.tables.get("Gene").unused
+if len(unused):
+    notes_body = etree.SubElement(model_listOfGeneProducts,"notes")
+    etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = "Unused dbs\n"+"\n".join(unused)
 
 #
 # Pathways
@@ -214,11 +217,13 @@ for key, val in compiler.tables.get("Gene").data.items():
 model_listOfGroups = etree.SubElement(model, "{%s}" % NS_MAP["groups"] + "listOfGroups")
 
 for key, val in compiler.tables.get("Pathway").data.items():
+    clean_key = key.replace(" ", "_")
     attribs = {
-        "{%s}" % NS_MAP["groups"] + "id": "P_" + key.replace(" ", "_"),
+        "{%s}" % NS_MAP["groups"] + "id": "P_" + clean_key,
         "{%s}" % NS_MAP["groups"] + "kind": "partonomy",
+        "sboTerm": val.get("!SBOTerm",""),
         "{%s}" % NS_MAP["groups"] + "name": key,
-        "metaid": key.replace(" ", "_"),
+        "metaid": clean_key,
     }
     groups_group = etree.SubElement(
         model_listOfGroups, "{%s}" % NS_MAP["groups"] + "group", attrib=attribs
@@ -242,7 +247,10 @@ for key, val in compiler.tables.get("Pathway").data.items():
                 "{%s}" % NS_MAP["groups"] + "idRef": i,
             },
         )
-
+unused = compiler.tables.get("Pathway").unused
+if len(unused):
+    notes_body = etree.SubElement(model_listOfGroups,"notes")
+    etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = "Unused dbs\n"+"\n".join(unused)
 
 #
 # Compartments
@@ -260,13 +268,26 @@ for key, val in compiler.tables.get("Compartment").data.items():
             "id": key,
             "metaid": metaid,
             "name": val["!Name"],
-            "size": "1",
-            "spatialDimensions": str(val["!spatialDimensions"]),
+            "sboTerm": val.get("!SBOTerm",""),
+            "size": str(val.get("!Size",1)),
+            "spatialDimensions": str(val.get("!spatialDimensions",3)),
         },
     )
 
     compartment.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
-
+    notes_body = etree.SubElement(
+        etree.SubElement(compartment, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
+    )
+    for i in  list(val.keys()):
+        if ("!Notes" in i or i in ["!Curator","!Comment"]) and val[i] != 0:
+            etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = (
+                i.replace("!", "").replace("Notes:", "")+ ": " + val[i]
+            )
+    
+unused = compiler.tables.get("Compartment").unused
+if len(unused):
+    notes_body = etree.SubElement(model_compartment_tree,"notes")
+    etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = "Unused dbs\n"+"\n".join(unused)
 #
 # Species
 #
@@ -276,14 +297,15 @@ model_species_tree = etree.SubElement(model, "listOfSpecies")
 for key, val in compiler.tables.get("Compound").data.items():
     attribs = {
         "boundaryCondition": "false",
-        "compartment": val["!Location"],
-        "constant": "false",
+        "compartment": val["!Location"].lower(),
+        "sboTerm": val.get("!SBOTerm",""),
+        "constant": val.get("!IsConstant","false").lower(),
         "{%s}" % NS_MAP["fbc"] + "charge": val["!Charge"],
         "{%s}" % NS_MAP["fbc"] + "chemicalFormula": val["!Formula"],
-        "hasOnlySubstanceUnits": "false",
+        "hasOnlySubstanceUnits": val.get("!hasOnlySubstanceUnits","false").lower(),
         "id": key,
         "initialConcentration": val.get("!initialConcentration", "0"),
-        "name": "!Name",
+        "name": val["!Name"],
     }
     if attribs["{%s}" % NS_MAP["fbc"] + "charge"] == "":
         attribs["{%s}" % NS_MAP["fbc"] + "charge"] = "0"
@@ -294,18 +316,16 @@ for key, val in compiler.tables.get("Compound").data.items():
     notes_body = etree.SubElement(
         etree.SubElement(metabolite, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
     )
-    for i in [
-        key2
-        for key2 in list(val.keys())
-        if all(block not in key2 for block in ["!Identifiers", "!Formula", "!Charge"])
-    ]:
-        if val[i] != "":
-            if key == "!Charge" and val[i] == "":
-                val[i] == "0"  # small fix to change a blank charge to a charge of 0
+    for i in  list(val.keys()):
+        if ("!Notes" in i or i in ["!Curator","!Comment"]) and val[i] != 0:
             etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = (
-                i.replace("!", "").replace("Notes:", "").upper() + ": " + val[i]
+                i.replace("!", "").replace("Notes:", "")+ ": " + val[i]
             )
     metabolite.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
+unused = compiler.tables.get("Compound").unused
+if len(unused):
+    notes_body = etree.SubElement(model_species_tree,"notes")
+    etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = "Unused dbs\n"+"\n".join(unused)
 
 
 #
@@ -482,19 +502,19 @@ def react_proc(rxn):
 reaction_tree = etree.SubElement(model, "listOfReactions")
 
 
-ignore = [
-    "!Identifiers:kegg.reaction",
-    "!Identifiers:rheadb_exact",
-    "!Identifiers:rheadb_fuzzy",
-    "!Identifiers:pubmed",
-    "!Identifiers:doi",
-    "!Identifiers:eco",
-    "!Authors",
-    "!ReactionFormula",
-    "!SuperPathway",
-    "!Name",
-    "!IsReversible",
-]
+# ignore = [
+#     "!Identifiers:kegg.reaction",
+#     "!Identifiers:rheadb_exact",
+#     "!Identifiers:rheadb_fuzzy",
+#     "!Identifiers:pubmed",
+#     "!Identifiers:doi",
+#     "!Identifiers:eco",
+#     "!Authors",
+#     "!ReactionFormula",
+#     "!SuperPathway",
+#     "!Name",
+#     "!IsReversible",
+# ]
 
 for key, val in compiler.tables.get("Reaction").data.items():
     metaid = key.replace(" ", "_")
@@ -502,6 +522,7 @@ for key, val in compiler.tables.get("Reaction").data.items():
         "fast": "false",
         "reversible": val["!IsReversible"].lower(),
         "metaid": metaid,
+        "sboTerm": val.get("!SBOTerm",""),
         "id": key,
         "name": val["!Name"],
         "{%s}" % NS_MAP["fbc"] + "upperFluxBound": "UPPER_BOUND",
@@ -524,7 +545,6 @@ for key, val in compiler.tables.get("Reaction").data.items():
                 i.replace("!", "")
                 .replace("Notes:", "")
                 .replace("Pathway", "Subsystem")
-                .upper()
                 + ": "
                 + val[i]
             )
@@ -552,6 +572,10 @@ for key, val in compiler.tables.get("Reaction").data.items():
                 "speciesReference",
                 attrib={"constant": "true", "species": key2, "stoichiometry": val2},
             )
+unused = compiler.tables.get("Reaction").unused
+if len(unused):
+    notes_body = etree.SubElement(reaction_tree,"notes")
+    etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = "Unused dbs\n"+"\n".join(unused)
 
 
 ######################
@@ -573,3 +597,4 @@ if BUILD:
         )
     )
     output_model.close()
+    print("COMPLETE: Saved model as",OUTPUT_NAME)
