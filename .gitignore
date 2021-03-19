@@ -7,3 +7,5 @@
 .vscode
 *.pyc
 pipfile
+other_models
+tmp
