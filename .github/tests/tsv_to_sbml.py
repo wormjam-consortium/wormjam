@@ -195,7 +195,7 @@ for key, val in compiler.tables.get("Gene").data.items():
             "{%s}" % NS_MAP["fbc"] + "id": "G_" + key,
             "{%s}" % NS_MAP["fbc"] + "label": key,
             "sboTerm": val.get("!SBOTerm",""),
-            "{%s}" % NS_MAP["fbc"] + "name": val["!LocusName"],
+            "{%s}" % NS_MAP["fbc"] + "name": val["!Symbol"]+"@"+val["!LocusName"]+"|"+val["!Name"],
             "metaid": key.replace(" ", "_"),
         }
         fbc_gene_prod = etree.SubElement(
@@ -203,9 +203,18 @@ for key, val in compiler.tables.get("Gene").data.items():
             "{%s}" % NS_MAP["fbc"] + "geneProduct",
             attrib=attribs,
         )
+        notes = etree.SubElement(
+            etree.SubElement(fbc_gene_prod, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
+        )
+        for i in  list(val.keys()):
+            if ("!Notes" in i or i in ["!Curator","!Comment"]) and val[i] != 0:
+                etree.SubElement(notes, "{%s}" % NS_MAP["xhtml"] + "p").text = (
+                    i.replace("!", "").replace("Notes:", "")+ ": " + val[i]
+                )
         fbc_gene_prod.append(
             gen_annotation_tree(attribs["metaid"], db_dict, val, NS_MAP)
         )
+    
 unused = compiler.tables.get("Gene").unused
 if len(unused):
     notes_body = etree.SubElement(model_listOfGeneProducts,"notes")
@@ -228,7 +237,6 @@ for key, val in compiler.tables.get("Pathway").data.items():
     groups_group = etree.SubElement(
         model_listOfGroups, "{%s}" % NS_MAP["groups"] + "group", attrib=attribs
     )
-    groups_group.append(gen_annotation_tree(attribs["metaid"], db_dict, val, NS_MAP))
     # insert group members
     g_listOfMembers = etree.SubElement(
         groups_group, "{%s}" % NS_MAP["groups"] + "listOfMembers"
@@ -247,6 +255,15 @@ for key, val in compiler.tables.get("Pathway").data.items():
                 "{%s}" % NS_MAP["groups"] + "idRef": i,
             },
         )
+    notes = etree.SubElement(
+    etree.SubElement(groups_group, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
+    )
+    for i in  list(val.keys()):
+        if ("!Notes" in i or i in ["!Curator","!Comment"]) and val[i] != 0:
+            etree.SubElement(notes, "{%s}" % NS_MAP["xhtml"] + "p").text = (
+                i.replace("!", "").replace("Notes:", "")+ ": " + val[i]
+            )
+    groups_group.append(gen_annotation_tree(attribs["metaid"], db_dict, val, NS_MAP))
 unused = compiler.tables.get("Pathway").unused
 if len(unused):
     notes_body = etree.SubElement(model_listOfGroups,"notes")
@@ -274,7 +291,6 @@ for key, val in compiler.tables.get("Compartment").data.items():
         },
     )
 
-    compartment.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
     notes_body = etree.SubElement(
         etree.SubElement(compartment, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
     )
@@ -283,6 +299,7 @@ for key, val in compiler.tables.get("Compartment").data.items():
             etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = (
                 i.replace("!", "").replace("Notes:", "")+ ": " + val[i]
             )
+    compartment.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
     
 unused = compiler.tables.get("Compartment").unused
 if len(unused):
@@ -333,21 +350,38 @@ if len(unused):
 #
 
 parameter_tree = etree.SubElement(model, "listOfParameters")
-etree.SubElement(
-    parameter_tree,
-    "parameter",
-    attrib={"constant": "true", "id": "LOWER_BOUND", "value": "-1000"},
-)
-etree.SubElement(
-    parameter_tree,
-    "parameter",
-    attrib={"constant": "true", "id": "ZERO_BOUND", "value": "0"},
-)
-etree.SubElement(
-    parameter_tree,
-    "parameter",
-    attrib={"constant": "true", "id": "UPPER_BOUND", "value": "1000"},
-)
+
+if p_info := compiler.tables.get("Parameter",False):
+    for key,val in p_info.data.items():
+        etree.SubElement(
+        parameter_tree,
+        "parameter",
+        attrib={"constant": "true", "id": key, "value": val["!Value"],"sboTerm": val["!SBOTerm"]},
+    )
+    notes_body = etree.SubElement(
+    etree.SubElement(parameter_tree, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
+    )
+    for i in  list(val.keys()):
+        if ("!Notes" in i or i in ["!Curator","!Comment"]) and val[i] != 0:
+            etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = (
+                i.replace("!", "").replace("Notes:", "")+ ": " + val[i]
+            )
+else:
+    etree.SubElement(
+        parameter_tree,
+        "parameter",
+        attrib={"constant": "true", "id": "LOWER_BOUND", "value": "-1000"},
+    )
+    etree.SubElement(
+        parameter_tree,
+        "parameter",
+        attrib={"constant": "true", "id": "ZERO_BOUND", "value": "0"},
+    )
+    etree.SubElement(
+        parameter_tree,
+        "parameter",
+        attrib={"constant": "true", "id": "UPPER_BOUND", "value": "1000"},
+    )
 
 #
 # Reactions
@@ -525,6 +559,7 @@ for key, val in compiler.tables.get("Reaction").data.items():
         "sboTerm": val.get("!SBOTerm",""),
         "id": key,
         "name": val["!Name"],
+        "compartment": val.get("!Location",""),
         "{%s}" % NS_MAP["fbc"] + "upperFluxBound": "UPPER_BOUND",
     }
     if attribs["reversible"] == "true":
@@ -532,28 +567,36 @@ for key, val in compiler.tables.get("Reaction").data.items():
     else:
         attribs["{%s}" % NS_MAP["fbc"] + "lowerFluxBound"] = "ZERO_BOUND"
     reaction_field = etree.SubElement(reaction_tree, "reaction", attrib=attribs)
+    
     notes_body = etree.SubElement(
         etree.SubElement(reaction_field, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
     )
-    for i in [
-        key2
-        for key2 in list(val.keys())
-        if all(block not in key2 for block in ["!Identifiers", "!ReactionFormula"])
-    ]:
-        if val[i] != "":
+    reaction_field.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
+    for i in  list(val.keys()):
+        if ("!Notes" in i or i in ("!Curator","!Comment")) and val[i] != 0:
             etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = (
-                i.replace("!", "")
-                .replace("Notes:", "")
-                .replace("Pathway", "Subsystem")
-                + ": "
-                + val[i]
+                i.replace("!", "").replace("Notes:", "")+ ": " + val[i]
+            )
+        if i in ("!Pathway","!SuperPathway"):
+            etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = (
+                i.replace("!", "").replace("Notes:", "")+ ": " + val[i]
             )
 
-    reaction_field.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
-    try:
-        reaction_field.append(process_gene_association(val["!GeneAssociation"]))
-    except Exception as e:
-        pass
+    # for i in [
+    #     key2
+    #     for key2 in list(val.keys())
+    #     if all(block not in key2 for block in ["!Identifiers", "!ReactionFormula"])
+    # ]:
+    #     if val[i] != "":
+    #         etree.SubElement(notes_body, "{%s}" % NS_MAP["xhtml"] + "p").text = (
+    #             i.replace("!", "")
+    #             .replace("Notes:", "")
+    #             .replace("Pathway", "Subsystem")
+    #             + ": "
+    #             + val[i]
+    #         )
+
+    # reaction_field.append(gen_annotation_tree(metaid, db_dict, val, NS_MAP))
 
     reactants, products = react_proc(val["!ReactionFormula"])
     if "" not in reactants:
@@ -572,6 +615,10 @@ for key, val in compiler.tables.get("Reaction").data.items():
                 "speciesReference",
                 attrib={"constant": "true", "species": key2, "stoichiometry": val2},
             )
+    try:
+        reaction_field.append(process_gene_association(val["!GeneAssociation"]))
+    except Exception as e:
+        pass
 unused = compiler.tables.get("Reaction").unused
 if len(unused):
     notes_body = etree.SubElement(reaction_tree,"notes")
