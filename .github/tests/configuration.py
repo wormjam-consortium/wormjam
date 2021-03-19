@@ -4,7 +4,15 @@ name = input("Project Name: ")
 organism = input("Organism: ")
 short_name = input("Organism Short Name: ")
 project_info = input("Project Description: ")
-db_table = input("Database Table: ")
+while True:
+    db_table = input("Database Table (True/False): ")
+    try:
+        assert db_table.lower() in ["true","false"]
+        db_table = db_table.capitalize()
+        db_table = bool(db_table)
+        break
+    except Exception:
+        print("Answer must be True or False.")
 
 values = {
     "Project name": name,
