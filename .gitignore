@@ -7,5 +7,5 @@
 .vscode
 *.pyc
 pipfile
-other_models
-tmp
+# Misc scripts/artifacts
+*tmp

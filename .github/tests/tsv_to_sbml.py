@@ -226,13 +226,12 @@ if len(unused):
 model_listOfGroups = etree.SubElement(model, "{%s}" % NS_MAP["groups"] + "listOfGroups")
 
 for key, val in compiler.tables.get("Pathway").data.items():
-    clean_key = key.replace(" ", "_")
     attribs = {
-        "{%s}" % NS_MAP["groups"] + "id": "P_" + clean_key,
+        "{%s}" % NS_MAP["groups"] + "id": "P_" + key,
         "{%s}" % NS_MAP["groups"] + "kind": "partonomy",
         "sboTerm": val.get("!SBOTerm",""),
-        "{%s}" % NS_MAP["groups"] + "name": key,
-        "metaid": clean_key,
+        "{%s}" % NS_MAP["groups"] + "name": val["!Name"],
+        "metaid": key,
     }
     groups_group = etree.SubElement(
         model_listOfGroups, "{%s}" % NS_MAP["groups"] + "group", attrib=attribs
@@ -553,12 +552,12 @@ reaction_tree = etree.SubElement(model, "listOfReactions")
 for key, val in compiler.tables.get("Reaction").data.items():
     metaid = key.replace(" ", "_")
     attribs = {
-        "fast": "false",
-        "reversible": val["!IsReversible"].lower(),
         "metaid": metaid,
-        "sboTerm": val.get("!SBOTerm",""),
         "id": key,
         "name": val["!Name"],
+        "reversible": val["!IsReversible"].lower(),
+        "fast": "false",
+        "sboTerm": val.get("!SBOTerm","SBO0000000"),
         "compartment": val.get("!Location",""),
         "{%s}" % NS_MAP["fbc"] + "upperFluxBound": "UPPER_BOUND",
     }
