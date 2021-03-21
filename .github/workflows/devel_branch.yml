@@ -6,6 +6,9 @@ on:
       - devel
     paths-ignore:
       - 'README.md'
+  pull_request:
+    branches:
+      - devel
 
 jobs:
   Lint_Compliance:
