@@ -237,23 +237,24 @@ for key, val in compiler.tables.get("Pathway").data.items():
         model_listOfGroups, "{%s}" % NS_MAP["groups"] + "group", attrib=attribs
     )
     # insert group members
-    g_listOfMembers = etree.SubElement(
-        groups_group, "{%s}" % NS_MAP["groups"] + "listOfMembers"
-    )
     listOfMembers = [
         rxn
         for rxn, info in compiler.tables.get("Reaction").data.items()
         if info["!Pathway"] == key
     ]
-    for i in listOfMembers:
-        etree.SubElement(
-            g_listOfMembers,
-            "{%s}" % NS_MAP["groups"] + "member",
-            attrib={
-                "{%s}" % NS_MAP["groups"] + "id": "GM_" + i,
-                "{%s}" % NS_MAP["groups"] + "idRef": i,
-            },
+    if len(listOfMembers):
+        g_listOfMembers = etree.SubElement(
+            groups_group, "{%s}" % NS_MAP["groups"] + "listOfMembers"
         )
+        for i in listOfMembers:
+            etree.SubElement(
+                g_listOfMembers,
+                "{%s}" % NS_MAP["groups"] + "member",
+                attrib={
+                    "{%s}" % NS_MAP["groups"] + "id": "GM_" + i,
+                    "{%s}" % NS_MAP["groups"] + "idRef": i,
+                },
+            )
     notes = etree.SubElement(
     etree.SubElement(groups_group, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
     )
