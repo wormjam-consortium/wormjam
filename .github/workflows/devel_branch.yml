@@ -6,9 +6,6 @@ on:
       - master
     paths-ignore:
       - 'README.md'
-  pull_request:
-    branches-ignore:
-      - master
 
 jobs:
   Lint_Compliance:
