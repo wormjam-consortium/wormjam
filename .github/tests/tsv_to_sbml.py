@@ -194,7 +194,7 @@ for key, val in compiler.tables.get("Gene").data.items():
         attribs = {
             "{%s}" % NS_MAP["fbc"] + "id": "G_" + key,
             "{%s}" % NS_MAP["fbc"] + "label": key,
-            "sboTerm": val.get("!SBOTerm",""),
+            "sboTerm": val.get("!SBOTerm","SBO:0000000"),
             "{%s}" % NS_MAP["fbc"] + "name": val["!Symbol"]+"@"+val["!LocusName"]+"|"+val["!Name"],
             "metaid": key.replace(" ", "_"),
         }
@@ -229,7 +229,7 @@ for key, val in compiler.tables.get("Pathway").data.items():
     attribs = {
         "{%s}" % NS_MAP["groups"] + "id": "P_" + key,
         "{%s}" % NS_MAP["groups"] + "kind": "partonomy",
-        "sboTerm": val.get("!SBOTerm",""),
+        "sboTerm": val.get("!SBOTerm","SBO:0000000"),
         "{%s}" % NS_MAP["groups"] + "name": val["!Name"],
         "metaid": key,
     }
@@ -285,7 +285,7 @@ for key, val in compiler.tables.get("Compartment").data.items():
             "id": key,
             "metaid": metaid,
             "name": val["!Name"],
-            "sboTerm": val.get("!SBOTerm",""),
+            "sboTerm": val.get("!SBOTerm","SBO:0000000"),
             "size": str(val.get("!Size",1)),
             "spatialDimensions": str(val.get("!spatialDimensions",3)),
         },
@@ -315,7 +315,7 @@ for key, val in compiler.tables.get("Compound").data.items():
     attribs = {
         "boundaryCondition": "false",
         "compartment": val["!Location"].lower(),
-        "sboTerm": val.get("!SBOTerm",""),
+        "sboTerm": val.get("!SBOTerm","SBO:0000000"),
         "constant": val.get("!IsConstant","false").lower(),
         "{%s}" % NS_MAP["fbc"] + "charge": val["!Charge"],
         "{%s}" % NS_MAP["fbc"] + "chemicalFormula": val["!Formula"],
@@ -356,7 +356,7 @@ if p_info := compiler.tables.get("Parameter",False):
         etree.SubElement(
         parameter_tree,
         "parameter",
-        attrib={"constant": "true", "id": key, "value": val["!Value"],"sboTerm": val["!SBOTerm"]},
+        attrib={"constant": "true", "id": key, "value": val["!Value"],"sboTerm": val.get("!SBOTerm","SBO:0000000")},
     )
     notes_body = etree.SubElement(
     etree.SubElement(parameter_tree, "notes"), "{%s}" % NS_MAP["xhtml"] + "body"
@@ -558,7 +558,7 @@ for key, val in compiler.tables.get("Reaction").data.items():
         "name": val["!Name"],
         "reversible": val["!IsReversible"].lower(),
         "fast": "false",
-        "sboTerm": val.get("!SBOTerm","SBO0000000"),
+        "sboTerm": val.get("!SBOTerm","SBO:0000000"),
         "compartment": val.get("!Location",""),
         "{%s}" % NS_MAP["fbc"] + "upperFluxBound": "UPPER_BOUND",
     }
