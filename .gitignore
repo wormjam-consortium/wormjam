@@ -7,3 +7,5 @@
 .vscode
 *.pyc
 pipfile
+# Misc scripts/artifacts
+*tmp

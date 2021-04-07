@@ -1,7 +1,7 @@
-!!SBtab SbtabVersion='1.0' TableType='Compartment' TableName='WormJam compartments'				
+!!SBtab SbtabVersion='1.0' TableType='Compartment' TableName='WormJam compartments'					
 !ID	!Name	!spatialDimensions	!Identifiers:GO_component	!Comment	!Curator
-c	Cytosol	3	0005829	added spatial info	jpnh
-e	Extracellular	3	0005576	This mix the extracellular and extra-organism compartments	jpnh
-m	Mitochondrion	3	0005739	added spatial info	jpnh
-n	Nucleus	3	0005634	added spatial info	jpnh
-i	Mitochondrial Inner Membrane	3	0005759	Added to segregate hydrogen for ATP production	jpnh
+c	Cytosol	3	5829	added spatial info	jpnh
+e	Extracellular	3	5576	This mix the extracellular and extra-organism compartments	jpnh
+m	Mitochondrion	3	5739	added spatial info	jpnh
+n	Nucleus	3	5634	added spatial info	jpnh
+i	Mitochondrial Inner Membrane	3	5759	Added to segregate hydrogen for ATP production	jpnh

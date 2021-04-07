@@ -2,7 +2,33 @@
     "pipeline": {
         "name": "WormJam",
         "organism": "Caenorhabditis elegans",
+        "info": "full",
         "short name": "C. elegans",
-        "dbtable": true
+        "dbtable": true,
+        "unit": {
+            "name":"mmol_per_gDW_per_hr",
+            "si units":{
+                "mole": {
+                    "exponent":"1",
+                    "scale":"-3",
+                    "multiplier":"1"
+                },
+                "gram": {
+                    "exponent":"-1",
+                    "scale":"0",
+                    "multiplier":"1"
+                },
+                "second": {
+                    "exponent":"-1",
+                    "scale":"0",
+                    "multiplier":"3600"
+                }
+            }
+        },
+        "objective":{
+            "reaction":"BIO0100",
+            "coefficient":"1",
+            "type":"maximize"
+        }
     }
 }
