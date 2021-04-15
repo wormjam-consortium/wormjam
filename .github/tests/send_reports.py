@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 import requests
 import datetime
@@ -17,8 +18,9 @@ GITHUB_REPO_SLUG = sys.argv[5]  # user/repo
 GITHUB_REPO_BRANCH = sys.argv[6].split("/")[
     -1
 ]  # branch - process the string and grab the last term
-timestamp = datetime.datetime.now().isoformat(timespec='minutes') 
-filename = f"{settings.name}-{timestamp}.tar.gz"
+for f in os.listdir():
+    if all([qualifier in f for qualifier in [".tar.gz",settings.name]]):
+        filename = f
 
 # prepare files for sending
 report_file = {"Report.html": open("Report.html", "rb")}
