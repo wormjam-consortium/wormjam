@@ -1,6 +1,12 @@
 import cobra
 
-model = cobra.io.read_sbml_model("WormJam.xml")
+from pathlib import Path
+from support.helper_classes import ModelConfig
+
+settings_path = Path(".github") / "tests" / "config.yml"
+settings = ModelConfig(settings_path)
+
+model = cobra.io.read_sbml_model(f"{settings.name}.xml")
 print("Model:")
 print(len(model.reactions), "reactions")
 print(len(model.metabolites), "metabolites")
