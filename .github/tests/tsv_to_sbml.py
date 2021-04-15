@@ -9,12 +9,9 @@ from lxml import etree
 # debugging
 from xml.etree import ElementTree
 
-from support.helper_classes import ModelSystem
+from support.helper_classes import ModelSystem, ModelConfig
 from support.annotation import gen_annotation_tree
 
-OUTPUT_NAME = "WormJam.xml"
-BUILD = True
-CLEAN_DELETION = False
 
 __author__ = "Jake Hattwell"
 __copyright__ = "None"
@@ -40,12 +37,17 @@ def genID():
 
 
 ## Load settings
+
+BUILD = True
+CLEAN_DELETION = False
+
 print("Build model is set to", BUILD)
-settings_path = Path(".github") / "tests" / "settings.json"
-settings = json.load(open(settings_path, "r"))["pipeline"]
 
-model_name = settings["name"]
+settings_path = Path(".github") / "tests" / "config.yml"
+settings = ModelConfig(settings_path)
 
+model_name = settings.name
+OUTPUT_NAME = f"{model_name}.xml"
 
 ## Load tsv files
 compiler = ModelSystem()
@@ -55,7 +57,7 @@ metabolite_validation = (
     compiler.validate_rxn_mets()
 )  # check that all required metabolites are included in the model
 
-if settings["dbtable"]:
+if settings.db_table:
     db_dict = compiler.tables.get("Database").data
 else:
     db_dict = {}
@@ -118,14 +120,14 @@ for key, val in other_attribs.items():
 model = etree.SubElement(
     sbml,
     "model",
-    id="WormJamTestBuild",
+    id=settings.name,
     attrib={"{%s}" % NS_MAP["fbc"] + "strict": "false"},
     metaid=model_name+".xml",
-    name="WormJam Draft Model",
+    name=settings.name,
 )
 model_notes = etree.SubElement(model, "notes")
 model_notes_desc = etree.SubElement(model_notes, "{%s}" % NS_MAP["xhtml"] + "p")
-model_notes_desc.text = "Genome Scale Model of the organism Caenorhabditis elegans"
+model_notes_desc.text = f"Genome Scale Model of the organism {settings.organism}"
 
 #
 # curators
