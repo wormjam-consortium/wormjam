@@ -19,7 +19,6 @@ GITHUB_REPO_BRANCH = sys.argv[6].split("/")[
     -1
 ]  # branch - process the string and grab the last term
 for f in os.listdir():
-    print(f)
     if all([qualifier in f for qualifier in [".tar.gz",settings.name]]):
         filename = f
 
