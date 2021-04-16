@@ -82,7 +82,7 @@ jobs:
     - name: Report to Discord server
       run: |
         python .github/tests/result_web_gen.py
-        tar -czvf WormJam.tar.gz WormJam.xml
+        python .github/tests/tar_packager.py
         python .github/tests/send_reports.py "$DISCORD_WEBHOOK_MERGE" "$DISCORD_WEBHOOK_MODEL" $GITHUB_RUN_NUMBER $GITHUB_RUN_ID $GITHUB_REPOSITORY $GITHUB_REF
     - name: Failure handler
       if: ${{ failure() }}
