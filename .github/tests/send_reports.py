@@ -24,7 +24,7 @@ for f in os.listdir():
 
 # prepare files for sending
 report_file = {"Report.html": open("Report.html", "rb")}
-packaged_model_file = {filename: open(f"{settings.name}.tar.gz", "rb")}
+packaged_model_file = {filename: open(filename, "rb")}
 
 # construct embed to send to discord
 # This embed is used for both messages
