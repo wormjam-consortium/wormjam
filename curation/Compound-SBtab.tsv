@@ -3016,3 +3016,4 @@ M_fa11c3coa_m	cis-3,4-methylenedecanoyl coa	m	-4						[DELETION]	wimi
 M_galgluside_c	galactosyl glucosyl ceramide	c	0	C31H56NO13R					[DELETION]	wimi																								
 M_1alkg3p_c	1-alkylglycerol 3-phosphate(2-)	c	-2	C3H6O6PR	CHEBI:78168				added	wimi					OC(CO[*])COP([O-])([O-])=O	1-alkylglycerol 3-phosphate																		
 M_1alkglycerone3p_c	1-alkylglycerone 3-phosphate(2-)	c	-2	C3H4O6PR	CHEBI:73315				added	wimi																								
+M_1alk2acg3p_c	1-alkyl-2-acyl-sn-glycero-3-phosphate(2?)	c	-2	C4H5O7PR2	CHEBI:73332				added	wimi					[O-]P([O-])(=O)OC[C@@H](CO[*])OC([*])=O																			
