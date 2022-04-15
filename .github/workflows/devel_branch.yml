@@ -2,8 +2,8 @@ name: Dev Version
 
 on: 
   push:
-    branches:
-      - devel
+    branches-ignore:
+      - master
     paths-ignore:
       - 'README.md'
 

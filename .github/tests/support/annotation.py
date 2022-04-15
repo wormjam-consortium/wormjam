@@ -68,18 +68,38 @@ def gen_annotation_tree(metaid, db_dict, data, NS_MAP):
                         + ":"
                         + identifier
                     },
-                )
+                )#.text=db
+                etree.SubElement(
+                    bqbiol_is_and_rdf_bag,
+                    "{%s}identifier"%NS_MAP["dc"],
+                    attrib={
+                        "{%s}" % NS_MAP["dc"]
+                        + "title": db,
+                        "{%s}" % NS_MAP["dc"]
+                        + "subject": identifier
+                    })
+                
         else:
             for identifier in data["!Identifiers:" + db].split("|"):
                 etree.SubElement(
                     bqbiol_occurs_in_and_rdf_bag,
                     "{%s}" % NS_MAP["rdf"] + "li",
                     attrib={
-                        "{%s}" % NS_MAP["rdf"]
+                        "{%s}" % NS_MAP["dc"]
                         + "resource": _annotate(db_dict, db)
                         + ":"
                         + identifier
+                        
                     },
                 )
+                etree.SubElement(
+                    bqbiol_occurs_in_and_rdf_bag,
+                    "{%s}identifier"%NS_MAP["dc"],
+                    attrib={
+                        "{%s}" % NS_MAP["dc"]
+                        + "title": db,
+                        "{%s}" % NS_MAP["dc"]
+                        + "subject": identifier
+                    })
 
     return annotation_tree
