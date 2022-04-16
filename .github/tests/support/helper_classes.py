@@ -3,8 +3,10 @@
 # For now though, it gets the job done fast enough that enhancements
 # would be purely cosmetic.
 
-import os
 import csv
+import os
+
+import yaml
 
 
 class ModelSystem:
@@ -151,3 +153,16 @@ class SBtable:
                 exit()
             # remove blank entries
         self.unused = [h for h in self.headers if all(self.data[a].get(h) == "" for a in self.data)]
+
+class ModelConfig():
+    def __init__(self,filename):
+        # loading the yaml
+        with open(filename, "r") as input_file: 
+            data = yaml.safe_load(input_file)
+
+        # assigning the variables
+        self.name = data["Project name"]
+        self.organism = data["Organism"]
+        self.short_name = data["Organism short name"]
+        self.project_info = data["Project description"]
+        self.db_table = data["Database table"]
