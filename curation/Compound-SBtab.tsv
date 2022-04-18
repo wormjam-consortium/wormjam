@@ -2851,48 +2851,48 @@ M_tre_c	Trehalose	c	0	C12H22O11	CHEBI:16551								InChI=1S/C12H22O11/c13-1-3-5(
 M_tre_e	Trehalose	e	0	C12H22O11	CHEBI:16551								InChI=1S/C12H22O11/c13-1-3-5(15)7(17)9(19)11(21-3)23-12-10(20)8(18)6(16)4(2-14)22-12/h3-20H,1-2H2/t3-,4-,5-,6-,7+,8+,9-,10-,11-,12-/m1/s1	HDTRYLNUVZCQOY-LIZSDCNHSA-N	OC[C@H]1O[C@H](O[C@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@H](O)[C@@H](O)[C@@H]1O	alpha,alpha-trehalose	C12H22O11	InChI=1S/C12H22O11/c13-1-3-5(15)7(17)9(19)11(21-3)23-12-10(20)8(18)6(16)4(2-14)22-12/h3-20H,1-2H2/t3-,4-,5-,6-,7+,8+,9-,10-,11-,12-/m1/s1	HDTRYLNUVZCQOY-LIZSDCNHSA-N	OC[C@H]1O[C@H](O[C@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@H](O)[C@@H](O)[C@@H]1O	CHEBI:16551	C01083		"HMDB0000975;HMDB00975"			Q421773	7427		7149				
 M_tre_m	Trehalose	m	0	C12H22O11	CHEBI:16551								InChI=1S/C12H22O11/c13-1-3-5(15)7(17)9(19)11(21-3)23-12-10(20)8(18)6(16)4(2-14)22-12/h3-20H,1-2H2/t3-,4-,5-,6-,7+,8+,9-,10-,11-,12-/m1/s1	HDTRYLNUVZCQOY-LIZSDCNHSA-N	OC[C@H]1O[C@H](O[C@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@H](O)[C@@H](O)[C@@H]1O	alpha,alpha-trehalose	C12H22O11	InChI=1S/C12H22O11/c13-1-3-5(15)7(17)9(19)11(21-3)23-12-10(20)8(18)6(16)4(2-14)22-12/h3-20H,1-2H2/t3-,4-,5-,6-,7+,8+,9-,10-,11-,12-/m1/s1	HDTRYLNUVZCQOY-LIZSDCNHSA-N	OC[C@H]1O[C@H](O[C@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@H](O)[C@@H](O)[C@@H]1O	CHEBI:16551	C01083		"HMDB0000975;HMDB00975"			Q421773	7427		7149				
 M_tre6p_c	alpha,alpha-Trehalose 6-phosphate(2-)	c	-2	C12H21O14P	CHEBI:58429								InChI=1S/C12H23O14P/c13-1-3-5(14)7(16)9(18)11(24-3)26-12-10(19)8(17)6(15)4(25-12)2-23-27(20,21)22/h3-19H,1-2H2,(H2,20,21,22)/p-2/t3-,4-,5-,6-,7+,8+,9-,10-,11-,12-/m1/s1	LABSPYBHMPDTEL-LIZSDCNHSA-L	OC[C@H]1O[C@H](O[C@H]2O[C@H](COP([O-])([O-])=O)[C@@H](O)[C@H](O)[C@H]2O)[C@H](O)[C@@H](O)[C@@H]1O	alpha,alpha-trehalose 6-phosphate	C12H23O14P	InChI=1S/C12H23O14P/c13-1-3-5(14)7(16)9(18)11(24-3)26-12-10(19)8(17)6(15)4(25-12)2-23-27(20,21)22/h3-19H,1-2H2,(H2,20,21,22)/t3-,4-,5-,6-,7+,8+,9-,10-,11-,12-/m1/s1	LABSPYBHMPDTEL-LIZSDCNHSA-N	OC[C@H]1O[C@H](O[C@H]2O[C@H](COP(O)(O)=O)[C@@H](O)[C@H](O)[C@H]2O)[C@H](O)[C@@H](O)[C@@H]1O	CHEBI:18283	C00689		"HMDB0001124;HMDB01124"			Q27102967	122336		109086				
-M_trnaala_c	tRNA(Ala)	c	0		CHEBI:29170				Formula: Generic compound in reaction hierarchy																									
-M_trnaala_m	tRNA(Ala)	m	0		CHEBI:29170				Formula: Generic compound in reaction hierarchy																									
-M_trnaarg_c	tRNA(Arg)	c	0		CHEBI:29171				Formula: Generic compound in reaction hierarchy																									
-M_trnaarg_m	tRNA(Arg)	m	0		CHEBI:29171				Formula: Generic compound in reaction hierarchy																									
-M_trnaasn_c	tRNA(Asn)	c	0		CHEBI:29172				Formula: Generic compound in reaction hierarchy																									
-M_trnaasn_m	tRNA(Asn)	m	0		CHEBI:29172				Formula: Generic compound in reaction hierarchy																									
-M_trnaasp_c	tRNA(Asp)	c	0		CHEBI:29186				Formula: Generic compound in reaction hierarchy																									
-M_trnaasp_m	tRNA(Asp)	m	0		CHEBI:29186				Formula: Generic compound in reaction hierarchy																									
-M_trnacys_c	tRNA(Cys)	c	0		CHEBI:29167				Formula: Generic compound in reaction hierarchy																									
-M_trnacys_m	tRNA(Cys)	m	0		CHEBI:29167				Formula: Generic compound in reaction hierarchy																									
-M_trnagln_c	tRNA(Gln)	c	0		CHEBI:29168				Formula: Generic compound in reaction hierarchy																									
-M_trnagln_m	tRNA(Gln)	m	0		CHEBI:29168				Formula: Generic compound in reaction hierarchy																									
-M_trnaglu_c	tRNA (Glu)	c	0		CHEBI:29175				Formula: Generic compound in reaction hierarchy																									
-M_trnaglu_m	tRNA (Glu)	m	0		CHEBI:29175				Formula: Generic compound in reaction hierarchy																									
-M_trnagly_c	tRNA(Gly)	c	0		CHEBI:29176				Formula: Generic compound in reaction hierarchy																									
-M_trnagly_m	tRNA(Gly)	m	0		CHEBI:29176				Formula: Generic compound in reaction hierarchy																									
-M_trnahis_c	tRNA(His)	c	0		CHEBI:29178				Formula: Generic compound in reaction hierarchy																									
-M_trnahis_m	tRNA(His)	m	0		CHEBI:29178				Formula: Generic compound in reaction hierarchy																									
-M_trnaile_c	tRNA(Ile)	c	0		CHEBI:29174				Formula: Generic compound in reaction hierarchy																									
-M_trnaile_m	tRNA(Ile)	m	0		CHEBI:29174				Formula: Generic compound in reaction hierarchy																									
-M_trnaleu_c	tRNA(Leu)	c	0		CHEBI:29169				Formula: Generic compound in reaction hierarchy																									
-M_trnaleu_m	tRNA(Leu)	m	0		CHEBI:29169				Formula: Generic compound in reaction hierarchy																									
-M_trnalys_c	tRNA(Lys)	c	0		CHEBI:29185				Formula: Generic compound in reaction hierarchy																									
-M_trnalys_m	tRNA(Lys)	m	0		CHEBI:29185				Formula: Generic compound in reaction hierarchy																									
-M_trnamet_c	tRNA(Met)	c	0		CHEBI:29173				Formula: Generic compound in reaction hierarchy																									
-M_trnamet_m	tRNA(Met)	m	0		CHEBI:29173				Formula: Generic compound in reaction hierarchy																									
-M_trnaphe_c	tRNA(Phe)	c	0		CHEBI:29184				Formula: Generic compound in reaction hierarchy																									
-M_trnaphe_m	tRNA(Phe)	m	0		CHEBI:29184				Formula: Generic compound in reaction hierarchy																									
-M_trnapro_c	tRNA(Pro)	c	0		CHEBI:29177				Formula: Generic compound in reaction hierarchy																									
-M_trnapro_m	tRNA(Pro)	m	0		CHEBI:29177				Formula: Generic compound in reaction hierarchy																									
-M_trnasec_c	tRNA(Sec)	c	0		CHEBI:29264				Formula: Generic compound in reaction hierarchy																									
-M_trnasec_m	tRNA(Sec)	m	0		CHEBI:29264				Formula: Generic compound in reaction hierarchy																									
-M_trnaser_c	tRNA(Ser)	c	0		CHEBI:29179				Formula: Generic compound in reaction hierarchy																									
-M_trnaser_m	tRNA(Ser)	m	0		CHEBI:29179				Formula: Generic compound in reaction hierarchy																									
-M_trnathr_c	tRNA(Thr)	c	0		CHEBI:29180				Formula: Generic compound in reaction hierarchy																									
-M_trnathr_m	tRNA(Thr)	m	0		CHEBI:29180				Formula: Generic compound in reaction hierarchy																									
-M_trnatrp_c	tRNA(Trp)	c	0		CHEBI:29181				Formula: Generic compound in reaction hierarchy																									
-M_trnatrp_m	tRNA(Trp)	m	0		CHEBI:29181				Formula: Generic compound in reaction hierarchy																									
-M_trnatyr_c	tRNA(Tyr)	c	0		CHEBI:29182				Formula: Generic compound in reaction hierarchy																									
-M_trnatyr_m	tRNA(Tyr)	m	0		CHEBI:29182				Formula: Generic compound in reaction hierarchy																									
-M_trnaval_c	tRNA(Val)	c	0		CHEBI:29183				Formula: Generic compound in reaction hierarchy																									
-M_trnaval_m	tRNA(Val)	m	0		CHEBI:29183				Formula: Generic compound in reaction hierarchy																									
+M_trnaala_c	tRNA(Ala)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaala_m	tRNA(Ala)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaarg_c	tRNA(Arg)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaarg_m	tRNA(Arg)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaasn_c	tRNA(Asn)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaasn_m	tRNA(Asn)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaasp_c	tRNA(Asp)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaasp_m	tRNA(Asp)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnacys_c	tRNA(Cys)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnacys_m	tRNA(Cys)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnagln_c	tRNA(Gln)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnagln_m	tRNA(Gln)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaglu_c	tRNA (Glu)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaglu_m	tRNA (Glu)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnagly_c	tRNA(Gly)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnagly_m	tRNA(Gly)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnahis_c	tRNA(His)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnahis_m	tRNA(His)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaile_c	tRNA(Ile)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaile_m	tRNA(Ile)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaleu_c	tRNA(Leu)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaleu_m	tRNA(Leu)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnalys_c	tRNA(Lys)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnalys_m	tRNA(Lys)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnamet_c	tRNA(Met)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnamet_m	tRNA(Met)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaphe_c	tRNA(Phe)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaphe_m	tRNA(Phe)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnapro_c	tRNA(Pro)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnapro_m	tRNA(Pro)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnasec_c	tRNA(Sec)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnasec_m	tRNA(Sec)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaser_c	tRNA(Ser)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaser_m	tRNA(Ser)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnathr_c	tRNA(Thr)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnathr_m	tRNA(Thr)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnatrp_c	tRNA(Trp)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnatrp_m	tRNA(Trp)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnatyr_c	tRNA(Tyr)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnatyr_m	tRNA(Tyr)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaval_c	tRNA(Val)	c	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
+M_trnaval_m	tRNA(Val)	m	-1	C10H12N5O6P	CHEBI:78442				Formula: Generic compound in reaction hierarchy																									
 M_tropcollg_rest_c	Tropocollagen	c	0																															
 M_tropcollgtyr_c	Tropocollagen L-tyrosine (to be cross-linked)	c	0																															
 M_tropcollgtyrX_c	Tropocollagen L-tyrosine (cross-linked)	c	0																															
