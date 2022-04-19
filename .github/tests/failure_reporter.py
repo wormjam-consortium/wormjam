@@ -3,6 +3,12 @@ import json
 import sys
 import datetime
 
+from pathlib import Path
+from support.helper_classes import ModelConfig
+
+settings_path = Path(".github") / "tests" / "config.yml"
+settings = ModelConfig(settings_path)
+
 DISCORD_ENDPOINT = sys.argv[1]  # Github Actions Channel Webhook
 GITHUB_BUILD_NUMBER = sys.argv[2]  # Github build counter
 GITHUB_BUILD_WEB_URL = sys.argv[3]  # github unique run ID used for link construction
@@ -14,7 +20,7 @@ GITHUB_REPO_BRANCH = sys.argv[5].split("/")[
 payload_json = {
     "embeds": [
         {
-            "title": "WormJam CI Report",
+            "title": f"{settings.name} CI Report",
             "color": 10027008,  # red
             "description": "A build has failed from [%s](%s) on branch %s"
             % (

@@ -1,5 +1,5 @@
 !!SBtab TableID='parameter' Document='WormJam Draft Model' TableType='Parameter' TableName='Parameters' SBtabVersion='1.0' Date='2021-03-09'
 !ID	!Parameter	!Value	!Unit	!Type	!SBOTerm	!Curator	!Comments
-LOWER_BOUND	LOWER_BOUND	-1000		global parameter			
-ZERO_BOUND	ZERO_BOUND	0		global parameter			
-UPPER_BOUND	UPPER_BOUND	1000		global parameter			
+LOWER_BOUND	LOWER_BOUND	-1000		global parameter	SBO:0000000		[TODO] Update SBOTerms
+ZERO_BOUND	ZERO_BOUND	0		global parameter	SBO:0000000		[TODO] Update SBOTerms
+UPPER_BOUND	UPPER_BOUND	1000		global parameter	SBO:0000000		[TODO] Update SBOTerms

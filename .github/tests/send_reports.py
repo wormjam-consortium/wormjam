@@ -1,8 +1,14 @@
 import json
+import os
 import sys
 import requests
 import datetime
 
+from pathlib import Path
+from support.helper_classes import ModelConfig
+
+settings_path = Path(".github") / "tests" / "config.yml"
+settings = ModelConfig(settings_path)
 
 DISCORD_ENDPOINT = sys.argv[1]  # Github Actions Channel Webhook
 DISCORD_ENDPOINT_2 = sys.argv[2]  # Model Uploads Channel Webhook
@@ -12,20 +18,20 @@ GITHUB_REPO_SLUG = sys.argv[5]  # user/repo
 GITHUB_REPO_BRANCH = sys.argv[6].split("/")[
     -1
 ]  # branch - process the string and grab the last term
-
-timestamp = datetime.datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
-filename = "WormJam" + timestamp + ".tar.gz"
+for f in os.listdir():
+    if all([qualifier in f for qualifier in [".tar.gz",settings.name]]):
+        filename = f
 
 # prepare files for sending
 report_file = {"Report.html": open("Report.html", "rb")}
-packaged_model_file = {filename: open("WormJam.tar.gz", "rb")}
+packaged_model_file = {filename: open(filename, "rb")}
 
 # construct embed to send to discord
 # This embed is used for both messages
 payload_json = {
     "embeds": [
         {
-            "title": "WormJam CI Report",
+            "title": f"{settings.name} CI Report",
             "color": 2132223,  # this is github action colour
             "description": "Model Build from [%s](%s) on branch %s"
             % (
