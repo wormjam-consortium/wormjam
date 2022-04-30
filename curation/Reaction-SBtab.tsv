@@ -2862,8 +2862,8 @@ R_RM08770	Hydroxylation of 3-Decaprenyl-4-hydroxybenzoate (NAD)	M_h_m +  M_nadh_
 R_RM08771	dihydroxydecaprenylbenzoate methyltransferase	M_amet_m +  M_3npdhb_m <=> M_h_m + M_ahcys_m + M_3npdhb_me_m	m	FALSE	WBGene00000763	PW004			"RHEA:44452;RHEA:44380"														
 R_RM08772	3-Decaprenyl-4-hydroxy-5-methoxybenzoate  decarboxylation	M_h_m +  M_3npdhb_me_m <=> M_co2_m + M_2np6mep_m	m	FALSE	Unknown	PW004																	
 R_RM08773	Ubiqui biosynthesis monooxgenase COQ6	M_o2_m +  M_2np6mep_m <=> M_h2o_m + M_2np6mobq_m	m	FALSE	WBGene00000766	PW004																	
-R_RM08774	Ubiqui biosynthesis methyltransferase COQ5	M_amet_m +  M_2np6mobq_m <=> M_h_m + M_ahcys_m + M_2np6mobq_me_m	m	FALSE	WBGene00000765	PW004			RHEA:28286														
-R_RM08775	Ubiqui biosynthesis COQ7	M_h_m +  M_nadph_m +  M_o2_m +  M_2np6mobq_me_m <=> M_h2o_m + M_nadp_m + M_2npmhobq_m	m	FALSE	WBGene00000536	PW004																	
+R_RM08774	Ubiqui biosynthesis methyltransferase COQ5	M_amet_m +  M_2np6mobq_m <=> M_h_m + M_ahcys_m + M_me2np6mobq_m	m	FALSE	WBGene00000765	PW004			RHEA:28286														
+R_RM08775	Ubiqui biosynthesis COQ7	M_h_m +  M_nadph_m +  M_o2_m +  M_me2np6mobq_m <=> M_h2o_m + M_nadp_m + M_2npmhobq_m	m	FALSE	WBGene00000536	PW004																	
 R_RM08781	methyltransferase COQ3	M_amet_m +  M_2npmhobq_m <=> M_h_m + M_ahcys_m + M_q9_m	m	FALSE	WBGene00000763	PW004			"RHEA:44452;RHEA:44380"														
 R_RM10151	Thiosulfate oxidation (cytochrome c reducing)	5.0 M_h2o_m +  M_tsul_m + 8.0 M_ficytC_m <=> 2.0 M_so4_m + 10.0 M_h_m + 8.0 M_focytC_m	m	FALSE	WBGene00017121 or WBGene00013854	PW096																	
 R_RMC0001	isocitrate hydro-lyase (cis-aconitate-forming)	M_cit_m <=> M_icit_m	m	TRUE	WBGene00000041	PW023			RHEA:10336														
