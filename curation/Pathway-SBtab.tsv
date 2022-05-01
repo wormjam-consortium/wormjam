@@ -37,7 +37,7 @@ PW034	nucleotide interconversion	0015950|0015953				checked	lenov
 PW035	nicotinate and nicotinamide metabolism	0006769|1901847	map00760		0002580|	checked	lenov
 PW036	nicotinamide adenine dinucleotide metabolism	19674			2580	[CHECKME] should it be merged with nicotinate and nicotinamide metabolism	
 PW037	pantothenate and coenzyme a biosynthesis	0015940|0071616	map00770		167	checked|NB: CoA biosynthetic pathway is a child of pantothenic acid metabolic pathway. Splitting in two will be tricky.	lenov
-PW038	acetyl-coa conversions		???			"[CHECKME] This is an ill-defined pathway. I suggest to re-annotate the reactions with fatty acid metabolism and glycolysis, and delete this pw."	lenov
+PW038	acetyl-coa conversions		???			[CHECKME] This is an ill-defined pathway. I suggest to re-annotate the reactions with fatty acid metabolism and glycolysis, and delete this pw.	lenov
 PW039	vitamin b6 metabolism	42816	map00750		138	checked	lenov
 PW040	riboflavin metabolism	6771	map00740		137	checked	lenov
 PW041	thiamine metabolism	6772	map00730		136		
@@ -52,7 +52,7 @@ PW049	steroid hormone biosynthesis	42446	map00140		40	checked|there is no GO ter
 PW050	ascaroside biosynthesis	1904070			1316	checked	lenov
 PW051	lipoic acid metabolism	9106	map00785		1063	checked	lenov
 PW052	glycerolipid metabolism	46486	map00561		1156	checked	lenov
-PW053	glycogen metabolism	5977				"Phenomenological representation of glycogen metabolism that consumes the right amount of UDP-glucose, produces the right amount of G1P and glucose, forms and breaks the right ratio of 1,4 and 1,6 glucose-glucose bonds and involve the right enzymes."	lenov
+PW053	glycogen metabolism	5977				Phenomenological representation of glycogen metabolism that consumes the right amount of UDP-glucose, produces the right amount of G1P and glucose, forms and breaks the right ratio of 1,4 and 1,6 glucose-glucose bonds and involve the right enzymes.	lenov
 PW054	needed glycerolipid metabolism					[CHECKME] Why is this different from glycerolipid metabolism? Only 3 reactions annotated	
 PW055	sphingolipid metabolism	6665	map00600		197	checked	lenov
 PW056	glycerophospholipid metabolism	6650	map00564		354	checked	lenov
@@ -62,8 +62,8 @@ PW059	branched-chain fatty acid synthesis	6633	map00061		29	checked	lenov
 PW060	fatty acid biosynthesis	6633	map00061		29	checked	lenov
 PW061	biosynthesis of unsaturated fatty acids	6636	map01040		1137	checked	lenov
 PW062	fatty acid oxidation	19395	map00071		738	[CHECKME] is it supposed to be the same as beta-oxidation?	lenov
-PW063	peroxisomal fatty acid beta oxidation	6635	map00071		738	"checked|annotated as the general PW, but is only in peroxisome"	lenov
-PW064	mitochondrial fatty acid beta oxidation	6635	map00071		738	"checked|annotated as the general PW, but is only in mitochondria"	lenov
+PW063	peroxisomal fatty acid beta oxidation	6635	map00071		738	checked|annotated as the general PW, but is only in peroxisome	lenov
+PW064	mitochondrial fatty acid beta oxidation	6635	map00071		738	checked|annotated as the general PW, but is only in mitochondria	lenov
 PW065	ether lipid metabolism	46485	map00565		1138	checked	lenov
 PW066	primary bile acid biosynthesis	6699	map00120		1060	checked	lenov
 PW067	carnitine shuttle	6853			2291	checked	lenov
@@ -72,8 +72,8 @@ PW069	retinol metabolism	42572	map00830		141
 PW070	glutathione metabolism	6749	map00480		134	checked	lenov
 PW071	gamma-glutamyl cycle			META:PWY-4041		[CHECKME] this should be covered by glutathione metabolism	lenov
 PW072	tryptophan metabolism	6568	map00380		54	checked	lenov
-PW073	"alanine, aspartate and glutamate metabolism"	0006522|0006531|0006536	map00250		28	checked	lenov
-PW074	"glycine, serine and threonine metabolism"	0006544|0006563|0006566	map00260		47	checked	lenov
+PW073	alanine, aspartate and glutamate metabolism	0006522|0006531|0006536	map00250		28	checked	lenov
+PW074	glycine, serine and threonine metabolism	0006544|0006563|0006566	map00260		47	checked	lenov
 PW075	phenylalanine metabolism	6558	map00360		53	checked	lenov
 PW076	phenylalanine degradation	6559			1288	[CHECKME] Merge with phenylalanine metabolism?	lenov
 PW077	tyrosine metabolism	6570	map00350		52		
@@ -82,7 +82,7 @@ PW079	lysine metabolism	6553			1081	checked
 PW080	lysine degradation	6554	map00310		73	[CHECKME] Merge with lysine metabolism?	lenov
 PW081	arginine and proline metabolism	0006525|0006560	map00330		50	checked	lenov
 PW082	cysteine and methionine metabolism	0006534|0006555	map00270		1078	checked	lenov
-PW083	"valine, leucine and isoleucine degradation"	0006574|0006552|0006550	map00280		71	checked	lenov
+PW083	valine, leucine and isoleucine degradation	0006574|0006552|0006550	map00280		71	checked	lenov
 PW084	histidine metabolism	6547	map00340		51	checked	lenov
 PW085	aminoacyl-trna biosynthesis	43039	map00970		1159	checked	lenov
 PW086	beta-alanine metabolism	19482	map00410		77	checked	lenov
@@ -96,9 +96,9 @@ PW093	thioredoxin pathway			THIOREDOX-PWY	2624	checked	lenov
 PW094	methane metabolism	15947	map00680		68	checked	lenov
 PW095	one carbon pool by folate		map00670		189	checked	lenov
 PW096	sulfur metabolism	6790	map00920		37	checked	lenov
-PW097	iron-sulfur cluster biosynthesis	16226			2634	"[CHECKME] only 3 reactions, disconnected from the rest"	lenov
+PW097	iron-sulfur cluster biosynthesis	16226			2634	[CHECKME] only 3 reactions, disconnected from the rest	lenov
 PW098	miscellaneous					[CHECKME] Should that be generic pathway or something like that?	lenov
-PW099	protein modification	36211			432	"[CHECKME]  It is not a pathway.  Initially only 4 reactions annotated, 2 of which are sink. Worth re-annotating them|Plus 4 re-annotated from carnitine biosynthesis that should be protein methylation"	lenov
+PW099	protein modification	36211			432	[CHECKME]  It is not a pathway.  Initially only 4 reactions annotated, 2 of which are sink. Worth re-annotating them|Plus 4 re-annotated from carnitine biosynthesis that should be protein methylation	lenov
 PW100	protein hydroxylation	18126				checked.	lenov
 PW101	histone modification	16570			1338	checked	lenov
 PW102	protein methylation	6479				proposed pathway	lenov
@@ -110,7 +110,7 @@ PW107	extracellular transport	6858				Suggested name change	lenov
 PW108	nuclear transport					Suggested name change	lenov
 PW109	biomass assembly					checked. Phenomenological pathway needed for wormjam	lenov
 PW110	bacterial digestion					checked. Phenomenological pathway needed for wormjam	lenov
-PW111	exchange reactions					"checked. NB: there are lots of inconsistencies there. Sometimes exchange reaction, sometime transport X"	lenov
+PW111	exchange reactions					checked. NB: there are lots of inconsistencies there. Sometimes exchange reaction, sometime transport X	lenov
 PW112	core modifications of n-glycans						
 PW113	o-glycan synthesis						
 PW114	glycoaminoglycan-protein linkage region biosynthesis						
@@ -118,21 +118,31 @@ PW115	vacenic acid beta-oxidation					Added 22/07	jpnh
 PW116	palmitoleic acid beta-oxidation					Added 22/07	jpnh
 PW117	oleic acid beta-oxidation					Added 22/07	jpnh
 PW118	linoleic acid beta-oxidation					Added 22/07	jpnh
-PW119	"fatty acid beta-oxidation (odd, iso chain, peroxisomal)"					Added 22/07	jpnh
+PW119	fatty acid beta-oxidation (odd, iso chain, peroxisomal)					Added 22/07	jpnh
 PW120	fatty acid beta-oxidation (mitochondria)					Added 22/07	jpnh
-PW121	"fatty acid beta-oxidation (even, straight chain,peroxisomal)"					Added 22/07	jpnh
-PW122	"fatty acid biosynthesis (odd, iso chain, cytosolic)"					Added 22/08	jpnh
-PW123	"fatty acid biosynthesis (odd, iso chain, mitochondrial)"					Added 22/09	jpnh
-PW124	"fatty acid biosynthesis (even, straight chain, cytosolic)"					Added 22/10	jpnh
-PW125	"ascaroside beta-oxidation (even, straight chain, ascr, peroxisomal)"					Added 22/11	jpnh
-PW126	"ascaroside beta-oxidation (odd, straight chain, oscr, peroxisomal)"					Added 22/12	jpnh
-PW127	"fatty acid biosynthesis (odd, iso chain, cytosolic), fatty acid biosynthesis (even, straight chain, cytosolic)"					Added 22/13	jpnh
-PW128	"fatty acid elongation and desaturation (odd, iso chain, endoplasmic reticulum)"					Added 22/14	jpnh
-PW129	"fatty acid elongation and desaturation (even, straight chain, endoplasmic reticulum)"					Added 22/15	jpnh
+PW121	fatty acid beta-oxidation (even, straight chain,peroxisomal)					Added 22/07	jpnh
+PW122	fatty acid biosynthesis (odd, iso chain, cytosolic)					Added 22/08	jpnh
+PW123	fatty acid biosynthesis (odd, iso chain, mitochondrial)					Added 22/09	jpnh
+PW124	fatty acid biosynthesis (even, straight chain, cytosolic)					Added 22/10	jpnh
+PW125	ascaroside beta-oxidation (even, straight chain, ascr, peroxisomal)					Added 22/11	jpnh
+PW126	ascaroside beta-oxidation (odd, straight chain, oscr, peroxisomal)					Added 22/12	jpnh
+PW127	fatty acid biosynthesis (odd, iso chain, cytosolic), fatty acid biosynthesis (even, straight chain, cytosolic)					Added 22/13	jpnh
+PW128	fatty acid elongation and desaturation (odd, iso chain, endoplasmic reticulum)					Added 22/14	jpnh
+PW129	fatty acid elongation and desaturation (even, straight chain, endoplasmic reticulum)					Added 22/15	jpnh
 PW130	acyl-coa conversion (mitochondrial)					Added 22/16	jpnh
-PW131	"fatty acid biosynthesis (even, straight chain, mitochondrial)"					Added 22/17	jpnh
+PW131	fatty acid biosynthesis (even, straight chain, mitochondrial)					Added 22/17	jpnh
 PW132	mitochondrial import by diffusion					Added 22/18	jpnh
-PW133	"ascaroside beta-oxidation (even, straight chain, oscr, peroxisomal)"					Added 22/19	jpnh
-PW134	"fatty acid beta-oxidation (even, straight chain, mitochondrial)"					Added 22/20	jpnh
-PW135	"ascaroside beta-oxidation (odd, straight chain, ascr, peroxisomal)"					Added 22/21	jpnh
+PW133	ascaroside beta-oxidation (even, straight chain, oscr, peroxisomal)					Added 22/19	jpnh
+PW134	fatty acid beta-oxidation (even, straight chain, mitochondrial)					Added 22/20	jpnh
+PW135	ascaroside beta-oxidation (odd, straight chain, ascr, peroxisomal)					Added 22/21	jpnh
 PW136	acyl-coa synthetase (er)					Added 22/22	jpnh
+PW137	biosynthesis and degradation of phosphaditic acid and diacylglycerol					added definition for new pathways	wimi
+PW138	biosynthesis and degradation of triacylglycerols					added definition for new pathways	wimi
+PW139	biosynthesis of glycerophospholipids					added definition for new pathways	wimi
+PW140	remodeling and degradation of glycerophospholipids					added definition for new pathways	wimi
+PW141	biosynthesis of etherlipids					added definition for new pathways	wimi
+PW142	cardiolipin biosynthesis					added definition for new pathways	wimi
+PW143	biosynthesis and degradation of maradolipids					added definition for new pathways	wimi
+SPW001	fatty acid metabolism					added definition for super pathways	wimi
+SPW002	ascaroside metabolism					added definition for super pathways	wimi
+SPW003	lipid metabolism					added definition for super pathways	wimi
