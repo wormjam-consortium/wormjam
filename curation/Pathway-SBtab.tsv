@@ -136,6 +136,7 @@ PW133	ascaroside beta-oxidation (even, straight chain, oscr, peroxisomal)					Ad
 PW134	fatty acid beta-oxidation (even, straight chain, mitochondrial)					Added 22/20	jpnh
 PW135	ascaroside beta-oxidation (odd, straight chain, ascr, peroxisomal)					Added 22/21	jpnh
 PW136	acyl-coa synthetase (er)					Added 22/22	jpnh
-PW137	biosynthesis and degradation of phosphaditic acid and diacylglycerol					added definition for super pathways	wimi
+PW137	biosynthesis and degradation of phosphaditic acid and diacylglycerol					added definition for new pathways	wimi
+PW138	biosynthesis and degradation of triacylglycerols					added definition for new pathways	wimi
 SPW001	fatty acid metabolism					added definition for super pathways	wimi
 SPW002	ascaroside metabolism					added definition for super pathways	wimi
