@@ -1789,10 +1789,10 @@ R_MAN1PT_n	Mannose-1-phosphate guanylyltransferase	M_man1p_n +  M_h_n +  M_gtp_n
 R_MAN6PI_c	Mannose-6-phosphate isomerase	M_man6p_c <=> M_f6p_c	c	TRUE	(WBGene00015464) or (WBGene00014013)	amino sugar and nucleotide sugar metabolism; fructose and mannose metabolism																	
 R_MAN6PI_n	Mannose-6-phosphate isomerase	M_man6p_n <=> M_f6p_n	n	TRUE	(WBGene00015464) or (WBGene00014013)	amino sugar and nucleotide sugar metabolism; fructose and mannose metabolism																	
 R_MANt1r	mannose transport (uniport)	M_man_e <=> M_man_c	ec	TRUE	(WBGene00019979) or (WBGene00019207) or (ND)	PW107																	
-R_MARBIOSYNTH0001	Trehalose acyl transferase	M_tre_c + M_fataccoa_c <=> M_lmar_c + M_coa_c	c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi								
-R_MARBIOSYNTH0002	Lysomarado acyl transferase	M_lmar_c + M_fataccoa_c <=> M_mar_c + M_coa_c	c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi								
-R_MARBIOSYNTH0003	Marado hydrolase	M_mar_c + M_h2o_c <=> M_lmar_c + M_fatacid_c + M_h_c	c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi								
-R_MARBIOSYNTH0004	Lysomarado hydrolase	M_lmar_c + M_h2o_c <=> M_tre_c + M_fatacid_c + M_h_c	c	FALSE		Biosynthesis and Degradation of Maradolipids								[CHECKME] added maradolipid biosynthesis and degradation	wimi								
+R_MARBIOSYNTH0001	Trehalose acyl transferase	M_tre_c + M_fataccoa_c <=> M_lmar_c + M_coa_c	c	FALSE		PW143	SPW003							[CHECKME] added maradolipid biosynthesis and degradation	wimi								
+R_MARBIOSYNTH0002	Lysomarado acyl transferase	M_lmar_c + M_fataccoa_c <=> M_mar_c + M_coa_c	c	FALSE		PW143	SPW003							[CHECKME] added maradolipid biosynthesis and degradation	wimi								
+R_MARBIOSYNTH0003	Marado hydrolase	M_mar_c + M_h2o_c <=> M_lmar_c + M_fatacid_c + M_h_c	c	FALSE		PW143	SPW003							[CHECKME] added maradolipid biosynthesis and degradation	wimi								
+R_MARBIOSYNTH0004	Lysomarado hydrolase	M_lmar_c + M_h2o_c <=> M_tre_c + M_fatacid_c + M_h_c	c	FALSE		PW143	SPW003							[CHECKME] added maradolipid biosynthesis and degradation	wimi								
 R_MCD_m	malonyl-CoA decarboxylase	M_h_m +  M_malcoa_m <=> M_co2_m + M_accoa_m	m	FALSE	(WBGene00009439)	PW038		R00233						added KEGG ID	lenov								
 R_MCRNtm	O-Myristoylcarnitine transport into mitochondria via diffusion	M_carn14_0__L_c <=> M_carn14_0__L_m	cm	FALSE	(WBGene00000996 )	PW106																	
 R_MDH_c	Malate dehydrogenase	M_nad_c +  M_mal__L_c <=> M_oaa_c + M_h_c + M_nadh_c	c	TRUE	(WBGene00018491) or (WBGene00018491)	tca cycle; alanine, aspartate and glutamate metabolism; glyoxylate and dicarboxylate metabolism; glycolysis and gluconeogenesis			RHEA:21432;RHEA:21432														
