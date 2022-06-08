@@ -2466,11 +2466,10 @@ R_RC07218	Cholesterol 25-hydroxylase	M_h_c +  M_nadph_c +  M_o2_c +  M_chsterol_
 R_RC07296	choloyl-CoA hydrolase	M_h2o_c +  M_cholcoa_c <=> M_h_c + M_coa_c + M_cholate_c	c	FALSE	WBGene00017781	PW066																	
 R_RC07324	1D-myo-inositol-3-phosphate lyase (isomerizing)	M_g6p_A_c <=> M_mi3p_D_c	c	FALSE	WBGene00012148	PW029								replaced streptomycin biosynthesis with inositol phosphate metabolism	lenov								
 R_RC07372	oxysterol 7alpha-hydroxylase (acting on 27-hydroxycholesterol)	M_h_c +  M_nadph_c +  M_o2_c +  M_xol27oh_c <=> M_h2o_c + M_nadp_c + M_xoltri27_c	c	FALSE	TBD	PW066																	
-R_RC07379	Plasmenylethanolamine 2-acylhydrolase	M_h2o_c +  M_1alken2acg3pe_c <=> M_h_c + M_Rtotal6_c + M_alken2gpe_c	c	FALSE	WBGene00009801 or WBGene00012319	PW065																	
+R_ETHERLIPIDREMODEL0001	Plasmenylethanolamine 2-acylhydrolase	M_h2o_c +  M_1alken2acg3pe_c <=> M_h_c + M_Rtotal6_c + M_alken2gpe_c	c	FALSE	WBGene00009801 or WBGene00012319	PW065																	
 R_RC07380	Lysoplasmalogen ethanolamine phosphohydrolase	M_h2o_c +  M_alken2gpe_c <=> M_ethamp_c + M_h_c + M_1alkenglyc_c	c	TRUE	WBGene00020195 or WBGene00007753 or WBGene00007755 or WBGene00008776	PW065																	
-R_RC07384	O-1-Alk-1-enyl-2-acyl-sn-glycero-3-phosphoethanolamine + CMP = 1-Alkenyl-2-acylglycerol + CDP-ethanolamine	M_h_c +  M_cmp_c +  M_1alken2acg3pe_c <=> M_cdpea_c + M_alkenac2g_c	c	TRUE	WBGene00009057 or WBGene00018797	PW065																	
 R_RC07385	O-1-Alk-1-enyl-2-acyl-sn-glycero-3-phosphoethanolamine phosphatidohydrolase	M_h2o_c +  M_1alken2acg3pe_c <=> M_etha_c + M_h_c + M_alkenac2gp_c	c	TRUE	WBGene00004040 or (WBGene00017316 or WBGene00020256 or WBGene00013080)	PW065			RHEA:14445														
-R_RC07387	Plasmanylcholine 2-acylhydrolase	M_h2o_c +  M_1alk2acg3pc_c <=> M_h_c + M_1alkg3pc_c + M_Rtotal6_c	c	FALSE	WBGene00009801 or WBGene00012319	PW065																	
+R_ETHERLIPIDREMODEL0002	Plasmanylcholine 2-acylhydrolase	M_h2o_c +  M_1alk2acg3pc_c <=> M_h_c + M_1alkg3pc_c + M_Rtotal6_c	c	FALSE	WBGene00009801 or WBGene00012319	PW065																	
 R_RC07641	hydrogen-carbonate:ammonia amido-ligase (ADP-forming, carbamate-phosphorylating)	M_hco3_c + 2.0 M_atp_c +  M_nh4_c <=> M_cbp_c + M_pi_c + 2.0 M_h_c + 2.0 M_adp_c	c	FALSE	WBGene00004259	PW043			RHEA:18633;RHEA:20013;RHEA:24296														
 R_RC07759	very-long-chain 3-oxoacyl-CoA reductase	M_h_c +  M_nadph_c +  M_coa18_0_3o_c <=> M_nadp_c + M_coa18_0_3oh__S_c	c	TRUE	WBGene00002891	PW060	SPW001		RHEA:48680														
 R_RC07933	DELTA6-fatty-acid desaturase	M_o2_c + 2.0 M_focytb5_c +  M_coa18_3_9z12z15z_c <=> 2.0 M_h2o_c + 2.0 M_ficytb5_c + M_strdnccoa_c	c	FALSE	WBGene00001395	PW061																	
@@ -3672,3 +3671,5 @@ R_XYLULOKIN_RXN_n	Xylulokinase	M_xylu_D_n +  M_atp_n <=> M_xu5p_D_n + 2.0 M_h_n 
 R_XYLUR_c	L-xylulose reductase	M_xylu_L_c +  M_h_c +  M_nadph_c <=> M_xylt_c + M_nadp_c	c	TRUE	(WBGene00000984)	PW033			RHEA:17025					set to reversible	janna								
 R_XYLUR_n	L-xylulose reductase	M_xylu_L_n +  M_h_n +  M_nadph_n <=> M_xylt_n + M_nadp_n	n	TRUE	(WBGene00000984)	PW033			RHEA:17025					set to reversible	janna								
 R_zn2_e	zn2 te	<=> M_zn2_e	e	TRUE		PW111																	
+R_ETHERLIPIDREMODEL0003	Plasmenylethanolamine 2-acyl tansferase	M_fataccoa_c + M_alken2gpe_c <=> M_coa_c + M_1alken2acg3pe_c	c	FALSE			SPW003																
+R_ETHERLIPIDREMODEL0004	Plasmenylcholine 2-acyl tansferase	M_fataccoa_c + M_1alkg3pc_c_c <=> M_coa_c +  M_1alk2acg3pc_c	c	FALSE			SPW003																
