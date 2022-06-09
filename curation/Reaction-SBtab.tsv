@@ -3672,4 +3672,4 @@ R_XYLUR_c	L-xylulose reductase	M_xylu_L_c +  M_h_c +  M_nadph_c <=> M_xylt_c + M
 R_XYLUR_n	L-xylulose reductase	M_xylu_L_n +  M_h_n +  M_nadph_n <=> M_xylt_n + M_nadp_n	n	TRUE	(WBGene00000984)	PW033			RHEA:17025					set to reversible	janna								
 R_zn2_e	zn2 te	<=> M_zn2_e	e	TRUE		PW111																	
 R_ETHERLIPIDREMODEL0003	Plasmenylethanolamine 2-acyl tansferase	M_fataccoa_c + M_alken2gpe_c <=> M_coa_c + M_1alken2acg3pe_c	c	FALSE			SPW003																
-R_ETHERLIPIDREMODEL0004	Plasmenylcholine 2-acyl tansferase	M_fataccoa_c + M_1alkg3pc_c_c <=> M_coa_c +  M_1alk2acg3pc_c	c	FALSE			SPW003																
+R_ETHERLIPIDREMODEL0004	Plasmenylcholine 2-acyl tansferase	M_fataccoa_c + M_1alkg3pc_c <=> M_coa_c +  M_1alk2acg3pc_c	c	FALSE			SPW003																
