@@ -2998,3 +2998,8 @@ M_1alkglycerone3p_c	1-alkylglycerone 3-phosphate(2-)	c	-2	C3H4O6PR	CHEBI:73315		
 M_1alk2acg3p_c	1-alkyl-2-acyl-sn-glycero-3-phosphate(2-)	c	-2	C4H5O7PR2	CHEBI:73332				added	wimi					[O-]P([O-])(=O)OC[C@@H](CO[*])OC([*])=O	1-alkyl-2-acyl-sn-glycerol 3-phosphate	C4H7O7PR2			OP(O)(=O)OC[C@@H](CO[*])OC([*])=O	CHEBI:37296													
 M_fdxrd_c	reduced ferredoxin	c	1	Fe2S2	CHEBI:33738				added	wimi																								
 M_fdxox_c	oxidized ferredoxin	c	2	Fe2S2	CHEBI:33737				added	wimi																								
+M_nape_c	N-acylphosphatidylethanolamine(1-)	c	-1	C8H10NO9PR3	CHEBI:62537																													
+M_nae_c	N-acylethanolamine	c	0	C3H6NO2R	CHEBI:52640																													
+M_pnae_c	N-acylethanolamine phosphate(2-)	c	-2	C3H5NO5PR	CHEBI:145497																													
+M_lnape_c	N-acyllysophosphatidylethanolamine(1-)	c	-1	C7H11NO8PR2	CHEBI:85216																													
+M_gpnae_c		c	-1																															
