@@ -3585,7 +3585,7 @@ R_TKT2_c	D-Fructose 6-phosphate:D-glyceraldehyde-3-phosphate glycolaldehyde tran
 R_TKT2_m	D-Fructose 6-phosphate:D-glyceraldehyde-3-phosphate glycolaldehyde transferase	M_e4p_m +  M_xu5p_D_m <=> M_f6p_m + M_g3p_m	m	TRUE	(WBGene00012713)	PW027	SPW004		"RHEA:13457;RHEA:13457"														
 R_TKT2_n	D-Fructose 6-phosphate:D-glyceraldehyde-3-phosphate glycolaldehyde transferase	M_e4p_n +  M_xu5p_D_n <=> M_f6p_n + M_g3p_n	n	TRUE	(WBGene00008506)	PW027	SPW004																
 R_TMABADH_c	4-trimethylammoniobutyraldehyde dehydrogenase	M_4tmeabut_c +  M_h2o_c +  M_nad_c <=> 2.0 M_h_c + M_4tmeabutn_c + M_nadh_c	c	FALSE	(WBGene00000108 or WBGene00000110) or WBGene00000118	PW080																	
-R_TMDK1_c	Thymidine kinase	M_atp_c +  M_thymd_c <=> 2.0 M_h_c + M_adp_c + M_dtmp_c	c	FALSE	(WBGene00006568)	"PW042;PW043"			"RHEA:19129;RHEA:19129"														
+R_TMDK1_c	Thymidine kinase	M_atp_c +  M_thymd_c <=> M_h_c + M_adp_c + M_dtmp_c	c	FALSE	(WBGene00006568)	"PW042;PW043"			"RHEA:19129;RHEA:19129"														
 R_TMDS_c	Thymidylate synthase	M_dump_c +  M_mlthf_c <=> M_dtmp_c + M_dhf_c	c	TRUE	(WBGene00022455)	PW043																	
 R_TMDS_n	Thymidylate synthase	M_dump_n +  M_mlthf_n <=> M_dtmp_n + M_dhf_n	n	TRUE	(WBGene00022455)	PW043																	
 R_TMLYSOX_c	Trimethyllysine dioxygenase	M_akg_c +  M_tmlys_c +  M_o2_c <=> M_co2_c + M_3htmelys_c + M_succ_c	c	FALSE	(WBGene00001522) or (WBGene00001523)	PW080			RHEA:24028														
@@ -3596,7 +3596,7 @@ R_TRANS_PENTAPRENYLTRANSFERASE_RXN_c	hexaprenyl-diphosphate synthase[(2E,6E)-far
 R_TRDR_n	Thioredoxin reductase (NADPH)	M_h_n +  M_nadph_n +  M_trdox_n <=> M_nadp_n + M_trdrd_n	n	FALSE	(WBGene00015553)	PW093			RHEA:20345														
 R_TREHALA_RXN_c	"&alpha;,&alpha;-trehalase"	M_h2o_c +  M_tre_c <=> 2.0 M_glc_bD_c	c	TRUE	(WBGene00006610) or (WBGene00006609) or (WBGene00006608) or (WBGene00006611) or (WBGene00006607)	PW026			"RHEA:32675;RHEA:32675;RHEA:32675;RHEA:32675;RHEA:32675;RHEA:32675;RHEA:32675"						ms								
 R_TREHALA_RXN_m	"&alpha;,&alpha;-trehalase"	M_h2o_m +  M_tre_m <=> 2.0 M_glc_bD_m	m	TRUE	(WBGene00006610) or (WBGene00006608)	PW026			"RHEA:32675;RHEA:32675;RHEA:32675;RHEA:32675"						ms								
-R_TRIOK_c	Triokinase	M_glyald_c +  M_atp_c <=> M_g3p_c + 2.0 M_h_c + M_adp_c	c	FALSE		PW020																	
+R_TRIOK_c	Triokinase	M_glyald_c +  M_atp_c <=> M_g3p_c + M_h_c + M_adp_c	c	FALSE		PW020																	
 R_TRPHYDRO2_c	Tryptophan 5-monooxygenase	M_trp__L_c +  M_thbpt_c +  M_o2_c <=> M_thbpt4acam_c + M_5htrp_c	c	FALSE	(WBGene00006600)	PW072																	
 R_Tryptophan_Exchange_reactions_e	Tryptophan transport	M_trp__L_e <=>	e	TRUE		PW111								Removed space from reaction ID	jpnh								
 R_Tryptophan_transport	Tryptophan transport	M_trp__L_c <=> M_trp__L_e	ce	TRUE	ND	PW107																	
@@ -3631,7 +3631,7 @@ R_Urea_transport	Urea transport	M_urea_c <=> M_urea_e	ce	TRUE	ND	PW107
 R_Uridine_Exchange_reactions_e	Uridine transport	M_uri_e <=>	e	TRUE		PW111								Removed space from reaction ID	jpnh								
 R_Uridine_transport	Uridine transport	M_uri_c <=> M_uri_e	ce	TRUE	ND	PW107																	
 R_URIH_c	Uridine nucleosidase	M_h2o_c +  M_uri_c <=> M_ura_c + M_rib_D_c	c	TRUE		"PW042;PW043"																	
-R_URIK1_c	Uridine kinase	M_atp_c +  M_uri_c <=> 2.0 M_h_c + M_adp_c + M_ump_c	c	FALSE	WBGene00007089 or WBGene00008948	"PW042;PW043"																	
+R_URIK1_c	Uridine kinase	M_atp_c +  M_uri_c <=> M_h_c + M_adp_c + M_ump_c	c	FALSE	WBGene00007089 or WBGene00008948	"PW042;PW043"																	
 R_URIK2_c	GTP:uridine 5'-phosphotransferase	M_gtp_c +  M_uri_c <=> M_h_c + M_gdp_c + M_ump_c	c	TRUE		PW043																	
 R_URIt2r	Uridine transport	M_h_e +  M_uri_e <=> M_h_c + M_uri_c	ec	TRUE	(WBGene00018716 or WBGene00014092) or (ND)	PW107								Added name	jpnh								
 R_Uritn	uridine  transport in nucleus	M_uri_c <=> M_uri_n	cn	TRUE		PW108																	
