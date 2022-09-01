@@ -2962,9 +2962,9 @@ R_RXN909_184_c	cerotoyl-CoA synthase	M_atp_c +  M_coa_c +  M_fa26_0_c <=> M_ppi_
 R_RXN909_185_c	adenylate kinase	M_atp_c +  M_amp_c <=> 2.0 M_adp_c	c	TRUE	WBGene00008458 or (WBGene00009531 or WBGene00002879)	PW042			RHEA:12973					set reversibility=TRUE	janna								
 R_RXN909_185_m	adenylate kinase	M_atp_m +  M_amp_m <=> 2.0 M_adp_m	m	TRUE	(WBGene00014058) or (WBGene00009531) or (WBGene00002879)	PW042			RHEA:12973					set to reversible	janna								
 R_RXN909_185_n	adenylate kinase	M_atp_n +  M_amp_n <=> 2.0 M_adp_n	n	TRUE	(WBGene00002879)	PW042			RHEA:12973					set to reversible	janna								
-R_RXN909_186_c	adenylate kinase	M_h_c +  M_dadp_c <=> M_damp_c + M_datp_c	c	FALSE	(WBGene00009531) or (WBGene00002879)	PW042			RHEA:12973														
-R_RXN909_186_m	adenylate kinase	M_h_m +  M_dadp_m <=> M_damp_m + M_datp_m	m	FALSE	(WBGene00014058) or (WBGene00009531) or (WBGene00002879)	PW042			RHEA:12973														
-R_RXN909_186_n	adenylate kinase	M_h_n +  M_dadp_n <=> M_damp_n + M_datp_n	n	FALSE	(WBGene00002879)	PW042			RHEA:12973														
+R_RXN909_186_c	adenylate kinase	2.0  M_dadp_c <=> M_damp_c + M_datp_c	c	FALSE	(WBGene00009531) or (WBGene00002879)	PW042			RHEA:12973														
+R_RXN909_186_m	adenylate kinase	2.0  M_dadp_m <=> M_damp_m + M_datp_m	m	FALSE	(WBGene00014058) or (WBGene00009531) or (WBGene00002879)	PW042			RHEA:12973														
+R_RXN909_186_n	adenylate kinase	2.0  M_dadp_n <=> M_damp_n + M_datp_n	n	FALSE	(WBGene00002879)	PW042			RHEA:12973														
 R_RXN909_187_c	adenylate kinase	M_datp_c +  M_amp_c <=> M_h_c + M_dadp_c + M_adp_c	c	FALSE	(WBGene00009531) or (WBGene00002879)	PW042			RHEA:12973														
 R_RXN909_187_m	adenylate kinase	M_datp_m +  M_amp_m <=> M_h_m + M_dadp_m + M_adp_m	m	FALSE	(WBGene00014058) or (WBGene00009531) or (WBGene00002879)	PW042			RHEA:12973														
 R_RXN909_187_n	adenylate kinase	M_datp_n +  M_amp_n <=> M_h_n + M_dadp_n + M_adp_n	n	FALSE	(WBGene00002879)	PW042			RHEA:12973														
