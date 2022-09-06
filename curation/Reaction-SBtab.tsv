@@ -1991,7 +1991,7 @@ R_PALMITOLEICBETAOX0012	3-ketothiolase (C12:1(5Z,3O), mitochondrial)	M_coa12_1_5
 R_PALMITOLEICBETAOX0013	Enoyl-CoA delta isomerase (C10:1(3Z), mitochondrial)	M_coa10_1_3z_m <=> M_coa10_1_2e_m	m	FALSE	WBGene00001153	PW116	SPW001							[CHECKME] Detailed replacement for lumped reaction R_RMC0088	wimi								
 R_Pantothenate_Exchange_reactions_e	Pantothenate transport	M_pnto_R_e <=>	e	TRUE		PW111								Removed space from reaction ID	jpnh								
 R_Pantothenate_transport	Pantothenate transport	M_pnto_R_c <=> M_pnto_R_e	ce	TRUE	ND	PW107																	
-R_PC_m	Pyruvate carboxylase	M_hco3_m +  M_atp_m +  M_pyr_m <=> M_oaa_m + M_pi_m + 2.0 M_h_m + M_adp_m	m	FALSE	(WBGene00004258)	PW023	SPW004		RHEA:20844														
+R_PC_m	Pyruvate carboxylase	M_hco3_m +  M_atp_m +  M_pyr_m <=> M_oaa_m + M_pi_m + M_h_m + M_adp_m	m	FALSE	(WBGene00004258)	PW023	SPW004		RHEA:20844														
 R_PCLAD_c	Aminocarboxymuconate-semialdehyde decarboxylase	M_cmusa_c +  M_h_c <=> M_co2_c + M_am6sa_c	c	FALSE	(WBGene00022104)	PW072			RHEA:16557														
 R_PCRNtm	O-Palmitoylcarnitine transport into mitochondria via diffusion	M_carn16_0__L_c <=> M_carn16_0__L_m	cm	FALSE	WBGene00000996 or WBGene00008320	PW106																	
 R_PDE4_c	"3&prime;,5&prime;-cyclic-GMP phosphodiesterase"	M_h2o_c +  M_35cgmp_c <=> M_h_c + M_gmp_c	c	FALSE	(WBGene00016328) or (WBGene00003966) or (WBGene00011433) or (WBGene00020114) or (WBGene00022389) or (WBGene00008443) or (WBGene00011146)	"PW034;PW042"			"RHEA:14653;RHEA:14653;RHEA:14653;RHEA:14653;RHEA:14653;RHEA:14653"														
