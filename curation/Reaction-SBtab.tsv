@@ -2369,7 +2369,7 @@ R_RC03454	1-Alkyl-2-acetyl-sn-glycero-3-phosphate phosphohydrolase	M_h2o_c +  M_
 R_RC03455	Acetyl-CoA:1-alkyl-sn-glycero-3-phosphate 2-O-acetyltransferase	M_ak2gchol_c +  M_accoa_c <=> M_coa_c + M_acakgp_c	c	FALSE	Unknown	PW065																	
 R_RC03482	N-Acetyl-D-glucosaminylphosphatidylinositol acetyhydrolase	M_h2o_c +  M_6nadgpi_c <=> M_gpail_c + M_ac_c	c	TRUE	WBGene00013131	PW052								replaced pathway Glycosylphosphatidylinositol(GPI)-anchor biosynthesis by glycerolipid metabolism	lenov								
 R_RC03542	alpha-Aminopropiononitrile aminohydrolase	2.0 M_h2o_c +  M_aprop_c <=> M_ala__L_c + M_nh4_c	c	TRUE	WBGene00014206	PW087																	
-R_RC03596	Hydrogen selenide:NADP+ oxidoreductase	3.0 M_h2o_c +  M_seln_c + 3.0 M_nadp_c <=> 4.0 M_h_c + 3.0 M_nadph_c + M_selnt_c	c	TRUE		PW088								Removed wrong gene association. The gene was encoding a protein containing selenocystein, not the enzyme catalysing the reaction	lenov								
+R_RC03596	Hydrogen selenide:NADP+ oxidoreductase	3.0 M_h2o_c +  M_seln_c + 3.0 M_nadp_c <=> 5.0 M_h_c + 3.0 M_nadph_c + M_selnt_c	c	TRUE		PW088								Removed wrong gene association. The gene was encoding a protein containing selenocystein, not the enzyme catalysing the reaction	lenov								
 R_RC03599	L-selenocysteine selenide-lyase (L-alanine-forming)	M_selcys_c +  M_pdx5p_c <=> M_seln_c + M_h_c + M_pydx5p_c + M_ala__L_c	c	TRUE	WBGene00017442	PW088																	
 R_RC03618	Trihexosylceramide galactohydrolase	M_h2o_c +  M_thcrm_c <=> M_gal_c + M_galgluside_c	c	TRUE	WBGene00011095	PW098																	
 R_RC03634	Stachyose galactohydrolase	M_h2o_c +  M_stachyose_c <=> M_gal_c + M_raffin_c	c	TRUE	WBGene00011095	PW017																	
