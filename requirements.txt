@@ -1,5 +1,5 @@
 ﻿cobra>=0.21
-lxml == 4.6.3
+lxml == 4.9.2
 pyparsing == 2.4.7
 memote == 0.12.0
 requests == 2.25.1
